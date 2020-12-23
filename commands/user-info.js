@@ -1,0 +1,55 @@
+// FINISHED
+
+const { discriminator } = require('discord-xp/models/levels');
+const {MessageEmbed, MessageAttachment} = require('discord.js');
+
+module.exports = {
+	name: 'user-info',
+  description: 'Muestra informacion del usuario en el servidor.',
+  usage: '[usuario]',
+  // disable: true,
+  guildOnly: true,
+  async execute(msg, args) {
+    const {author, client, member} = msg;
+		if (!msg.mentions.users.size) {
+      const {id, username, discriminator, bot} = author;
+      const {nickname, joinedAt, roles} = member;
+      // console.log(roles.cache)
+      const exampleEmbed = new MessageEmbed()
+            .setColor("LIGHT_GREY")
+            .setTitle(username)
+            .setDescription('UserID: '+id)
+            .setThumbnail(author.displayAvatarURL({ format: "png", dynamic: true }))
+            .addFields(
+              { name: 'Alias: ', value: nickname, inline: true },
+              { name: 'Roles: ', value: roles.cache.map(role => role.name === '@everyone' ? `@everyone\t` : `<@&${role.id}>\t`), inline: true },
+                { name: '\u200B', value: '\u200B' },
+              { name: 'Se unió: ', value: joinedAt.toUTCString().slice(0, -4), inline: true },
+              { name: 'Es un Bot?', value: (bot ? ':eyes:' : 'Y no.'), inline: true },
+              )
+            .setFooter(`Pedido por ${username}#${discriminator}`, author.displayAvatarURL({ format: "png", dynamic: true }))
+      return msg.channel.send(exampleEmbed)
+    }
+
+    msg.mentions.members.forEach(member => {
+      const {nickname, roles, joinedAt,user} = member
+      const {id, username, bot} = user;
+
+      // console.log(roles.cache.array()[0].comparePositionTo(roles.cache.array()[2]))
+      const exampleEmbed = new MessageEmbed()
+            .setColor("LIGHT_GREY")
+            .setTitle(username)
+            .setDescription('UserID: '+id)
+            .setThumbnail(user.displayAvatarURL({ format: "png", dynamic: true }))
+            .addFields(
+              { name: 'Alias: ', value: nickname || 'Ninguno', inline: true },
+              { name: 'Roles: ', value: roles.cache.map(role => role.name === '@everyone' ? `@everyone\t` : `<@&${role.id}>\t`), inline: true },
+                { name: '\u200B', value: '\u200B' },
+              { name: 'Se unió: ', value: joinedAt.toUTCString().slice(0, -4), inline: true },
+              { name: 'Es un Bot?', value: (bot ? ':eyes:' : 'Y no.'), inline: true },
+              )
+            .setFooter(`Pedido por ${author.username}#${author.discriminator}`, author.displayAvatarURL({ format: "png", dynamic: true }))
+      return msg.channel.send(exampleEmbed)
+    })
+	},
+};
