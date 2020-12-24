@@ -3,6 +3,7 @@ const {prefix, allowedUsers,modUsers, token, mongo, xp} = require('./config');
 const Levels = require("discord-xp");
 Levels.setURL(mongo);
 const fs = require('fs');
+const rnd = require('random');
 
 const client = new Client();
 client.commands = new Collection();
@@ -29,15 +30,13 @@ client.on('message', async (msg) => {
   let {content, author, channel, guild} = msg;
   if(author.bot) return; // TERMINAR SI ES UN BOT
 
-  const randomEXP = Math.floor(Math.random() * xp.dist) + xp.from; //Numero random desde <from> hasta <from>+<dist>
-  const hasLeveledUp = await Levels.appendXp(author.id, guild.id,randomEXP); //Agrego a la BD
+  const hasLeveledUp = await Levels.appendXp(author.id, guild.id, rnd.int(xp.from,xp.to)); //Agrego a la BD la nueva xp entre <from> a <to>
   if(hasLeveledUp) {
     const user = await Levels.fetch(author.id, guild.id);
     const MsgLvlUp = new MessageEmbed()
             .setColor('#ADC00')
-            .setDescription(`**Felicidades** ${author}!\nHas avanzado al **nivel ${user.level}**!. :confetti_ball: `)
+            .setDescription(`**Felicidades** ${author}! Has avanzado al **nivel ${user.level}**!. :confetti_ball: `)
     channel.send(MsgLvlUp)
-
   }
   
   if (!content.startsWith(prefix)) return; //TERMINAR SI NO ES UN COMANDO

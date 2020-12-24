@@ -4,7 +4,7 @@ const ms = require('ms');
 module.exports = {
 	name: 'tempmute',
   description: 'Mutea a un miembro del servidor en todos los canales de texto.',
-  usage: '<usuario> <duracion>(1h, 2m, 10s) [razon]',
+  usage: '<usuario> <duracion (1h, 2m, 10s)> [razon]',
   guildOnly: true,
   modOnly: true,
   args: true,

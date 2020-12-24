@@ -10,25 +10,33 @@ module.exports = {
   usage: '[usuario]',
   guildOnly: true,
   async execute(msg, args) {
-    const {author, guild, mentions, channel, member} = msg;
+    const {author, guild, mentions, channel} = msg;
 		if (!mentions.users.size) {
       const user = await Levels.fetch(author.id, guild.id);
       
-      const xpToNextLvl = 2 * (Math.pow(user.level+1,2)) + 50 * (user.level+1) -51;
+      const xpToNextLvl = Levels.xpFor(user.level+1);
       const MsgToLvlUp = new MessageEmbed()
         .setColor('#0080FF')
-        .setAuthor(`> ${member.nickname || author.username} <`)
+        .setAuthor(`> ${author.username} <`)
         .setThumbnail(author.displayAvatarURL({ format: "png", dynamic: true }))
-        .setTitle(`Nivel: ${user.level}`)
-        .setDescription(`${user.xp} / ${xpToNextLvl} EXP`)
+        .setTitle(`Nivel:  ${user.level}`)
+        .setDescription(`**Sig:**  ${user.xp} / ${xpToNextLvl} EXP\n**Total:** ${user.totalXP} EXP`)
+        
       return channel.send(MsgToLvlUp)
     }
 
     mentions.users.forEach(async user => {
       const userL = await Levels.fetch(user.id, guild.id);
-      const xpToNextLvl = 2 * (Math.pow(userL.level,2)) + 50 * userL.level -51;
+      const xpToNextLvl = Levels.xpFor(userL.level+1);
 
-      channel.send(`Actualmente ${user.username} es **nivel ${userL.level}**, con ${userL.xp}EXP\nNecesita ${xpToNextLvl} EXP para subir al **nivel ${userL.level + 1}**!`)
+      const MsgToLvlUp = new MessageEmbed()
+        .setColor('#0080FF')
+        .setAuthor(`> ${user.username} <`)
+        .setThumbnail(user.displayAvatarURL({ format: "png", dynamic: true }))
+        .setTitle(`Nivel:  ${userL.level}`)
+        .setDescription(`**Sig: ** ${userL.xp} / ${xpToNextLvl} EXP\n**Total: ** ${userL.totalXP} EXP`)
+
+      return channel.send(MsgToLvlUp)
     });
 	},
 };

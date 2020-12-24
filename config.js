@@ -6,7 +6,7 @@ module.exports = {
   modUsers: ['768206386152341594', '778094338990538753'],
   xp: {
     from: 15,
-    dist: 10,
+    to: 25,
     cooldown: 60000 
   }
 } 
