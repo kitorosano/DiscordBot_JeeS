@@ -46,6 +46,7 @@ module.exports = {
         //   const newSpaces = 41 - startLen+endLen;
         //   return 'a                                    a'; 
         // }))
+        
         // LOGRAR EQUIDISTAR EL NOMBRE DE LA EXP CON ESPACIOS EN BLANCO?
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
