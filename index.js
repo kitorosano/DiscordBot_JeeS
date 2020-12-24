@@ -41,8 +41,8 @@ client.on('message', async (msg) => {
   
   if (!content.startsWith(prefix)) return; //TERMINAR SI NO ES UN COMANDO
 
-  const MsgNoAllowed = new MessageEmbed().setColor("RED").setAuthor('Lo siento, los comandos aun no te son disponibles.');
-  if (allowedUsers!=[] && !allowedUsers.includes(author.id)) return msg.reply(MsgNoAllowed);
+  // const MsgNoAllowed = new MessageEmbed().setColor("RED").setAuthor('Lo siento, los comandos aun no te son disponibles.');
+  // if (!allowedUsers.includes(author.id)) return msg.reply(MsgNoAllowed);
 
   const args = content.slice(prefix.length).split(/ +/); //Obtengo un array con el comando sin el prefijo y los argumentos
   const commandName = args.shift().toLowerCase(); //Aparto el comando del array de los argumentos y lo hago minuscula.
