@@ -17,7 +17,7 @@ module.exports = {
     const rawLeaderboard = await Levels.fetchLeaderboard(guild.id, args[0]);
 
     if (rawLeaderboard.length < 1) return reply("Nobody's in leaderboard yet.");
-    const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard, false);
+    const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard);
 
     const medals = [
       '🥇',
