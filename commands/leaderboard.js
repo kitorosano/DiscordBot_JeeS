@@ -35,7 +35,7 @@ module.exports = {
             inline: true
           },{
             name: '· Total de Puntos',
-            value: '\`\`\`\n' + leaderboard.map(user => `✨ ${user.totalXP.toString()} EXP`).join('\n') + '\`\`\`',
+            value: '\`\`\`\n' + leaderboard.map(user => `✨ ${user.totalXP} EXP`).join('\n') + '\`\`\`',
             inline: true
           },
         )
