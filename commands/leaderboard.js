@@ -25,6 +25,7 @@ module.exports = {
       '🥉',
     ];
 
+    const cadena = "                  ";
     const MsgLeaderboard = new MessageEmbed() 
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
@@ -39,24 +40,12 @@ module.exports = {
             inline: true
           },
         )
-        // .addField('. Prueba', leaderboard.map(user => {
-        //   const startLen = `${user.position}. ${medals[user.position-1] || ''} ${user.username}`.length;
-        //   const endLen = `✨ ${user.totalXP.toString()} EXP`.length;
-        //   console.log(`start: ${startLen} | end: ${endLen}`)
-        //   const newSpaces = 41 - startLen+endLen;
-        //   return 'a                                    a'; 
-        // }))
-        
-        // LOGRAR EQUIDISTAR EL NOMBRE DE LA EXP CON ESPACIOS EN BLANCO?
+        .addField('. Prueba', cadena)
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
 
-        
+        // LOGRAR EQUIDISTAR EL NOMBRE DE LA EXP CON ESPACIOS EN BLANCO?
 
     channel.send(MsgLeaderboard);
-    // const lb = leaderboard.map(e => (
-    //     `${e.position}. ${e.username}\n\t*\`Nivel\`*\`: ${e.level}\` | *\`EXP\`*\`: ${e.totalXP.toString()}\``
-    //   ));
-    // channel.send(`${lb.join("\n")}`);
   },
 };
