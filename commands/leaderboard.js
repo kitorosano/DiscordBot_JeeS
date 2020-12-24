@@ -17,7 +17,7 @@ module.exports = {
     const rawLeaderboard = await Levels.fetchLeaderboard(guild.id, args[0]);
 
     if (rawLeaderboard.length < 1) return reply("Nobody's in leaderboard yet.");
-    const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard, true);
+    const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard, false);
 
     const medals = [
       '🥇',
@@ -28,7 +28,7 @@ module.exports = {
     const MsgLeaderboard = new MessageEmbed()
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
-        .setDescription(`:reminder_ribbon: Tu Rango es \`#${leaderboard.find(user => user.username == author.username).position}\` en este servidor`)
+        // .setDescription(`:reminder_ribbon: Tu Rango es \`#${leaderboard.find(user => user.username == author.username).position}\` en este servidor`)
         .addFields({
             name: '· Usuario',
             value: '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${medals[user.position-1] || ''} ${user.username}`).join('\n') + '\`\`\`',

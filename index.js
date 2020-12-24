@@ -32,16 +32,16 @@ client.on('message', async (msg) => {
 
   const hasLeveledUp = await Levels.appendXp(author.id, guild.id, rnd.int(xp.from,xp.to)); //Agrego a la BD la nueva xp entre <from> a <to>
   if(hasLeveledUp) {
-    const user = await Levels.fetch(author.id, guild.id);
+    const {level} = await Levels.fetch(author.id, guild.id);
     const MsgLvlUp = new MessageEmbed()
             .setColor('#ADC00')
-            .setDescription(`**Felicidades** ${author}! Has avanzado al **nivel ${user.level}**!. :confetti_ball: `)
+            .setDescription(`**Felicidades** ${author}! Has avanzado al **nivel ${level}**!. :confetti_ball: `)
     channel.send(MsgLvlUp)
   }
   
   if (!content.startsWith(prefix)) return; //TERMINAR SI NO ES UN COMANDO
   const MsgNoAllowed = new MessageEmbed().setColor("RED").setAuthor('Lo siento, los comandos aun no te son disponibles.')
-  if (allowedUsers && !allowedUsers.includes(author.id)) return msg.reply(MsgNoAllowed)
+  if (allowedUsers !== [] && !allowedUsers.includes(author.id)) return msg.reply(MsgNoAllowed)
 
   const args = content.slice(prefix.length).split(/ +/); //Obtengo un array con el comando sin el prefijo y los argumentos
   const commandName = args.shift().toLowerCase(); //Aparto el comando del array de los argumentos y lo hago minuscula.
@@ -50,7 +50,7 @@ client.on('message', async (msg) => {
   if (!command) return;
   
   const MsgNoMod = new MessageEmbed().setColor("RED").setAuthor('Esta funcion no te está disponible.')
-  if(command.modOnly && !guild.member(author).roles.cache.find(role => modUsers.includes(role.id))) return msg.reply(MsgNoMod)
+  if(command.modOnly && !guild.member(author).roles.cache.find(role => modUsers.includes(role.id))) return msg.reply(MsgNoMod) //SOLO MODERADORES
 
   if (command.guildOnly && channel.type === 'dm') {
     const MsgNoDM = new MessageEmbed().setColor("RED").setAuthor('No puedo ejecutar ese comando por mensaje directo!')
@@ -119,4 +119,6 @@ client.once('ready', async () => {
   }], 'Esto es el rol para los que son muteados')));
 
 });
+
+
 client.login(token);

@@ -12,7 +12,8 @@ module.exports = {
   async execute(msg, args) {
     const {author, guild, mentions, channel} = msg;
 		if (!mentions.users.size) {
-      const user = await Levels.fetch(author.id, guild.id);
+      const user = await Levels.fetch(author.id, guild.id, true);
+      if(!user) return msg.reply('Intenta enviar un mensaje NO COMANDO, para que te podamos agregar al sistema :raised_hands:')
       
       const xpToNextLvl = Levels.xpFor(user.level+1);
       const MsgToLvlUp = new MessageEmbed()
@@ -26,7 +27,8 @@ module.exports = {
     }
 
     mentions.users.forEach(async user => {
-      const userL = await Levels.fetch(user.id, guild.id);
+      const userL = await Levels.fetch(user.id, guild.id, true);
+      if(!userL) return msg.reply('Este usuario aún no ha enviado ningún mensaje :eyes:')
       const xpToNextLvl = Levels.xpFor(userL.level+1);
 
       const MsgToLvlUp = new MessageEmbed()
