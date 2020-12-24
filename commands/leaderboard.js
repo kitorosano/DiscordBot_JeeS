@@ -38,14 +38,14 @@ module.exports = {
             name: '· Total de Puntos',
             value: '\`\`\`\n' + leaderboard.map(user => `✨ ${user.totalXP} EXP`).join('\n') + '\`\`\`',
             inline: true
-          },
-        )
-        .addField('. Prueba', cadena)
+          },{
+            name: '. Prueba',
+            value: cadena,
+            inline: false
+          })
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
 
-        // LOGRAR EQUIDISTAR EL NOMBRE DE LA EXP CON ESPACIOS EN BLANCO?
-
-    channel.send(MsgLeaderboard);
+    channel.send(MsgLeaderboard)
   },
 };
