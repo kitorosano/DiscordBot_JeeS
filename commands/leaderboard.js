@@ -25,7 +25,7 @@ module.exports = {
       '🥉',
     ];
 
-    const cadena = '. \s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s -';
+    const cadena = '. \s\s \s\s\s\s\s\s\s\s\s\s\s\s\s\s \s\s -';
     const MsgLeaderboard = new MessageEmbed() 
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
@@ -46,6 +46,20 @@ module.exports = {
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
 
-    channel.send(MsgLeaderboard)
+    // const MsgLeaderboard = new MessageEmbed() 
+    //     .setColor('PURPLE')
+    //     .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
+    //     .setDescription('Sistema de niveles del bot JeeS.')
+    //     .addFields({
+    //       name: '· Usuario',
+    //       value: '\u200B',
+    //       inline: true
+    //     },{
+    //       name: '· Total de Puntos',
+    //       value: '\u200B',
+    //       inline: true
+    //     })
+    // const MsgPositions = '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${medals[user.position-1] || ''} ${user.username}`).join('\n') + '\`\`\`'
+    channel.send(MsgLeaderboard + '\n')
   },
 };
