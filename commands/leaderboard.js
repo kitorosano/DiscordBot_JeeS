@@ -32,7 +32,7 @@ module.exports = {
         // .setDescription(`:reminder_ribbon: Tu Rango es \`#${leaderboard.find(user => user.username == author.username).position}\` en este servidor`)
         // .setDescription('· Usuario\t\t\t· Total de Puntos')
         .addField(
-            '\t· Usuario\t\t\t\t\t\t\t\t\t\t\t\t\t· Total de Puntos',
+            '\t· Usuario\t\t\t\t\t\t\t\t\t\t\t\t\t\t· Total de Puntos',
             '\`\`\`\n' + leaderboard.map(user => `${medal(user)}${user.username(true)}✨EXP ${user.totalXP}`).join('\n') + '\`\`\`'
           )
         .addField('\u200B','\u200B') 
