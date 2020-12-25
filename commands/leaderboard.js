@@ -38,6 +38,6 @@ module.exports = {
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
 
-    channel.send(MsgLeaderboard + '\n')
+    channel.send(MsgLeaderboard)
   },
 };
