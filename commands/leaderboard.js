@@ -19,13 +19,6 @@ module.exports = {
     if (rawLeaderboard.length < 1) return reply("Nobody's in leaderboard yet.");
     const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard);
 
-    const medal = ({position}) => {
-      if (position > 9) return `${position}. `;
-      if (position > 3) return `${position}.  `;
-      const medals = ['🥇', '🥈', '🥉'];
-      return `${position}. ${medals[position - 1]}`;
-    }
-
     const MsgLeaderboard = new MessageEmbed() 
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
@@ -33,7 +26,7 @@ module.exports = {
         // .setDescription('· Usuario\t\t\t· Total de Puntos')
         .addField(
             '\t· Usuario\t\t\t\t\t\t\t\t\t\t\t\t\t\t· Total de Puntos',
-            '\`\`\`\n' + leaderboard.map(user => `${medal(user)}${user.username(true)}✨EXP ${user.totalXP}`).join('\n') + '\`\`\`'
+            '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${user.username(true)}✨EXP ${user.totalXP}`).join('\n') + '\`\`\`'
           )
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
