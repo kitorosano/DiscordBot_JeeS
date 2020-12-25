@@ -25,7 +25,7 @@ module.exports = {
       '🥉',
     ];
 
-    const cadena = ".\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s-";
+    const cadena = '. \s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s\s -';
     const MsgLeaderboard = new MessageEmbed() 
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
