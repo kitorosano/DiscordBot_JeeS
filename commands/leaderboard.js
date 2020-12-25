@@ -23,9 +23,8 @@ module.exports = {
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
         // .setDescription(`:reminder_ribbon: Tu Rango es \`#${leaderboard.find(user => user.username == author.username).position}\` en este servidor`)
-        // .setDescription('· Usuario\t\t\t· Total de Puntos')
         .addField(
-            '\t· Usuario\t\t\t\t\t\t\t\t\t\t\t\t\t\t· Total de Puntos',
+            '·  Usuario\t\t\t\t\t\t\t\t\t\t\t\t\t\t·  Total de Puntos',
             '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${user.username(true)}✨EXP ${user.totalXP}`).join('\n') + '\`\`\`'
           )
         .addField('\u200B','\u200B') 
