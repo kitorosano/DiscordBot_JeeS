@@ -25,37 +25,19 @@ module.exports = {
       '🥉',
     ];
 
-    // const cadena = '.\t\-';
+    const MsgPositions = '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${medals[user.position-1] || ''} ${user.username}` + `\t\t\t✨ ${user.totalXP} EXP`).join('\n') + '\`\`\`';
     const MsgLeaderboard = new MessageEmbed() 
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
         // .setDescription(`:reminder_ribbon: Tu Rango es \`#${leaderboard.find(user => user.username == author.username).position}\` en este servidor`)
+        // .setDescription('· Usuario\t\t\t· Total de Puntos')
         .addFields({
-            name: '· Usuario',
-            value: '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${medals[user.position-1] || ''} ${user.username}`).join('\n') + '\`\`\`',
-            inline: true
-          },{
-            name: '· Total de Puntos',
-            value: '\`\`\`\n' + leaderboard.map(user => `✨ ${user.totalXP} EXP`).join('\n') + '\`\`\`',
-            inline: true
+            name: '· Usuario\t\t\t· Total de Puntos',
+            value: MsgPositions
           })
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
 
-    // const MsgLeaderboard = new MessageEmbed() 
-    //     .setColor('PURPLE')
-    //     .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
-    //     .setDescription('Sistema de niveles del bot JeeS.')
-    //     .addFields({
-    //       name: '· Usuario',
-    //       value: '\u200B',
-    //       inline: true
-    //     },{
-    //       name: '· Total de Puntos',
-    //       value: '\u200B',
-    //       inline: true
-    //     })
-    // const MsgPositions = '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${medals[user.position-1] || ''} ${user.username}`).join('\n') + '\`\`\`'
-    channel.send(MsgLeaderboard)
+    channel.send(MsgLeaderboard + '\n')
   },
 };
