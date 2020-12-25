@@ -22,8 +22,8 @@ module.exports = {
     const medal = ({position}) => {
       if (position > 9) return `${position}. `;
       if (position > 3) return `${position}.  `;
-      const medals = [ '🥇', '🥈', '🥉' ];
-      return `${position}. ${medals[position + 1]}`;
+      const medals = ['🥇', '🥈', '🥉'];
+      return `${position}. ${medals[position - 1]}`;
     }
 
     const MsgLeaderboard = new MessageEmbed() 
