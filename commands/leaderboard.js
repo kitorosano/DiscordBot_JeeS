@@ -25,16 +25,15 @@ module.exports = {
       '🥉',
     ];
 
-    const MsgPositions = '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${medals[user.position-1] || ''} ${user.username}` + `\t\t\t✨ ${user.totalXP} EXP`).join('\n') + '\`\`\`';
     const MsgLeaderboard = new MessageEmbed() 
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
         // .setDescription(`:reminder_ribbon: Tu Rango es \`#${leaderboard.find(user => user.username == author.username).position}\` en este servidor`)
         // .setDescription('· Usuario\t\t\t· Total de Puntos')
-        .addFields({
-            name: '· Usuario\t\t\t· Total de Puntos',
-            value: MsgPositions
-          })
+        .addField(
+            '\t· Usuario\t\t\t· Total de Puntos',
+            '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${medals[user.position-1] || ''} ${user.username}${user.spaces(22)}✨ ${user.totalXP} EXP`).join('\n') + '\`\`\`'
+          )
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
 
