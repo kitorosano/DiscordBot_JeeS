@@ -32,7 +32,7 @@ module.exports = {
         // .setDescription('· Usuario\t\t\t· Total de Puntos')
         .addField(
             '\t· Usuario\t\t\t· Total de Puntos',
-            '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${medals[user.position-1] || ''} ${user.username(22)}${user.spaces(22)}✨ ${user.totalXP} EXP`).join('\n') + '\`\`\`'
+            '\`\`\`\n' + leaderboard.map(user => `${user.position}. ${medals[user.position-1] || ''} ${user.username(true)}✨ ${user.totalXP} EXP`).join('\n') + '\`\`\`'
           )
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
