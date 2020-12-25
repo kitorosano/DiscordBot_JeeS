@@ -19,11 +19,12 @@ module.exports = {
     if (rawLeaderboard.length < 1) return reply("Nobody's in leaderboard yet.");
     const leaderboard = await Levels.computeLeaderboard(client, rawLeaderboard);
 
-    const medals = [
-      '🥇',
-      '🥈',
-      '🥉',
-    ];
+    const medal = ({position}) => {
+      if (position > 9) return `${position}. `;
+      if (position > 3) return `${position}.  `;
+      const medals = [ '🥇', '🥈', '🥉' ];
+      return `${position}. ${medals[position + 1]}`;
+    }
 
     const MsgLeaderboard = new MessageEmbed() 
         .setColor('PURPLE')
@@ -32,7 +33,7 @@ module.exports = {
         // .setDescription('· Usuario\t\t\t· Total de Puntos')
         .addField(
             '\t· Usuario\t\t\t\t\t\t\t\t\t\t\t\t\t· Total de Puntos',
-            '\`\`\`\n' + leaderboard.map(user => `${user.position < 10 ? `${user.position}.  ` : `${user.position}. `}${user.username(true)}✨EXP ${user.totalXP} ${medals[user.position-1] || ''}`).join('\n') + '\`\`\`'
+            '\`\`\`\n' + leaderboard.map(user => `${medal(user)}${user.username(true)}✨EXP ${user.totalXP}`).join('\n') + '\`\`\`'
           )
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
