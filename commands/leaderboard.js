@@ -29,11 +29,11 @@ module.exports = {
         //   )
         .addFields({
           name: 'Usuario',
-          value: leaderboard.map(user => `${user.position}.${user.username(false)}`).join('/n'),
+          value: leaderboard.map(user => `${user.position}.${user.username(false)}`).join('\n'),
           inline: true
         },{
           name: 'Puntos',
-          value: leaderboard.map(user => `✨EXP ${user.totalXP}`).join('/n')
+          value: leaderboard.map(user => `✨EXP ${user.totalXP}`).join('\n')
         })
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
