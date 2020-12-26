@@ -33,7 +33,8 @@ module.exports = {
           inline: true
         },{
           name: 'Puntos',
-          value: leaderboard.map(user => `✨EXP ${user.totalXP}`).join('\n')
+          value: leaderboard.map(user => `✨EXP ${user.totalXP}`).join('\n'),
+          inline: true
         })
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
