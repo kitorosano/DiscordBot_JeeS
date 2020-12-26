@@ -23,10 +23,18 @@ module.exports = {
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
         // .setDescription(`:reminder_ribbon: Tu Rango es \`#${leaderboard.find(user => user.username == author.username).position}\` en este servidor`)
-        .addField(
-            '·    Usuario\t\t\t\t\t\t\t\t\t\t·    Total de Puntos',
-            leaderboard.map(user => `${user.position}.${user.username(true)}✨EXP ${user.totalXP}`).join('\n')
-          )
+        // .addField(
+        //     '·    Usuario\t\t\t\t\t\t\t\t\t\t·    Total de Puntos',
+        //     leaderboard.map(user => `${user.position}.${user.username(true)}✨EXP ${user.totalXP}`).join('\n')
+        //   )
+        .addFields({
+          name: 'Usuario',
+          value: leaderboard.map(user => `${user.position}.${user.username(false)}`).join('/n'),
+          inline: true
+        },{
+          name: 'Puntos',
+          value: leaderboard.map(user => `✨EXP ${user.totalXP}`).join('/n')
+        })
         .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
 
