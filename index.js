@@ -35,7 +35,7 @@ for (const file of commandFiles) {
         try {
           typeEvent.execute(event,triggerEvent, client)
         } catch { console.error() }
-      } 
+      })
     })
     
   }
