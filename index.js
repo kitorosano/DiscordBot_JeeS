@@ -2,7 +2,7 @@ const {Client, Collection, MessageEmbed} = require('discord.js');
 const {prefix, allowedUsers, modUsers, token, mongo, xp} = require('./config');
 const fs = require('fs');
 const rnd = require('random');
-const cron = require('node-cron');
+const {scheduleJob} = require('node-schedule');
 const Levels = require("discord-xp");
 Levels.setURL(mongo);
 
@@ -30,12 +30,12 @@ for (const file of commandFiles) {
     typeEvents.forEach(singleEvent => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
       const formattedTime = singleEvent.time.split(':')
       console.log('Encontro! ' + formattedTime)
-      const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEvent, triggerEvent, client), { timezone: "America/Buenos_Aires" })
+      const triggerEvent = scheduleJob(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEvent, triggerEvent, client))
       console.log(triggerEvent);
     })
     
   }
-}());
+});
 
 
 /** MENSAJE DE BIENVENIDA **/
@@ -141,8 +141,9 @@ client.once('ready', async () => {
   }], 'Esto es el rol para los que son muteados')));
 
   // REINICIAR EVENTOS CADA DIA
-  cron.schedule("0 0 * * *", () => restartEvents(), { timezone: "America/Buenos_Aires" });
-  cron.schedule("5 * * * * *", () => console.log('workin'), { timezone: "America/Buenos_Aires" })
+  // scheduleJob("0 0 * * *", () => restartEvents());
+  console.log('starting schedule')
+  scheduleJob("* * * * *", () => console.log('schedule'))
 });
 
 
