@@ -35,7 +35,7 @@ for (const file of commandFiles) {
     })
     
   }
-});
+}());
 
 
 /** MENSAJE DE BIENVENIDA **/
@@ -141,9 +141,7 @@ client.once('ready', async () => {
   }], 'Esto es el rol para los que son muteados')));
 
   // REINICIAR EVENTOS CADA DIA
-  // scheduleJob("0 0 * * *", () => restartEvents());
-  console.log('starting schedule')
-  scheduleJob("* * * * *", () => console.log('schedule'))
+  scheduleJob("0 0 * * *", () => restartEvents());
 });
 
 

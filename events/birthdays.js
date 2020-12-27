@@ -31,7 +31,7 @@ module.exports = {
     channel.send('@everyone')
     channel.send(MsgBday);
 
-    trigger.delete();
+    trigger.cancel();
   },
 };
 
