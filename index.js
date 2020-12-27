@@ -141,6 +141,7 @@ client.once('ready', async () => {
 
   // REINICIAR EVENTOS CADA DIA A LAS 00:00
   scheduleJob("0 0 * * *", () => restartEvents());
+  console.log(new Date())
   scheduleJob("34 17 * * *", () => console.log("first"));
 });
 
