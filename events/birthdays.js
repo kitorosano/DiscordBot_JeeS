@@ -9,7 +9,7 @@ mongoose.connect(mongo, {
   useUnifiedTopology: true
 })
 
-module.exports = {
+module.exports = { 
   async fetch(today) {
     return await birthdays.find({ birthday: today });
   /**[ { guildID, userID, day("8/11"), time("00:01")}, {...}, {...} ] */

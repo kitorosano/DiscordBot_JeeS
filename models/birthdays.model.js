@@ -8,3 +8,4 @@ const bdaysSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Birthdays", bdaysSchema);
+ 
