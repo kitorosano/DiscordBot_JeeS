@@ -12,13 +12,12 @@ mongoose.connect(mongo, {
 module.exports = { 
   async fetch(today) {
     const bdays = await birthdays.find({ birthday: today });
-    console.log(3)
+    console.log(2)
     console.log(bdays)
     return bdays;
   /**[ { guildID, userID, day("8/11"), time("00:01")}, {...}, {...} ] */
   },
   async execute(event, trigger, client) {
-     
     const guild = (await client.guilds.fetch(event.guildID));
     const channel = guild.channels.resolve('556213348585439245');
     const user = await guild.member(event.userID);
