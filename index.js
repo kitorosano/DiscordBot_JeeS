@@ -24,9 +24,7 @@ for (const file of commandFiles) {
     const typeEvent = require(`./events/${file}`); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
     if(typeEvent.disable) return; //filtrar eventos desactivados
 
-    const typeEvents = await typeEvent.fetch(today) //Obtener entradas del dia para este tipo de evento 
-    console.log(1)
-    console.log(typeEvents)
+    const typeEvents = await typeEvent.fetch(today) //Obtener entradas del dia para este tipo de evento
     if(!typeEvents) return; //Si no hay nada de este evento para hoy
 
     typeEvents.forEach(event => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 

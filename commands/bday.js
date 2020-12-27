@@ -32,13 +32,13 @@ module.exports = {
       return await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
 
     } else if(action === 'remove') {
-      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id }).exec();
+      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return false;
   
-      return await birthdays.findOneAndDelete({ userID: target.id, guildID: guild.id }).exec().catch(e => console.log(`Failed to delete bday: ${e}`));
+      return await birthdays.findOneAndDelete({ userID: target.id, guildID: guild.id }).catch(e => console.log(`Failed to delete bday: ${e}`));
 
     } else if (action === 'update') {
-      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id }).exec();
+      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return false;
 
       const newBday = new birthdays({
@@ -47,10 +47,10 @@ module.exports = {
         day: fecha
       });
   
-      return await birthdays.findOneAndUpdate({ userID: target.id, guildID: guild.id }, { day: fecha }).exec().catch(e => console.log(`Failed to update bday_ ${e}`))
+      return await birthdays.findOneAndUpdate({ userID: target.id, guildID: guild.id }, { day: fecha }).catch(e => console.log(`Failed to update bday_ ${e}`))
 
     } else {
-      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id }).exec();
+      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return false;
 
       const MsgBday = new MessageEmbed()

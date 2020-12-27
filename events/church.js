@@ -9,6 +9,7 @@ mongoose.connect(mongo, {
 })
 
 module.exports = {
+  disable: true,
   async fetch(today) {
     return await days.find({ day: today });
   },
