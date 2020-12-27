@@ -18,7 +18,7 @@ for (const file of commandFiles) {
 }
 
 (async function restartEvents(){ //INITIALIZE DAILY EVENTS
-  const today = new Date().toLocaleDateString('es-ES'); // Obtener fecha de hoy
+  const today = new Date().toDateString().split(' '); // Obtener fecha de hoy
   const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
   for (const file of eventFiles) { //para cada tipo de evento como archivo .js, obtengo los eventos del dia.
     const typeEvent = require(`./events/${file}`); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
