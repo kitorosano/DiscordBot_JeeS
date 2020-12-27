@@ -28,6 +28,7 @@ for (const file of commandFiles) {
 
     const typeEvents = typeEvent.fetch(today) //Obtener entradas del dia para este tipo de evento 
     if(!typeEvents) return; //Si no hay nada de este evento para hoy
+    console.log(typeEvents)
 
     typeEvents.forEach(event => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
       const formattedTime = event.time.split(':')
