@@ -31,7 +31,7 @@ for (const file of eventFiles) {
   client.events.map(typeEvent => {
     const typeEvents = typeEvent.fetch(today); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
 
-    typeEvents.map(event => {
+    typeEvents.forEach(event => {
       const formattedTime = event.time.split(':')
       const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, typeEvent.execute(event,triggerEvent, client))
     })
