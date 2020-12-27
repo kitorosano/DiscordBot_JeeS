@@ -11,7 +11,7 @@ mongoose.connect(mongo, {
 })
 
 module.exports = { 
-  async fetch(today) {
+  async getEvents(today) {
     const day = today.slice(0,-5);
     const birthday = await birthdays.find({ day });
     console.log(day + birthday)

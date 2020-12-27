@@ -11,7 +11,7 @@ mongoose.connect(mongo, {
 
 module.exports = {
   disable: true,
-  async fetch(today) {
+  async getEvents(today) {
     return await days.find({ day: today });
   },
   async execute() {
