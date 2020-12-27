@@ -5,7 +5,8 @@ let {mongo} = require('../config');
 
 mongoose.connect(mongo, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 })
 
 module.exports = {
