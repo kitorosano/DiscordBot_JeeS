@@ -1,12 +1,14 @@
-const {Client, Collection, MessageAttachment,MessageEmbed} = require('discord.js');
-const {prefix, allowedUsers,modUsers, token, mongo, xp} = require('./config');
-const Levels = require("discord-xp");
-Levels.setURL(mongo);
+const {Client, Collection, MessageEmbed} = require('discord.js');
+const {prefix, allowedUsers, modUsers, token, mongo, xp} = require('./config');
 const fs = require('fs');
 const rnd = require('random');
+const cron = require('node-cron');
+const Levels = require("discord-xp");
+Levels.setURL(mongo);
 
 const client = new Client();
 client.commands = new Collection();
+client.events = new Collection();
 const cooldowns = new Collection();
 
 /** OBTENER TODOS LOS COMANDOS */
@@ -15,6 +17,26 @@ for (const file of commandFiles) {
   const command = require(`./commands/${file}`)
   if(!command.disable) client.commands.set(command.name, command);
 }
+
+/** OBTENER TODOS LOS EVENTOS */
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
+for (const file of eventFiles) {
+  const event = require(`./events/${file}`)
+  if(!event.disable) client.events.set(event.name, event);
+}
+
+(function restartEvents(){ //INITIALIZE DAILY EVENTS
+  const today = new Date().toLocaleDateString(); // Obtener fecha de hoy
+
+  client.events.map(typeEvent => {
+    const typeEvents = typeEvent.fetch(today); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
+
+    typeEvents.map(event => {
+      const formattedTime = event.time.split(':')
+      const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, typeEvent.execute(event,triggerEvent, client))
+    })
+  })
+}());
 
 
 /** MENSAJE DE BIENVENIDA **/
@@ -104,7 +126,7 @@ client.once('ready', async () => {
   console.log('Bot Connected');
   client.user.setActivity('ser un bot');
 
-  // Crear el rol de sileciado si no existe en el server
+  // Crear el rol de SILENCIADO si no existe en el server
   client.guilds.cache.map(guild => guild.roles.cache.find(rol => rol.name === 'Silenciado') === undefined ? guild.roles.create({
     data: {
       name: 'Silenciado',
@@ -118,6 +140,9 @@ client.once('ready', async () => {
     id: guild.roles.cache.find(rol => rol.name === 'Silenciado').id,
     deny: ['SEND_MESSAGES']
   }], 'Esto es el rol para los que son muteados')));
+
+  // REINICIAR EVENTOS CADA DIA
+  cron.schedule('0 0 * * *', () => restartEvents());
 
 });
 
