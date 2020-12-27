@@ -28,8 +28,11 @@ for (const file of commandFiles) {
     if(!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
 
     typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
-      const formattedTime = singleEventData.time.split(':')
-      const triggerEvent = scheduleJob(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => console.log("IT TRIIIGEEEEEEEERED"))
+      const formattedTime = singleEventData.time.split(':'),
+            hour   = formattedTime[0] - 3,
+            minute = formattedTime[1];
+            
+      const triggerEvent = scheduleJob(`${minute} ${hour} * * *`, () => console.log("IT TRIIIGEEEEEEEERED"))
       // const triggerEvent = scheduleJob(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEventData, triggerEvent, client))
     })
     
@@ -139,10 +142,8 @@ client.once('ready', async () => {
     deny: ['SEND_MESSAGES']
   }], 'Esto es el rol para los que son muteados')));
 
-  // REINICIAR EVENTOS CADA DIA A LAS 00:00
-  scheduleJob("0 0 * * *", () => restartEvents());
-  console.log(new Date())
-  scheduleJob("34 17 * * *", () => console.log("first"));
+  // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
+  scheduleJob("0 3 * * *", () => restartEvents());
 });
 
 
