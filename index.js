@@ -27,15 +27,13 @@ for (const file of commandFiles) {
     const typeEvents = await typeEvent.getEvents(today) //Obtener entradas del dia para este tipo de evento
     if(!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
 
-    typeEvents.forEach(singleEvent => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
-      console.log(singleEvent)
-      const formattedTime = singleEvent.time.split(':')
-      console.log('Encontro! ' + formattedTime)
-      const triggerEvent = scheduleJob(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEvent, triggerEvent, client))
-      console.log(triggerEvent);
+    typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
+      const formattedTime = singleEventData.time.split(':')
+      const triggerEvent = scheduleJob(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => console.log("IT TRIIIGEEEEEEEERED"))
+      // const triggerEvent = scheduleJob(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEventData, triggerEvent, client))
     })
     
-  }
+  } 
 }());
 
 
@@ -143,6 +141,7 @@ client.once('ready', async () => {
 
   // REINICIAR EVENTOS CADA DIA A LAS 00:00
   scheduleJob("0 0 * * *", () => restartEvents());
+  scheduleJob("34 17 * * *", () => console.log("first"));
 });
 
 
