@@ -12,7 +12,10 @@ mongoose.connect(mongo, {
 
 module.exports = { 
   async fetch(today) {
-    return (await birthdays.find({ day: today.slice(0,-5) }));
+    const day = today.slice(0,-5);
+    const birthday = await birthdays.find({ day });
+    console.log(birthday)
+    return birthday;
   /**[ { guildID, userID, day("8/11"), time("00:01")}, {...}, {...} ] */
   },
   async execute(event, trigger, client) {
