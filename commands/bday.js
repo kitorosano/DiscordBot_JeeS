@@ -33,14 +33,14 @@ module.exports = {
         await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
         break;
       case 'remove':
-        const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-        if (!bday) return false;
+        const birthday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+        if (!birthday) return false;
     
-        await birthdays.findOneAndDelete({ userID: target.id, guildID: guild.id }).catch(e => console.log(`Failed to delete bday: ${e}`));
+        await birthdays.findOneAndDelete({ userID: target.id, guildID: guild.id }).catch(e => console.log(`Failed to delete birthday: ${e}`));
         break;
       case 'update':
-        const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-        if (!bday) return false;
+        const birthday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+        if (!birthday) return false;
 
         const newBday = new birthdays({
           userID: target.id,
@@ -48,16 +48,16 @@ module.exports = {
           day: fecha
         });
     
-        await birthdays.findOneAndUpdate({ userID: target.id, guildID: guild.id }, { day: fecha }).catch(e => console.log(`Failed to update bday_ ${e}`))
+        await birthdays.findOneAndUpdate({ userID: target.id, guildID: guild.id }, { day: fecha }).catch(e => console.log(`Failed to update birthday ${e}`))
         
         break;
       default:
-        const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-        if (!bday) return false;
+        const birthday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+        if (!birthday) return false;
 
         const MsgBday = new MessageEmbed()
             .setColor('#f0ff7a')
-            .setDescription(`El cumpleaños de: ${target.username} es el ${bday.day}`)
+            .setDescription(`El cumpleaños de: ${target.username} es el ${birthday.day}`)
               
         return channel.send(MsgBday)
     }
