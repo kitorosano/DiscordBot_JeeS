@@ -62,7 +62,7 @@ module.exports = {
 
     } else {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-      if (!bday) return false;
+      if (!bday) return new MessageEmbed().setColor('RED').setDescription('Aun no tenemos el cumpleaños de esta persona...');
 
       const MsgBday = new MessageEmbed()
           .setColor('#f0ff7a')

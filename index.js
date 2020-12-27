@@ -142,7 +142,7 @@ client.once('ready', async () => {
 
   // REINICIAR EVENTOS CADA DIA
   cron.schedule('0 0 * * *', () => restartEvents());
-
+  cron.schedule('* * * * * *', console.log('workin'))
 });
 
 
