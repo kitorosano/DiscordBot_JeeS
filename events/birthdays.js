@@ -14,7 +14,7 @@ module.exports = {
   async fetch(today) {
     const day = today.slice(0,-5);
     const birthday = await birthdays.find({ day });
-    console.log(birthday)
+    console.log(day + birthday)
     return birthday;
   /**[ { guildID, userID, day("8/11"), time("00:01")}, {...}, {...} ] */
   },
