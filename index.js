@@ -20,16 +20,18 @@ for (const file of commandFiles) {
 (function restartEvents(){ //INITIALIZE DAILY EVENTS
   const today = new Date().toLocaleDateString(); // Obtener fecha de hoy
   const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
-      
+  console.log(1)
+  console.log(eventFiles)  
   for (const file of eventFiles) { //para cada tipo de evento como archivo .js, obtengo los eventos del dia.
     const typeEvent = require(`./events/${file}`); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
-
+    console.log(2)
+    console.log(typeEvent)
     if(typeEvent.disable) return; //filtrar eventos desactivados
 
     const typeEvents = typeEvent.fetch(today) //Obtener entradas del dia para este tipo de evento 
-    if(!typeEvents) return; //Si no hay nada de este evento para hoy
-    console.log(2)
+    console.log(4)
     console.log(typeEvents)
+    if(!typeEvents) return; //Si no hay nada de este evento para hoy
 
     typeEvents.forEach(event => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
       const formattedTime = event.time.split(':')
