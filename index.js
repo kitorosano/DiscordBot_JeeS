@@ -8,7 +8,6 @@ Levels.setURL(mongo);
 
 const client = new Client();
 client.commands = new Collection();
-client.events = new Collection();
 const cooldowns = new Collection();
 
 /** OBTENER TODOS LOS COMANDOS */
@@ -27,15 +26,17 @@ for (const file of eventFiles) {
 
 (function restartEvents(){ //INITIALIZE DAILY EVENTS
   const today = new Date().toLocaleDateString(); // Obtener fecha de hoy
-
-  client.events.map(typeEvent => {
-    const typeEvents = typeEvent.fetch(today); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
-
-    typeEvents.forEach(event => {
+  const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
+      
+  for (const file of eventFiles) { //para cada tipo de evento como archivo .js, obtengo los eventos del dia.
+    const typeEvent = require(`./events/${file}`); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
+    const typeEvents = typeEvent.fetch(today)
+    
+    typeEvents.forEach(event => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
       const formattedTime = event.time.split(':')
       const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, typeEvent.execute(event,triggerEvent, client))
     })
-  })
+  }
 }());
 
 
