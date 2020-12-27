@@ -73,8 +73,8 @@ client.on('message', async (msg) => {
   const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   if (!command) return;
   
-  const MsgNoMod = new MessageEmbed().setColor("RED").setAuthor('Esta funcion no te está disponible.')
-  if(command.modOnly && !guild.member(author).roles.cache.find(role => modUsers.includes(role.id))) return msg.reply(MsgNoMod) //SOLO MODERADORES
+  // const MsgNoMod = new MessageEmbed().setColor("RED").setAuthor('Esta funcion no te está disponible.')
+  // if(command.modOnly && !guild.member(author).roles.cache.find(role => modUsers.includes(role.id))) return msg.reply(MsgNoMod) //SOLO MODERADORES
 
   if (command.guildOnly && channel.type === 'dm') {
     const MsgNoDM = new MessageEmbed().setColor("RED").setAuthor('No puedo ejecutar ese comando por mensaje directo!')
