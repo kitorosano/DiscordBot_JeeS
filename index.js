@@ -30,7 +30,7 @@ for (const file of commandFiles) {
     typeEvents.forEach(singleEvent => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
       const formattedTime = singleEvent.time.split(':')
       console.log('Encontro! ' + formattedTime)
-      const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEvent, triggerEvent, client))
+      const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEvent, triggerEvent, client), { timezone: "America/Buenos_Aires" })
       console.log(triggerEvent);
     })
     
@@ -141,8 +141,8 @@ client.once('ready', async () => {
   }], 'Esto es el rol para los que son muteados')));
 
   // REINICIAR EVENTOS CADA DIA
-  cron.schedule('0 0 * * *', () => restartEvents());
-  cron.schedule('5 * * * * *', () => console.log('workin'))
+  cron.schedule("0 0 * * *", () => restartEvents(), { timezone: "America/Buenos_Aires" });
+  cron.schedule("5 * * * * *", () => console.log('workin'), { timezone: "America/Buenos_Aires" })
 });
 
 
