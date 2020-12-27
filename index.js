@@ -30,7 +30,7 @@ for (const file of commandFiles) {
     typeEvents.forEach(singleEvent => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
       const formattedTime = singleEvent.time.split(':')
       console.log('Encontro! ' + formattedTime)
-      const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, typeEvent.execute(singleEvent, triggerEvent, client))
+      const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEvent, triggerEvent, client))
       console.log(triggerEvent);
     })
     
