@@ -17,25 +17,20 @@ for (const file of commandFiles) {
   if(!command.disable) client.commands.set(command.name, command);
 }
 
-/** OBTENER TODOS LOS EVENTOS */
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
-for (const file of eventFiles) {
-  const event = require(`./events/${file}`)
-  if(!event.disable) client.events.set(event.name, event);
-}
-
 (function restartEvents(){ //INITIALIZE DAILY EVENTS
   const today = new Date().toLocaleDateString(); // Obtener fecha de hoy
   const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
       
   for (const file of eventFiles) { //para cada tipo de evento como archivo .js, obtengo los eventos del dia.
     const typeEvent = require(`./events/${file}`); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
-    const typeEvents = typeEvent.fetch(today)
-    
-    typeEvents.forEach(event => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
-      const formattedTime = event.time.split(':')
-      const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, typeEvent.execute(event,triggerEvent, client))
-    })
+    if(!typeEvent.disable) { //filtrar eventos desactivados
+      const typeEvents = typeEvent.fetch(today) //Obtener entradas del dia para este tipo de evento 
+
+      typeEvents.forEach(event => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
+        const formattedTime = event.time.split(':')
+        const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, typeEvent.execute(event,triggerEvent, client))
+      })
+    }
   }
 }());
 
