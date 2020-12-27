@@ -18,7 +18,7 @@ module.exports = {
   async execute(msg, args) {
     const {author, guild, mentions, channel} = msg;
 
-    const [who, action, ...fecha] = args;
+    const [who, action, fecha] = args;
     const target = mentions.users.first();
     if(!target) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
 
