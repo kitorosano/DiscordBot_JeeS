@@ -32,6 +32,7 @@ for (const file of commandFiles) {
             hour   = formattedTime[0] - 3,
             minute = formattedTime[1];
 
+      const triggerEvent = scheduleJob(`39 21 * * *`, console.log("IT TRIIIGEEEEEEEERED"));
       const triggerEvent = scheduleJob(`${minute} ${hour} * * *`, () => typeEvent.execute(singleEventData, triggerEvent, client))
     })
     
