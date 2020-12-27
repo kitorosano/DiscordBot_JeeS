@@ -31,9 +31,9 @@ for (const file of commandFiles) {
       const formattedTime = singleEventData.time.split(':'),
             hour   = formattedTime[0] - 3,
             minute = formattedTime[1];
-            
-      const triggerEvent = scheduleJob(`${minute} ${hour} * * *`, () => console.log("IT TRIIIGEEEEEEEERED"))
-      // const triggerEvent = scheduleJob(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEventData, triggerEvent, client))
+
+      const triggerEvent = scheduleJob(`19 21 * * *`, () => console.log("IT TRIIIGEEEEEEEERED"))
+      // const triggerEvent = scheduleJob(`${minute} ${hour} * * *`, () => typeEvent.execute(singleEventData, triggerEvent, client))
     })
     
   } 
