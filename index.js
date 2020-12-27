@@ -26,8 +26,9 @@ for (const file of commandFiles) {
 
     const typeEvents = await typeEvent.fetch(today) //Obtener entradas del dia para este tipo de evento
     if(!typeEvents) return; //Si no hay nada de este evento para hoy
-
+    console.log(typeEvents)
     typeEvents.forEach(singleEvent => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
+      console.log(singleEvent)
       const formattedTime = singleEvent.time.split(':')
       console.log('Encontro! ' + formattedTime)
       const triggerEvent = scheduleJob(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => typeEvent.execute(singleEvent, triggerEvent, client))
@@ -140,7 +141,7 @@ client.once('ready', async () => {
     deny: ['SEND_MESSAGES']
   }], 'Esto es el rol para los que son muteados')));
 
-  // REINICIAR EVENTOS CADA DIA
+  // REINICIAR EVENTOS CADA DIA A LAS 00:00
   scheduleJob("0 0 * * *", () => restartEvents());
 });
 
