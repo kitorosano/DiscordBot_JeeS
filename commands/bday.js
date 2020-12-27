@@ -7,7 +7,7 @@ mongoose.connect(mongo, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-
+ 
 module.exports = {
 	name: 'bday',
   description: 'Manejar cumpleaños',

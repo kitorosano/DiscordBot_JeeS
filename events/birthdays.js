@@ -15,7 +15,7 @@ module.exports = {
   /**[ { guildID, userID, day("8/11"), time("00:01")}, {...}, {...} ] */
   },
   async execute(event, trigger, client) {
-    
+     
     const guild = (await client.guilds.fetch(event.guildID));
     const channel = guild.channels.resolve('556213348585439245');
     const user = await guild.member(event.userID);

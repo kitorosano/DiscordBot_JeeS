@@ -4,8 +4,7 @@ const bdaysSchema = new mongoose.Schema({
   guildID: { type: String },
   userID: { type: String },
   day: { type: String },
-  time: { type: String, default: "04:25" },
+  time: { type: String, default: "04:28" },
 });
 
 module.exports = mongoose.model("Birthdays", bdaysSchema);
- 
