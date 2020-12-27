@@ -27,13 +27,10 @@ for (const file of commandFiles) {
     const typeEvents = await typeEvent.fetch(today) //Obtener entradas del dia para este tipo de evento
     if(!typeEvents) return; //Si no hay nada de este evento para hoy
 
-    typeEvents.forEach(event => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
-      const formattedTime = event.time.split(':')
-      const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => {
-        try {
-          typeEvent.execute(event, triggerEvent, client)
-        } catch { console.error() }
-      })
+    typeEvents.forEach(singleEvent => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
+      const formattedTime = singleEvent.time.split(':')
+      console.log('Encontro! ' + formattedTime)
+      const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, typeEvent.execute(singleEvent, triggerEvent, client))
       console.log(triggerEvent);
     })
     
