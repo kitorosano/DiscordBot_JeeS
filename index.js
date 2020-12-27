@@ -25,8 +25,8 @@ for (const file of commandFiles) {
     if(typeEvent.disable) return; //filtrar eventos desactivados
 
     const typeEvents = await typeEvent.fetch(today) //Obtener entradas del dia para este tipo de evento
-    if(!typeEvents) return; //Si no hay nada de este evento para hoy
     console.log(typeEvents)
+    if(!typeEvents) return; //Si no hay nada de este evento para hoy
     typeEvents.forEach(singleEvent => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
       console.log(singleEvent)
       const formattedTime = singleEvent.time.split(':')
