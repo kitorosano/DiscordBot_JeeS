@@ -29,11 +29,10 @@ for (const file of commandFiles) {
 
     typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
       const formattedTime = singleEventData.time.split(':'),
-            hour   = formattedTime[0] - 3,
-            minute = formattedTime[1];
+            hour   = parseInt(formattedTime[0]) - 3,
+            minute = parseInt(formattedTime[1]);
 
-      const testEvent = scheduleJob('41 21 * * *', console.log("IT TRIIIGEEEEEEEERED"));
-      const triggerEvent = scheduleJob(`${minute} ${hour} * * *`, () => typeEvent.execute(singleEventData, triggerEvent, client))
+      const triggerEvent = scheduleJob(`${minute} ${hour} * * *`, typeEvent.execute(singleEventData, triggerEvent, client))
     })
     
   } 
