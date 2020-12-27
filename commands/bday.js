@@ -22,44 +22,42 @@ module.exports = {
     const target = mentions.users.first();
     if(!target) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
 
-    switch (action) {
-      case 'add':
-        const newBday = new birthdays({
-          userID: target.id,
-          guildID: guild.id,
-          day: fecha
-        });
+    if(action === 'add') {
+      const newBday = new birthdays({
+        userID: target.id,
+        guildID: guild.id,
+        day: fecha
+      });
 
-        await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
-        break;
-      case 'remove':
-        const birthday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-        if (!birthday) return false;
-    
-        await birthdays.findOneAndDelete({ userID: target.id, guildID: guild.id }).catch(e => console.log(`Failed to delete birthday: ${e}`));
-        break;
-      case 'update':
-        const birthday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-        if (!birthday) return false;
+      return await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
 
-        const newBday = new birthdays({
-          userID: target.id,
-          guildID: guild.id,
-          day: fecha
-        });
-    
-        await birthdays.findOneAndUpdate({ userID: target.id, guildID: guild.id }, { day: fecha }).catch(e => console.log(`Failed to update birthday ${e}`))
-        
-        break;
-      default:
-        const birthday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-        if (!birthday) return false;
+    } else if(action === 'remove') {
+      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+      if (!bday) return false;
+  
+      return await birthdays.findOneAndDelete({ userID: target.id, guildID: guild.id }).catch(e => console.log(`Failed to delete bday: ${e}`));
 
-        const MsgBday = new MessageEmbed()
-            .setColor('#f0ff7a')
-            .setDescription(`El cumpleaños de: ${target.username} es el ${birthday.day}`)
-              
-        return channel.send(MsgBday)
+    } else if (action === 'update') {
+      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+      if (!bday) return false;
+
+      const newBday = new birthdays({
+        userID: target.id,
+        guildID: guild.id,
+        day: fecha
+      });
+  
+      return await birthdays.findOneAndUpdate({ userID: target.id, guildID: guild.id }, { day: fecha }).catch(e => console.log(`Failed to update bday_ ${e}`))
+
+    } else {
+      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+      if (!bday) return false;
+
+      const MsgBday = new MessageEmbed()
+          .setColor('#f0ff7a')
+          .setDescription(`El cumpleaños de: ${target.username} es el ${bday.day}`)
+            
+      return channel.send(MsgBday)
     }
 	},
 };
