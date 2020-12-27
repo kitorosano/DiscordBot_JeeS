@@ -31,7 +31,7 @@ for (const file of commandFiles) {
       const formattedTime = event.time.split(':')
       const triggerEvent = cron.schedule(`${formattedTime[1]} ${formattedTime[0]} * * *`, () => {
         try {
-          typeEvent.execute(event,triggerEvent, client)
+          typeEvent.execute(event, triggerEvent, client)
         } catch { console.error() }
       })
     })

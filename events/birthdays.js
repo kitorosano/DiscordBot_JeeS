@@ -16,13 +16,13 @@ module.exports = {
   },
   async execute(event, trigger, client) {
     const guild = (await client.guilds.fetch(event.guildID));
-    const channel = guild.channels.resolve('556213348585439245');
+    const channel = guild.channels.resolve('556213348585439245'); //HERE MAIN CHANNEL FROM GUILD/SERVER
     const user = await guild.member(event.userID);
 
+    console.log(channel.name)
     const MsgBday = new MessageEmbed()
           .setColor('YELLOW')
-          .setTitle(`¡FELIZ CUMPLEAÑOS A ${user.username}!`)
-          .setDescription('Todos te deseamos muchas bendiciones en el servidor JeeS')
+          .setDescription(`:confetti_ball: Muy Feliz Cumpleaños ${user.username}:partying_face: Todos te deseamos muchas bendiciones en el servidor JeeS.`)
           .setFooter('Hoy eres @cumpleañer@', user.displayAvatarURL())
 
     channel.send('@everyone')

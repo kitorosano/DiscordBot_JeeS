@@ -36,7 +36,6 @@ module.exports = {
       const MsgAdded = new MessageEmbed()
           .setColor('#f0ff7a')
           .setTitle(`El cumpleaños de ${target.username} fue programado para el: ${bday.day}`)
-        
       return channel.send(MsgAdded)
 
     } else if(action === 'remove') {
@@ -47,26 +46,18 @@ module.exports = {
 
       const MsgRemoved = new MessageEmbed()
           .setColor('#f0ff7a')
-          .setTitle(`El cumpleaños de ${target.username} fue eliminado`)
-        
+          .setTitle(`El cumpleaños de ${target.username} fue eliminado`)  
       return channel.send(MsgRemoved)
 
     } else if (action === 'update') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return false;
 
-      const newBday = new birthdays({
-        userID: target.id,
-        guildID: guild.id,
-        day: fecha
-      });
-  
       await birthdays.findOneAndUpdate({ userID: target.id, guildID: guild.id }, { day: fecha }).catch(e => console.log(`Failed to update bday_ ${e}`))
 
       const MsgUpdated = new MessageEmbed()
           .setColor('#f0ff7a')
           .setTitle(`El cumpleaños de ${target.username} ahora es el ${bday.day}`)
-        
       return channel.send(MsgUpdated)
 
     } else {
