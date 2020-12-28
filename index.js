@@ -27,14 +27,16 @@ for (const file of commandFiles) {
     const typeEvents = await typeEvent.getEvents(today) //Obtener entradas del dia para este tipo de evento
     if(!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
 
-    typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno 
-      const formattedTime = singleEventData.time.split(':'),
+    typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno
+      console.log(singleEventData);
+      const id = singleEventData,
+            formattedTime = singleEventData.time.split(':'),
             hour   = parseInt(formattedTime[0]) - 3,
             minute = parseInt(formattedTime[1]);
 
-      const triggerEvent = scheduleJob(`${minute} ${hour} * * *`, typeEvent.execute(singleEventData, triggerEvent, client))
+      // const triggerEvent = scheduleJob(id,`${minute} ${hour} * * *`, () => typeEvent.execute(singleEventData, triggerEvent, client))
     })
-    
+    ///CLIENT.EVENTS HOLDS SCHEDULE^^ AND AT THE END OF THE DAY, JUST MAP AND CANCEL EVERYONE
   } 
 }());
 
