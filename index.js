@@ -34,7 +34,7 @@ for (const file of commandFiles) {
             hour   = parseInt(formattedTime[0]) - 3,
             minute = parseInt(formattedTime[1]);
 
-      scheduleJob(id,`54 0 * * *`, () => {
+      scheduleJob(id,`04 1 * * *`, () => {
       // scheduleJob(id,`${minute} ${hour} * * *`, () => {
         typeEvent.execute(singleEventData, client)
         cancelJob(id)

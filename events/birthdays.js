@@ -21,10 +21,8 @@ module.exports = {
   },
   async execute(event, client) {
     const guild = await client.guilds.fetch(event.guildID);
-    console.log(guild.name)
     const channel = guild.channels.resolve('556213348585439245'); //HERE MAIN CHANNEL FROM GUILD/SERVER
-    console.log(channel.name)
-    const user = await guild.member(event.userID);
+    const {user} = guild.member(event.userID);
     console.log(user.username)
 
     // DARLE AL USUARIO ROL CUMPLEAÑERO
