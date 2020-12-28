@@ -13,17 +13,21 @@ module.exports = {
 	name: 'bday',
   description: 'Manejar cumpleaños',
   aliases: ['birthday'],
-  usage: '<usuario> [add/remove/update] [dia/mes]',
+  usage: '<usuario> ([add/remove/update] [dia/mes])',
   guildOnly: true,
-  modOnly: true,
+  args: true,
   async execute(msg, args) {
     const {author, guild, mentions, channel} = msg;
     const [who, action, fecha] = args;
 
     const target = mentions.users.first();
-    if(!target) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
+    if(!target) return;
     
     // check if auhtor is mod or admin for add/remove/update
+    if((action === 'add' || action === 'remove' || action === 'update') && !author.roles.cache.find(role => role.name === 'Moderador'))(
+      channel.send(new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí, pantalones cuadrados...'))
+    )
+
     if(action === 'add') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (bday) return channel.send(new MessageEmbed().setColor('RED').setTitle(`El cumpleaños de ${target.username} ya está programado para el: ${bday.day}`));
