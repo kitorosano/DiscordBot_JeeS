@@ -13,7 +13,7 @@ module.exports = { //ROLES QUE TIENEN QUE ESTAR EN EL SERVER SI O SI
     }) : guild.channels.cache.map(channel => channel.type !== 'text' ? null : channel.overwritePermissions([{
       id: guild.roles.cache.find(rol => rol.name === 'Silenciado').id,
       deny: ['SEND_MESSAGES']
-    }], 'Esto es el rol para los que son muteados')));
+    }], 'Rol para los que son muteados')));
   },  
   cumpleañero(client) {// Crear el rol de CUMPLEAÑERO si no existe en el server
     client.guilds.cache.map(guild => guild.roles.cache.find(rol => rol.name === 'Cumpleañer@') ? null : guild.roles.create({
@@ -21,9 +21,18 @@ module.exports = { //ROLES QUE TIENEN QUE ESTAR EN EL SERVER SI O SI
         name: 'Cumpleañer@',
         color: '#f5bc42', 
         hoist: true,
-        position: 1,
         mentionable: false
       }, reason: 'Rol para los cumpleañeros miembros'})
+    );
+  },
+  moderador(client) {// Crear el rol de CUMPLEAÑERO si no existe en el server
+    client.guilds.cache.map(guild => guild.roles.cache.find(rol => rol.name === 'Moderador') ? null : guild.roles.create({
+      data: {
+        name: 'Moderador',
+        color: '#534473', 
+        hoist: true,
+        mentionable: false
+      }, reason: 'Rol de moderacion para el bot'})
     );
   },
 

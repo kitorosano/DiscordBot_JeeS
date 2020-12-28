@@ -30,13 +30,9 @@ module.exports = {
         guildID: guild.id,
         day: fecha
       });
-
       await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
 
-      const MsgAdded = new MessageEmbed()
-          .setColor('#f0ff7a')
-          .setTitle(`El cumpleaños de ${target.username} fue programado para el: ${bday.day}`)
-      return channel.send(MsgAdded)
+      return channel.send(new MessageEmbed().setColor('#f0ff7a').setTitle(`El cumpleaños de ${target.username} fue programado para el: ${bday.day}`))
 
     } else if(action === 'remove') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
@@ -61,18 +57,13 @@ module.exports = {
       return channel.send(MsgUpdated)
 
     } else {
-      // const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-      // if (!bday) return new MessageEmbed().setColor('RED').setDescription('Aun no tenemos el cumpleaños de esta persona...');
-
-      // const MsgBday = new MessageEmbed()
-      //     .setColor('#f0ff7a')
-      //     .setDescription(`El cumpleaños de **${target.username}** es el \`${bday.day}\``)
+      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+      if (!bday) return new MessageEmbed().setColor('RED').setDescription('Aun no tenemos el cumpleaños de esta persona...');
 
       const MsgBday = new MessageEmbed()
-          .setColor('YELLOW')
-          .setAuthor(`¡Hay un Cumpleañer@ entre nosotros!`, target.displayAvatarURL())
-          .setDescription(`:confetti_ball: Que los cumplas muy feliz ${target}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor JeeS :partying_face:`)
- 
+          .setColor('#f0ff7a')
+          .setDescription(`El cumpleaños de **${target.username}** es el \`${bday.day}\``)
+
       return channel.send(MsgBday)
     }
 	},

@@ -30,10 +30,11 @@ module.exports = {
     const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
     member.roles.add(BdayRole)
 
+
     const MsgBday = new MessageEmbed()
-          .setColor('YELLOW')
-          .setAuthor(`¡Hay un Cumpleañer@ entre nosotros! :eyes:`, member.user.displayAvatarURL())
-          .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user.username}\n:partying_face: Todos te deseamos un grandioso dia y muchas bendiciones en el servidor JeeS.`)
+    .setColor('YELLOW')
+    .setAuthor(`¡Hay un Cumpleañer@ entre nosotros!`, member.user.displayAvatarURL())
+    .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor JeeS :partying_face:`)
 
     channel.send('@everyone');
     channel.send(MsgBday);
