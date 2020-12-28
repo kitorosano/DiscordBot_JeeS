@@ -8,7 +8,7 @@ module.exports = {
   async execute(msg, args) {
     const {guild, mentions, channel} = msg;
     
-    args.split(' ').forEach(obj => {
+    args.forEach(obj => {
       if(!mentions.length) return mentions.map(user => console.log(user))
       if(obj === 'g') return console.log(guild)
       if(obj === 'c') return console.log(channel)
