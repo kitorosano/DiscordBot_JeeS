@@ -34,10 +34,10 @@ for (const file of commandFiles) {
             hour   = parseInt(formattedTime[0]) - 3,
             minute = parseInt(formattedTime[1]);
 
-      scheduleJob(id,`04 1 * * *`, () => {
+      scheduleJob(id,`9 1 * * *`, () => {
       // scheduleJob(id,`${minute} ${hour} * * *`, () => {
         typeEvent.execute(singleEventData, client)
-        cancelJob(id)
+        console.log(cancelJob(id))
       })
     })
     ///CLIENT.EVENTS HOLDS SCHEDULE^^ AND AT THE END OF THE DAY, JUST MAP AND CANCEL EVERYONE
