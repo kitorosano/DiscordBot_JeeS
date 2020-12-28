@@ -29,12 +29,13 @@ for (const file of commandFiles) {
 
     typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno
       console.log(singleEventData);
-      const id = singleEventData.toString(),
+      const id = singleEventData._id.toString(),
             formattedTime = singleEventData.time.split(':'),
             hour   = parseInt(formattedTime[0]) - 3,
             minute = parseInt(formattedTime[1]);
 
-      scheduleJob(id,`${minute} ${hour} * * *`, () => {
+      scheduleJob(id,`54 0 * * *`, () => {
+      // scheduleJob(id,`${minute} ${hour} * * *`, () => {
         typeEvent.execute(singleEventData, client)
         cancelJob(id)
       })
