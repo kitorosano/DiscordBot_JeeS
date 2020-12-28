@@ -67,7 +67,7 @@ client.on('message', async (msg) => {
     const {level} = await Levels.fetch(author.id, guild.id);
     const MsgLvlUp = new MessageEmbed()
             .setColor('#ADC00')
-            .setDescription(`**Felicidades** ${author}! Has avanzado al **nivel ${level}**!. :confetti_ball: `)
+            .setDescription(`¡Felicidades **${author.username}**! Ahora eres **nivel ${level}**!. :confetti_ball: `)
     channel.send(MsgLvlUp)
   }
   
@@ -79,17 +79,13 @@ client.on('message', async (msg) => {
   const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   if (!command) return; //OBTENER COMANDO O SU ALIAS, Y SI ESTE NO EXISTE TERMINAR
   
-  const MsgNoMod = new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí pantalones cuadrados... :eyes:')
+  // const MsgNoMod = new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí pantalones cuadrados... :eyes:')
   if(command.modOnly && !member.roles.cache.find(role => role.name == 'Moderador' )) {// MENSAJE PARA COMANDOS SOLO DE MODERADORES
-    return msg.reply(MsgNoMod) 
+    return channel.send(`:no_pedestrians: **${target.username}**,alto ahí pantalones cuadrados.`) 
   } 
 
   
-  if (command.guildOnly && channel.type === 'dm') {
-    const MsgNoDM = new MessageEmbed().setColor("RED").setDescription('No puedo ejecutar ese comando por mensaje directo!')
-    return msg.reply(MsgNoDM);
-  }
-  
+  if (command.guildOnly && channel.type === 'dm') return channel.send('No puedo ejecutar eso por mensaje directo');
   
   if (command.args && !args.length) {
     const replyMsg = new MessageEmbed().setColor('RED').setTitle(`Algo le falta al comando...`)

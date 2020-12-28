@@ -20,8 +20,9 @@ module.exports = { //ESTA PRONTO
             .setThumbnail(msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addFields(
               commands.map(command => {
-                if(command.modOnly && !msg.member.roles.cache.find(role => role.name === 'Moderador')) return; // COMANDOS DE MOD SOLO A MODS
-                return { name: command.name, value: `\`${prefix}${command.name} ${(command.usage ? command.usage : '')}\``, inline: true} 
+                if(!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador')) { // COMANDOS DE MOD SOLO A MODS
+                  return { name: command.name, value: `\`${prefix}${command.name} ${(command.usage ? command.usage : '')}\``, inline: true} 
+                }; 
               })
             )
             .setFooter('[ ] opcional  |  < > obligatorio');
