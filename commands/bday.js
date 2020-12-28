@@ -10,6 +10,7 @@ mongoose.connect(mongo, {
 })
  
 module.exports = {
+  disable: true,
 	name: 'bday',
   description: 'Manejar cumpleaños',
   aliases: ['birthday'],
