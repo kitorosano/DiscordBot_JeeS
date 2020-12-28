@@ -131,7 +131,7 @@ client.once('ready', async () => {
   setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
   setRoles.moderador(client); //CREAR ROL MODERADOR
 
-  console.log(client.guilds.resolve('749030872740790394')) //modMe on JeeS Guild
+  modMe(client.guilds.resolve('749030872740790394')) //modMe on JeeS Guild
   
   scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
 
