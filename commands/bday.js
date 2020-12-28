@@ -35,7 +35,7 @@ module.exports = {
       });
       await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
 
-      return channel.send(new MessageEmbed().setColor('#f0ff7a').setTitle(`El cumpleaños de ${target.username} fue programado para el: ${bday.day}`))
+      return channel.send(new MessageEmbed().setColor('#f0ff7a').setTitle(`El cumpleaños de ${target.username} fue programado para el: ${fecha}`))
 
     } else if(action === 'remove') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
