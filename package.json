@@ -1,6 +1,6 @@
 {
   "name": "jees",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Bot para el discord JeeS",
   "main": "index.js",
   "scripts": {

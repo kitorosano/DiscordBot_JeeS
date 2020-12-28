@@ -59,7 +59,7 @@ client.on('guildMemberAdd', member => {
 
 /** CUANDO SE ENVIA UN MENSAJE **/
 client.on('message', async (msg) => {
-  let {content, author, channel, guild} = msg;
+  let {content, author, member, channel, guild} = msg;
   if(author.bot) return; // TERMINAR SI ES UN BOT
 
   const hasLeveledUp = await Levels.appendXp(author.id, guild.id, rnd.int(xp.from,xp.to)); //Agrego a la BD la nueva xp entre <from> a <to>
@@ -73,20 +73,20 @@ client.on('message', async (msg) => {
   
   if (!content.startsWith(prefix)) return; //TERMINAR SI NO ES UN COMANDO
 
-  // const MsgNoAllowed = new MessageEmbed().setColor("RED").setAuthor('Lo siento, los comandos aun no te son disponibles.');
-  // if (!allowedUsers.includes(author.id)) return msg.reply(MsgNoAllowed);
-
   const args = content.slice(prefix.length).split(/ +/); //Obtengo un array con el comando sin el prefijo y los argumentos
   const commandName = args.shift().toLowerCase(); //Aparto el comando del array de los argumentos y lo hago minuscula.
 
   const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-  if (!command) return;
+  if (!command) return; //OBTENER COMANDO O SU ALIAS, Y SI ESTE NO EXISTE TERMINAR
   
-  // const MsgNoMod = new MessageEmbed().setColor("RED").setAuthor('Esta funcion no te está disponible.')
-  // if(command.modOnly && !guild.member(author).roles.cache.find(role => modUsers.includes(role.id))) return msg.reply(MsgNoMod) //SOLO MODERADORES
+  const MsgNoMod = new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí, pantalones cuadrados... :eyes:')
+  if(command.modOnly && !member.roles.cache.find(role => role.name == 'Moderador' )) {// MENSAJE PARA COMANDOS SOLO DE MODERADORES
+    return msg.reply(MsgNoMod) 
+  } 
 
+  
   if (command.guildOnly && channel.type === 'dm') {
-    const MsgNoDM = new MessageEmbed().setColor("RED").setAuthor('No puedo ejecutar ese comando por mensaje directo!')
+    const MsgNoDM = new MessageEmbed().setColor("RED").setDescription('No puedo ejecutar ese comando por mensaje directo!')
     return msg.reply(MsgNoDM);
   }
   
@@ -134,7 +134,7 @@ client.on('message', async (msg) => {
 client.once('ready', async () => {
   setRoles.silenciado(client); //CREAR ROL SILENCIADO
   setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
-  // setRoles.moderador(client); //CREAR ROL MODERADOR
+  setRoles.moderador(client); //CREAR ROL MODERADOR
 
   // client.guilds.cache.map(guild => modMe(guild.member('484774210372108300')) ); //Mod Me
   
