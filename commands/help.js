@@ -10,8 +10,8 @@ module.exports = { //ESTA PRONTO
 	usage: '[comando]',
 	cooldown: 5,
 	execute(msg, args) {
-    const data = [];
     const { commands } = msg.client;
+    const data = [];
 
     if (!args.length) {
       const commandsMsg = new MessageEmbed()
@@ -19,7 +19,10 @@ module.exports = { //ESTA PRONTO
             .setAuthor('Comandos del Bot JeeS', msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .setThumbnail(msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addFields(
-              commands.map(command => ({ name: command.name, value: `\`${prefix}${command.name} ${(command.usage ? command.usage : '')}\``, inline: true}) )
+              commands.map(command => {
+                if(command.modOnly && !msg.member.roles.cache.find(role => role.name === 'Moderador')) return; // COMANDOS DE MOD SOLO A MODS
+                return { name: command.name, value: `\`${prefix}${command.name} ${(command.usage ? command.usage : '')}\``, inline: true} 
+              })
             )
             .setFooter('[ ] opcional  |  < > obligatorio');
 
@@ -35,7 +38,7 @@ module.exports = { //ESTA PRONTO
           console.error(`Could not send help DM to ${msg.author.tag}.\n`, error);
           const commandMsg = new MessageEmbed()
                 .setColor('WHITE')
-                .setDescription(`${msg.author}, no puedo mensajearte! Tendrás desactivados los MD? (mensajes directos)`)
+                .setDescription(`${msg.author}, no puedo mensajearte! Tendrás desactivado DM? (mensaje directo)`)
           msg.reply(commandMsg);
         });
     }
