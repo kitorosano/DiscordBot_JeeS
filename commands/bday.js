@@ -19,15 +19,14 @@ module.exports = {
   args: true,
   async execute(msg, args) {
     const {member, guild, mentions, channel} = msg;
-    const [who, action, fecha] = args;
+    let [who, action, fecha] = args;
 
     const target = mentions.users.first();
     if(!target) return;
     
-    // check if auhtor is mod or admin for add/remove/update
-    if((action === 'add' || action === 'remove' || action === 'update') && !member.roles.cache.find(role => role.name === 'Moderador')){
-      return channel.send(`:no_pedestrians: Alto ahí **${member.user.username}** pantalones cuadrados.`)
-    }
+    // SI SE ESPECIFICA UNA ACCION PERO NO ES UN MODERADOR, SIMPLEMENTE LE MOSRTAMOS LA INFO DEL CUMPLEAÑERO  
+    if((action === 'add' || action === 'remove' || action === 'update') && !member.roles.cache.find(role => role.name === 'Moderador')) action = undefined;
+      // {return channel.send(`:no_pedestrians: Alto ahí **${member.user.username}** pantalones cuadrados.`)}
 
     if(action === 'add') {
       msg.delete()
@@ -69,16 +68,18 @@ module.exports = {
           .setDescription(`El cumpleaños de **${target.username}** ahora es el \`${bday.day}\``)
       return channel.send(MsgUpdated)
 
-    } 
-    
-    const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-    if (!bday) return channel.send(new MessageEmbed().setColor('RED').setDescription(`Aún no tenemos el cumpleaños de **${target.username}**`));
+    }
+    if(action === undefined){
 
-    const MsgBday = new MessageEmbed()
-        .setColor('#ffe47a')
-        .setDescription(`El cumpleaños de **${target.username}** es el \`${bday.day}\``)
-
-    return channel.send(MsgBday)
+      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+      if (!bday) return channel.send(new MessageEmbed().setColor('RED').setDescription(`Aún no tenemos el cumpleaños de **${target.username}**`));
+      
+      const MsgBday = new MessageEmbed()
+      .setColor('#ffe47a')
+      .setDescription(`El cumpleaños de **${target.username}** es el \`${bday.day}\``)
+      
+      return channel.send(MsgBday)
+    }
 	},
 };
 
