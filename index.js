@@ -37,7 +37,7 @@ for (const file of commandFiles) {
       let   hour   = parseInt(formattedTime[0]) + 3;
       if (hour > 23) hour -= 24;
       
-      scheduleJob(id,`${minute} ${hour} * * *`, () => {
+      scheduleJob(id,`${minute} ${hour} * * *`, async () => {
         await typeEvent.execute(singleEventData, client)
         cancelJob(id);
       })
