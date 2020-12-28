@@ -26,7 +26,7 @@ module.exports = {
     // check if auhtor is mod or admin for add/remove/update
     if(action === 'add') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-      if (bday) return channel.send(new MessageEmbed().setColor('RED').setTitle(`El cumpleaños de ${target.username} ya está programado para el: ${bday.day}`););
+      if (bday) return channel.send(new MessageEmbed().setColor('RED').setTitle(`El cumpleaños de ${target.username} ya está programado para el: ${bday.day}`));
 
       const newBday = new birthdays({
         userID: target.id,
@@ -59,7 +59,7 @@ module.exports = {
           .setTitle(`El cumpleaños de ${target.username} ahora es el ${bday.day}`)
       return channel.send(MsgUpdated)
 
-    } else if(action === '') {
+    } else {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return new MessageEmbed().setColor('RED').setDescription('Aun no tenemos el cumpleaños de esta persona...');
 
