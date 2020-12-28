@@ -16,13 +16,12 @@ module.exports = {
   aliases: ['birthday'],
   usage: '<usuario> ([add/remove/update] [dia/mes])',
   guildOnly: true,
-  args: true,
   async execute(msg, args) {
-    const {member, guild, mentions, channel} = msg;
+    const {member, author,guild, mentions, channel} = msg;
     let [who, action, fecha] = args;
 
-    const target = mentions.users.first();
-    if(!target) return;
+    let target = mentions.users.first();
+    if(!target) target = author;
     
     // SI SE ESPECIFICA UNA ACCION PERO NO ES UN MODERADOR, SIMPLEMENTE LE MOSRTAMOS LA INFO DEL CUMPLEAÑERO  
     if((action === 'add' || action === 'remove' || action === 'update') && !member.roles.cache.find(role => role.name === 'Moderador')) action = undefined;
