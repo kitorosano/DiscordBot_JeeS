@@ -64,7 +64,7 @@ module.exports = {
 
       const MsgUpdated = new MessageEmbed()
           .setColor('#f0ff7a')
-          .setDescription(`El cumpleaños de **${target.username}** ahora es el \`${bday.day}\``)
+          .setDescription(`El cumpleaños de **${target.username}** ahora es el \`${fecha}\``)
       return channel.send(MsgUpdated)
 
     }
