@@ -22,7 +22,7 @@ module.exports = {
     const MsgLeaderboard = new MessageEmbed() 
         .setColor('PURPLE')
         .setAuthor(`Posiciones en ${guild.name}`,guild.iconURL() || 'https://cdn.discordapp.com/embed/avatars/1.png')
-        .setDescription(`:reminder_ribbon: Tu rango es \`#${leaderboard.find(user => user.username == author.username).position}\` en este servidor :reminder_ribbon:`)
+        .setDescription(`:reminder_ribbon: Tu rango es \`#${leaderboard.find(user => user.username(false) == author.username).position}\` en este servidor :reminder_ribbon:`)
         // .addField(
         //     '·    Usuario\t\t\t\t\t\t\t\t\t\t·    Total de Puntos',
         //     leaderboard.map(user => `${user.position}.${user.username(true)}✨EXP ${user.totalXP}`).join('\n')
