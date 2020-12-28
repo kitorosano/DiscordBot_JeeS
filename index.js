@@ -33,7 +33,7 @@ for (const file of commandFiles) {
             hour   = parseInt(formattedTime[0]) - 3,
             minute = parseInt(formattedTime[1]);
 
-      scheduleJob(id,`42 1 * * *`, async() => {
+      scheduleJob(id,`52 1 * * *`, async() => {
       // scheduleJob(id,`${minute} ${hour} * * *`, () => {
         await typeEvent.execute(singleEventData, client)
         let cancelado = cancelJob(id);
