@@ -29,7 +29,7 @@ module.exports = {
           // )
         .addFields({
           name: 'Usuario',
-          value: leaderboard.map(user => `${user.position}.${user.username(false)}`).join('\n'),
+          value: leaderboard.map(user => `${user.position}.${user.username(true)}`).join('\n'),
           inline: true
         },{
           name: 'Puntos',
