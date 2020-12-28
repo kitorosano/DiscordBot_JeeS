@@ -19,7 +19,7 @@ module.exports = {
     return birthday;
   /**[ { guildID, userID, day("8/11"), time("00:01")}, {...}, {...} ] */
   },
-  async execute(event, trigger, client) {
+  async execute(event, client) {
     const guild = await client.guilds.fetch(event.guildID);
     console.log(guild.name)
     const channel = guild.channels.resolve('556213348585439245'); //HERE MAIN CHANNEL FROM GUILD/SERVER
@@ -36,8 +36,6 @@ module.exports = {
 
     channel.send('@everyone')
     channel.send(MsgBday);
-
-    trigger.cancel();
   },
 };
 

@@ -2,7 +2,7 @@ const {Client, Collection, MessageEmbed} = require('discord.js');
 const {prefix, allowedUsers, modUsers, token, mongo, xp} = require('./config');
 const fs = require('fs');
 const rnd = require('random');
-const {scheduleJob} = require('node-schedule');
+const {scheduleJob, cancelJob} = require('node-schedule');
 const Levels = require("discord-xp");
 Levels.setURL(mongo);
 
@@ -29,12 +29,15 @@ for (const file of commandFiles) {
 
     typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno
       console.log(singleEventData);
-      const id = singleEventData,
+      const id = singleEventData.toString(),
             formattedTime = singleEventData.time.split(':'),
             hour   = parseInt(formattedTime[0]) - 3,
             minute = parseInt(formattedTime[1]);
 
-      // const triggerEvent = scheduleJob(id,`${minute} ${hour} * * *`, () => typeEvent.execute(singleEventData, triggerEvent, client))
+      scheduleJob(id,`${minute} ${hour} * * *`, () => {
+        typeEvent.execute(singleEventData, client)
+        cancelJob(id)
+      })
     })
     ///CLIENT.EVENTS HOLDS SCHEDULE^^ AND AT THE END OF THE DAY, JUST MAP AND CANCEL EVERYONE
   } 
