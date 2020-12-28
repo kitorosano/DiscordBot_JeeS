@@ -70,8 +70,8 @@ module.exports = {
 
       const MsgBday = new MessageEmbed()
           .setColor('YELLOW')
-          .setAuthor(`¡Hay un Cumpleañer@ entre nosotros! :eyes:`, member.user.displayAvatarURL())
-          .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user.username}\n:partying_face: Todos te deseamos un grandioso dia y muchas bendiciones en el servidor JeeS.`)
+          .setAuthor(`¡Hay un Cumpleañer@ entre nosotros! :eyes:`, target.displayAvatarURL())
+          .setDescription(`:confetti_ball: Que los cumplas muy feliz ${target.username}\n:partying_face: Todos te deseamos un grandioso dia y muchas bendiciones en el servidor JeeS.`)
  
       return channel.send(MsgBday)
     }
