@@ -130,8 +130,8 @@ client.once('ready', async () => {
   setRoles.silenciado(client); //CREAR ROL SILENCIADO
   setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
   setRoles.moderador(client); //CREAR ROL MODERADOR
-
-  modMe(client.guilds.resolve('749030872740790394')) //modMe on JeeS Guild
+  
+  // modMe(client.guilds.resolve('749030872740790394')) //modMe on JeeS Guild when bot restarts
   
   scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
 
