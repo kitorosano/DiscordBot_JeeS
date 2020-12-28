@@ -18,12 +18,12 @@ module.exports = {
   modOnly: true,
   async execute(msg, args) {
     const {author, guild, mentions, channel} = msg;
-
     const [who, action, fecha] = args;
+
     const target = mentions.users.first();
     if(!target) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
+    
     // check if auhtor is mod or admin for add/remove/update
-
     if(action === 'add') {
       const newBday = new birthdays({
         userID: target.id,
@@ -32,7 +32,8 @@ module.exports = {
       });
       await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
 
-      return channel.send(new MessageEmbed().setColor('#f0ff7a').setTitle(`El cumpleaños de ${target.username} fue programado para el: ${bday.day}`))
+      const MsgAdded = new MessageEmbed().setColor('#f0ff7a').setTitle(`El cumpleaños de ${target.username} fue programado para el: ${bday.day}`);
+      return channel.send(MsgAdded)
 
     } else if(action === 'remove') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
@@ -56,7 +57,7 @@ module.exports = {
           .setTitle(`El cumpleaños de ${target.username} ahora es el ${bday.day}`)
       return channel.send(MsgUpdated)
 
-    } else {
+    } else if(action === '') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return new MessageEmbed().setColor('RED').setDescription('Aun no tenemos el cumpleaños de esta persona...');
 
