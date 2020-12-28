@@ -16,7 +16,7 @@ module.exports = {
     const memberTarget = guild.members.cache.get(target.id)
 
     if(memberTarget.roles.cache.find(role => role === mutedRole)) {
-      memberTarget.roles.remove(mutedRole.id); //QUITA EL ROL
+      memberTarget.roles.remove(mutedRole); //QUITA EL ROL
       const {tag} = memberTarget.user
   
       const MsgDesmuteado = new MessageEmbed()

@@ -16,9 +16,9 @@ module.exports = { //ROLES QUE TIENEN QUE ESTAR EN EL SERVER SI O SI
     }], 'Esto es el rol para los que son muteados')));
   },  
   cumpleañero(client) {// Crear el rol de CUMPLEAÑERO si no existe en el server
-    client.guilds.cache.map(guild => guild.roles.cache.find(rol => rol.name === 'Cumpleañero') ? null : guild.roles.create({
+    client.guilds.cache.map(guild => guild.roles.cache.find(rol => rol.name === 'Cumpleañer@') ? null : guild.roles.create({
       data: {
-        name: 'Cumpleañero',
+        name: 'Cumpleañer@',
         color: '#f5bc42', 
         hoist: true,
         position: 1,

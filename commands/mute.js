@@ -18,7 +18,7 @@ module.exports = {
     const memberTarget = guild.members.cache.get(target.id)
 
     if(memberTarget.roles.cache.find(role => role !== mutedRole)) {
-      memberTarget.roles.add(mutedRole.id); //AGREGA EL ROL
+      memberTarget.roles.add(mutedRole); //AGREGA EL ROL
       const {tag} = memberTarget.user
 
       const exampleEmbed = new MessageEmbed()

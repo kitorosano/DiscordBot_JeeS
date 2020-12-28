@@ -28,7 +28,7 @@ module.exports = {
 
     const mutedRole = guild.roles.cache.find(role => role.name === 'Silenciado');
     const memberTarget = guild.members.cache.get(target.id)
-    memberTarget.roles.add(mutedRole.id); //AGREGA EL ROL
+    memberTarget.roles.add(mutedRole); //AGREGA EL ROL
     const {tag} = memberTarget.user
 
     const exampleEmbed = new MessageEmbed()
@@ -39,7 +39,7 @@ module.exports = {
     channel.send(exampleEmbed)
     
     setTimeout(() => {
-      memberTarget.roles.remove(mutedRole.id); //QUITA EL ROL
+      memberTarget.roles.remove(mutedRole); //QUITA EL ROL
       const MsgDesmuteado = new MessageEmbed()
             .setColor("#424242")
             .setAuthor(`${tag} ya no está silenciad@`, memberTarget.user.displayAvatarURL({ format: "png", dynamic: true }))

@@ -17,8 +17,10 @@ for (const file of commandFiles) {
   const command = require(`./commands/${file}`)
   if(!command.disable) client.commands.set(command.name, command);
 }
+/** */ 
 
-(async function restartEvents(){ //INITIALIZE DAILY EVENTS
+/** INICIALIZAR EVENTOS DEL DIA */
+(async function restartEvents(){ 
   const today = new Date().toDateString().split(' '); // Obtener fecha de hoy
   const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
   for (const file of eventFiles) { //para cada tipo de evento como archivo .js, obtengo los eventos del dia.
@@ -29,7 +31,7 @@ for (const file of commandFiles) {
     if(!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
 
     typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno
-      const id = singleEventData._id.toString(),
+      const id = 'initEvent-'+ singleEventData._id.toString(),
             formattedTime = singleEventData.time.split(':'),
             minute = parseInt(formattedTime[1]);
       let   hour   = parseInt(formattedTime[0]) + 3;
@@ -40,9 +42,9 @@ for (const file of commandFiles) {
         cancelJob(id);
       })
     })
-    ///CLIENT.EVENTS HOLDS SCHEDULE^^ AND AT THE END OF THE DAY, JUST MAP AND CANCEL EVERYONE
   } 
 }());
+/** */
 
 
 /** MENSAJE DE BIENVENIDA **/
@@ -51,6 +53,7 @@ client.on('guildMemberAdd', member => {
   if (!channel) return;
   channel.send(`Bienvenido al servidor, ${member}!`)
 })
+/** */
 
 
 /** CUANDO SE ENVIA UN MENSAJE **/
@@ -116,18 +119,17 @@ client.on('message', async (msg) => {
   timestamps.set(author.id, now);
   setTimeout(() => timestamps.delete(author.id), cooldownAmount);
 
-  try {
+  try { //ejecutar
     command.execute(msg, args);
   } catch (error) {
     console.error(error);
     const MsgError = new MessageEmbed().setColor("RED").setAuthor('Ha ocurrido un error al ejecutar el comando!');
     msg.reply(MsgError);
   }
-
-
 });
+/** */ 
 
-
+/** COMPROBAR AL INICIAR EL BOT */
 client.once('ready', async () => {
   setRoles.silenciado(client); //CREAR ROL SILENCIADO
   setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
@@ -136,6 +138,14 @@ client.once('ready', async () => {
 
   console.log('Bot Connected');
   client.user.setActivity('ser un bot');
+
+  const MsgBday = new MessageEmbed()
+      .setColor('YELLOW')
+      .setAuthor('Hoy eres @Cumpleañer@', member.user.displayAvatarURL())
+      .setDescription(`:confetti_ball: Muy Feliz Cumpleaños ${member.user.username}:partying_face: Todos te deseamos muchas bendiciones en el servidor JeeS.`)
+
+  channel.send('@everyone');
+  channel.send(MsgBday);
 });
 
 
