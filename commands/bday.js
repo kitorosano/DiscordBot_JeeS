@@ -70,9 +70,9 @@ module.exports = {
 
       const MsgBday = new MessageEmbed()
           .setColor('YELLOW')
-          .setAuthor('Hoy eres @cumpleañer@', target.displayAvatarURL())
-          .setDescription(`:confetti_ball: Muy Feliz Cumpleaños ${target.username}:partying_face: Todos te deseamos muchas bendiciones en el servidor JeeS.`)
-            
+          .setAuthor(`¡Hay un Cumpleañer@ entre nosotros! :eyes:`, member.user.displayAvatarURL())
+          .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user.username}\n:partying_face: Todos te deseamos un grandioso dia y muchas bendiciones en el servidor JeeS.`)
+ 
       return channel.send(MsgBday)
     }
 	},

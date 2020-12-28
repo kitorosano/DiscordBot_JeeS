@@ -141,4 +141,4 @@ client.once('ready', async () => {
 });
 
 
-client.login(token);
+client.login(token); //LOGEAR Y ARRANCAR EL BOT
