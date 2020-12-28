@@ -22,10 +22,9 @@ module.exports = {
   async execute(event, client) {
     const guild = await client.guilds.fetch(event.guildID);
     const channel = guild.channels.resolve('556213348585439245'); //HERE MAIN CHANNEL FROM GUILD/SERVER
-    const member = await guild.members.fetch(event.userID);
-    console.log(member)
+    const {user} = await guild.members.fetch(event.userID);
 
-    if(!channel || !member) return console.log("HAY ALGO QUE NO HAY");
+    if(!channel || !user) return console.log("HAY ALGO QUE NO HAY");
 
     // DARLE AL USUARIO ROL CUMPLEAÑERO
 
@@ -34,7 +33,7 @@ module.exports = {
           .setDescription(`:confetti_ball: Muy Feliz Cumpleaños ${user.username}:partying_face: Todos te deseamos muchas bendiciones en el servidor JeeS.`)
           .setFooter('Hoy eres @cumpleañer@', user.displayAvatarURL())
 
-    channel.send('@everyone')
+    channel.send('@everyone');
     channel.send(MsgBday);
   },
 };
