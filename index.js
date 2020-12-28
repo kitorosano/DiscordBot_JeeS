@@ -79,7 +79,7 @@ client.on('message', async (msg) => {
   const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
   if (!command) return; //OBTENER COMANDO O SU ALIAS, Y SI ESTE NO EXISTE TERMINAR
   
-  const MsgNoMod = new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí, pantalones cuadrados... :eyes:')
+  const MsgNoMod = new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí pantalones cuadrados... :eyes:')
   if(command.modOnly && !member.roles.cache.find(role => role.name == 'Moderador' )) {// MENSAJE PARA COMANDOS SOLO DE MODERADORES
     return msg.reply(MsgNoMod) 
   } 
