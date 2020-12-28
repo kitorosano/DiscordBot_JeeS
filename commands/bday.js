@@ -61,12 +61,17 @@ module.exports = {
       return channel.send(MsgUpdated)
 
     } else {
-      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-      if (!bday) return new MessageEmbed().setColor('RED').setDescription('Aun no tenemos el cumpleaños de esta persona...');
+      // const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+      // if (!bday) return new MessageEmbed().setColor('RED').setDescription('Aun no tenemos el cumpleaños de esta persona...');
+
+      // const MsgBday = new MessageEmbed()
+      //     .setColor('#f0ff7a')
+      //     .setDescription(`El cumpleaños de **${target.username}** es el \`${bday.day}\``)
 
       const MsgBday = new MessageEmbed()
-          .setColor('#f0ff7a')
-          .setDescription(`El cumpleaños de **${target.username}** es el \`${bday.day}\``)
+          .setColor('YELLOW')
+          .setAuthor('Hoy eres @cumpleañer@', target.displayAvatarURL())
+          .setDescription(`:confetti_ball: Muy Feliz Cumpleaños ${target.username}:partying_face: Todos te deseamos muchas bendiciones en el servidor JeeS.`)
             
       return channel.send(MsgBday)
     }
