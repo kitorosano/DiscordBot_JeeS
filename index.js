@@ -138,14 +138,6 @@ client.once('ready', async () => {
 
   console.log('Bot Connected');
   client.user.setActivity('ser un bot');
-
-  const MsgBday = new MessageEmbed()
-      .setColor('YELLOW')
-      .setAuthor('Hoy eres @Cumpleañer@', member.user.displayAvatarURL())
-      .setDescription(`:confetti_ball: Muy Feliz Cumpleaños ${member.user.username}:partying_face: Todos te deseamos muchas bendiciones en el servidor JeeS.`)
-
-  channel.send('@everyone');
-  channel.send(MsgBday);
 });
 
 
