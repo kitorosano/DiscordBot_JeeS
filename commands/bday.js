@@ -17,14 +17,14 @@ module.exports = {
   guildOnly: true,
   args: true,
   async execute(msg, args) {
-    const {author, guild, mentions, channel} = msg;
+    const {member, guild, mentions, channel} = msg;
     const [who, action, fecha] = args;
 
     const target = mentions.users.first();
     if(!target) return;
     
     // check if auhtor is mod or admin for add/remove/update
-    if((action === 'add' || action === 'remove' || action === 'update') && !author.roles.cache.find(role => role.name === 'Moderador'))(
+    if((action === 'add' || action === 'remove' || action === 'update') && !member.roles.cache.find(role => role.name === 'Moderador'))(
       channel.send(new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí, pantalones cuadrados...'))
     )
 
