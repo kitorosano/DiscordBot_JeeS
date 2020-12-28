@@ -3,6 +3,7 @@
 // configure main text channel, for event,
 
 module.exports = {
+  disable: true,
 	name: 'config',
   description: 'Configuracion del servidor para el bot',
   aliases: ['setup', 'options'],

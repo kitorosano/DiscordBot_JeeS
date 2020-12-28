@@ -13,15 +13,13 @@ module.exports = { //ESTA PRONTO
     const { commands } = msg.client;
     const data = [];
 
-    const comandos = commands.filter(command => (!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador')))
-
     if (!args.length) {
       const commandsMsg = new MessageEmbed()
             .setColor('WHITE')
             .setAuthor('Comandos del Bot JeeS', msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .setThumbnail(msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addFields(
-              comandos.map(comando => ({
+              commands.filter(command => (!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador'))).map(comando => ({
                 name: comando.name, 
                 value: `\`${prefix}${comando.name} ${(comando.usage ? comando.usage : '')}\``, inline: true
               }))
