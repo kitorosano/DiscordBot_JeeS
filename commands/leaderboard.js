@@ -36,7 +36,7 @@ module.exports = {
           value: leaderboard.map(user => `${user.position}. ✨EXP ${user.totalXP}`).join('\n'),
           inline: true
         })
-        // .addField('\u200B','\u200B') 
+        .addField('\u200B','\u200B') 
         .setFooter('Sistema de niveles del bot JeeS.', client.user.displayAvatarURL())
 
     channel.send(MsgLeaderboard)
