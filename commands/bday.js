@@ -25,6 +25,9 @@ module.exports = {
     
     // check if auhtor is mod or admin for add/remove/update
     if(action === 'add') {
+      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
+      if (bday) return channel.send(new MessageEmbed().setColor('RED').setTitle(`El cumpleaños de ${target.username} ya está programado para el: ${bday.day}`););
+
       const newBday = new birthdays({
         userID: target.id,
         guildID: guild.id,
@@ -32,8 +35,7 @@ module.exports = {
       });
       await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
 
-      const MsgAdded = new MessageEmbed().setColor('#f0ff7a').setTitle(`El cumpleaños de ${target.username} fue programado para el: ${bday.day}`);
-      return channel.send(MsgAdded)
+      return channel.send(new MessageEmbed().setColor('#f0ff7a').setTitle(`El cumpleaños de ${target.username} fue programado para el: ${bday.day}`))
 
     } else if(action === 'remove') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
