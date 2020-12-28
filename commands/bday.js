@@ -20,7 +20,6 @@ module.exports = {
   async execute(msg, args) {
     const {member, guild, mentions, channel} = msg;
     const [who, action, fecha] = args;
-    console.log(action)
 
     const target = mentions.users.first();
     if(!target) return;
