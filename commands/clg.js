@@ -9,10 +9,11 @@ module.exports = {
     const {guild, mentions, channel} = msg;
     
     args.forEach(obj => {
+      console.log(obj)
       if(mentions.users.size) return mentions.users.forEarch(member => console.log(member))
       if(obj === 'g') return console.log(guild)
       if(obj === 'c') return console.log(channel)
-      guild.roles.cache.map(role => obj.name === role.name ? console.log(role) : null)
+      // guild.roles.cache.map(role => obj.name === role.name ? console.log(role) : null)
     });
 
   },
