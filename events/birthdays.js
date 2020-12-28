@@ -21,7 +21,7 @@ module.exports = {
   },
   async execute(event, client) {
     const guild = await client.guilds.fetch(event.guildID);
-    const channel = guild.channels.fetch('556213348585439245'); //HERE MAIN CHANNEL FROM GUILD/SERVER
+    const channel = guild.channels.resolve('556213348585439245'); //HERE MAIN CHANNEL FROM GUILD/SERVER
     const member = guild.member(event.userID);
     console.log(guild)
 
