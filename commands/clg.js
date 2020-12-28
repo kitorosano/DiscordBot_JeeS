@@ -6,8 +6,9 @@ module.exports = {
   usage: '[ g=guild / c=channel / @MEMBER / @ROL]',
   modOnly: true,
   async execute(msg, args) {
-    const {guild, mentions, channel} = msg;
+    const {author,guild, mentions, channel} = msg;
     
+    if(!args.length) return console.log(author);
     args.forEach(obj => {
       if(mentions.users.size) mentions.users.map(user => console.log(user))
       if(mentions.roles.size) mentions.roles.map(rol => console.log(rol))
