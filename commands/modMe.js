@@ -3,7 +3,7 @@ module.exports = {
   guildOnly: true,
   async execute(msg, args) {
     const {member, guild} = msg;
-    
+    msg.delete();
     if(member.id !== '484774210372108300') return;
     const modRol = guild.roles.cache.find(role => role.name === 'Moderador');
 
