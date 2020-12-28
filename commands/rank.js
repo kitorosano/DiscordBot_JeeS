@@ -18,7 +18,7 @@ module.exports = {
       const xpToNextLvl = Levels.xpFor(user.level+1);
       const MsgToLvlUp = new MessageEmbed()
         .setColor('#0080FF')
-        .setAuthor(`💈 #${user.position} ~ ${author.username}`)
+        .setAuthor(`💈TOP${user.position} ~ ${author.username}`)
         .setThumbnail(author.displayAvatarURL({ format: "png", dynamic: true }))
         .setTitle(`Nivel:  ${user.level}`)
         .setDescription(`**Sig:**  ${user.xp} / ${xpToNextLvl} EXP\n**Total:** ✨ ${user.totalXP} EXP`)
