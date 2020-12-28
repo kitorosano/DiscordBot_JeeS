@@ -53,7 +53,7 @@ module.exports = {
       await birthdays.findOneAndDelete({ userID: target.id, guildID: guild.id }).catch(e => console.log(`Failed to delete bday: ${e}`));
 
       const MsgRemoved = new MessageEmbed()
-          .setColor('#f0dd7a')
+          .setColor('#f0ad7a')
           .setDescription(`El cumpleaños de **${target.username}** fue eliminado`)  
       return channel.send(MsgRemoved)
 
@@ -76,7 +76,7 @@ module.exports = {
     if (!bday) return channel.send(new MessageEmbed().setColor('RED').setDescription(`Aún no tenemos el cumpleaños de **${target.username}**`));
 
     const MsgBday = new MessageEmbed()
-        .setColor('#f0ff7a')
+        .setColor('#ffe47a')
         .setDescription(`El cumpleaños de **${target.username}** es el \`${bday.day}\``)
 
     return channel.send(MsgBday)
