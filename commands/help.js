@@ -19,7 +19,7 @@ module.exports = { //ESTA PRONTO
             .setAuthor('Comandos del Bot JeeS', msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .setThumbnail(msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addFields(
-              commands.filter(command => (!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador'))).map(comando => ({
+              commands.filter(command => (!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador')) && command.name !== 'mod').map(comando => ({
                 name: comando.name, 
                 value: `\`${prefix}${comando.name} ${(comando.usage ? comando.usage : '')}\``, inline: true
               }))

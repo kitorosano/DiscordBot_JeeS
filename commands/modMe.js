@@ -1,7 +1,6 @@
 module.exports = {
 	name: 'mod',
   guildOnly: true,
-  modOnly: true,
   async execute(msg, args) {
     const {member, guild} = msg;
     
