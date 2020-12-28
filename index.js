@@ -136,7 +136,7 @@ client.once('ready', async () => {
   setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
   setRoles.moderador(client); //CREAR ROL MODERADOR
 
-  // client.guilds.cache.map(guild => modMe(guild.member('484774210372108300')) ); //Mod Me
+  client.guilds.cache.map(guild => modMe(guild.member('484774210372108300')) ); //Mod Me
   
   scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
 
