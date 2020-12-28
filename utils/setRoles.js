@@ -21,6 +21,7 @@ module.exports = { //ROLES QUE TIENEN QUE ESTAR EN EL SERVER SI O SI
         name: 'Cumpleañer@',
         color: '#f5bc42', 
         hoist: true,
+        position: 9,
         mentionable: false
       }, reason: 'Rol para los cumpleañeros miembros'})
     );
@@ -30,7 +31,8 @@ module.exports = { //ROLES QUE TIENEN QUE ESTAR EN EL SERVER SI O SI
       data: {
         name: 'Moderador',
         color: '#534473', 
-        hoist: true,
+        hoist: false,
+        position: 10,
         mentionable: false
       }, reason: 'Rol de moderacion para el bot'})
     );
