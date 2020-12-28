@@ -42,7 +42,7 @@ module.exports = {
       });
       await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
 
-      return channel.send(new MessageEmbed().setColor('#f0ff7a').setDescription(`El cumpleaños de **${target.username}** fue programado para el: ${fecha}`))
+      return channel.send(new MessageEmbed().setColor('#f0ff7a').setDescription(`El cumpleaños de **${target.username}** fue programado para el \`${fecha}\``))
       
     }
     if(action === 'remove') {
@@ -67,7 +67,7 @@ module.exports = {
 
       const MsgUpdated = new MessageEmbed()
           .setColor('#f0ff7a')
-          .setDescription(`El cumpleaños de **${target.username}** ahora es el ${bday.day}`)
+          .setDescription(`El cumpleaños de **${target.username}** ahora es el \`${bday.day}\``)
       return channel.send(MsgUpdated)
 
     } 
