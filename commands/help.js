@@ -13,18 +13,19 @@ module.exports = { //ESTA PRONTO
     const { commands } = msg.client;
     const data = [];
 
-    const comandos = commands.map(command => (!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador')) ? { 
-      name: command.name, 
-      value: `\`${prefix}${command.name} ${(command.usage ? command.usage : '')}\``, inline: true
-    } : null)
-    console.log(comandos)
+    const comandos = commands.filter(command => (!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador')))
 
     if (!args.length) {
       const commandsMsg = new MessageEmbed()
             .setColor('WHITE')
             .setAuthor('Comandos del Bot JeeS', msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .setThumbnail(msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
-            .addFields(comandos)
+            .addFields(
+              comandos.map(comando => ({
+                name: comando.name, 
+                value: `\`${prefix}${comando.name} ${(comando.usage ? comando.usage : '')}\``, inline: true
+              }))
+            )
             .setFooter('[ ] opcional  |  < > obligatorio');
 
       return msg.author.send(commandsMsg)
