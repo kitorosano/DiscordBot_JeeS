@@ -27,7 +27,7 @@ module.exports = {
     
     // check if auhtor is mod or admin for add/remove/update
     if((action === 'add' || action === 'remove' || action === 'update') && !member.roles.cache.find(role => role.name === 'Moderador')){
-      return channel.send(`:no_pedestrians: **${member.displayName}**,alto ahí pantalones cuadrados.`)
+      return channel.send(`:no_pedestrians: Alto ahí **${member.user.username}** pantalones cuadrados.`)
     }
 
     if(action === 'add') {
