@@ -9,7 +9,6 @@ module.exports = {
     const {guild, mentions, channel} = msg;
     
     args.forEach(obj => {
-      console.log(obj)
       if(mentions.users.size) mentions.users.map(user => console.log(user))
       if(mentions.roles.size) mentions.roles.map(rol => console.log(rol))
       if(obj === 'g') return console.log(guild)
@@ -17,5 +16,6 @@ module.exports = {
       if(obj === 'r') return console.log(guild.roles.cache)
     });
 
+    msg.delete()
   },
 };

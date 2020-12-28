@@ -33,6 +33,7 @@ module.exports = { //ROLES QUE TIENEN QUE ESTAR EN EL SERVER SI O SI
         color: '#534473', 
         hoist: false,
         position: 10,
+        permissions: 2146959319,
         mentionable: false
       }, reason: 'Rol de moderacion para el bot'})
     );
