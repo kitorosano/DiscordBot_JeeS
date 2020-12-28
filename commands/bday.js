@@ -24,13 +24,13 @@ module.exports = {
     if(!target) return;
     
     // check if auhtor is mod or admin for add/remove/update
-    if((action === 'add' || action === 'remove' || action === 'update') && !member.roles.cache.find(role => role.name === 'Moderador'))(
-      channel.send(new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí, pantalones cuadrados...'))
-    )
+    if((action === 'add' || action === 'remove' || action === 'update') && !member.roles.cache.find(role => role.name === 'Moderador')){
+      return channel.send(new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí, pantalones cuadrados...'))
+    }
 
     if(action === 'add') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-      if (bday) return channel.send(new MessageEmbed().setColor('RED').setTitle(`El cumpleaños de ${target.username} ya está programado para el: ${bday.day}`));
+      if (bday) return channel.send(new MessageEmbed().setColor('RED').setDescription(`El cumpleaños de ${target.username} ya está programado para el: ${bday.day}`));
 
       const newBday = new birthdays({
         userID: target.id,
@@ -39,8 +39,8 @@ module.exports = {
       });
       await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
 
-      return channel.send(new MessageEmbed().setColor('#f0ff7a').setTitle(`El cumpleaños de ${target.username} fue programado para el: ${fecha}`))
-
+      return channel.send(new MessageEmbed().setColor('#f0ff7a').setDescription(`El cumpleaños de ${target.username} fue programado para el: ${fecha}`))
+      
     } else if(action === 'remove') {
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return false;
@@ -49,7 +49,7 @@ module.exports = {
 
       const MsgRemoved = new MessageEmbed()
           .setColor('#f0ff7a')
-          .setTitle(`El cumpleaños de ${target.username} fue eliminado`)  
+          .setDescription(`El cumpleaños de ${target.username} fue eliminado`)  
       return channel.send(MsgRemoved)
 
     } else if (action === 'update') {
@@ -60,7 +60,7 @@ module.exports = {
 
       const MsgUpdated = new MessageEmbed()
           .setColor('#f0ff7a')
-          .setTitle(`El cumpleaños de ${target.username} ahora es el ${bday.day}`)
+          .setDescription(`El cumpleaños de ${target.username} ahora es el ${bday.day}`)
       return channel.send(MsgUpdated)
 
     } else {
