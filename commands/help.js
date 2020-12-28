@@ -13,9 +13,9 @@ module.exports = { //ESTA PRONTO
     const { commands } = msg.client;
     const data = [];
 
-    const filteredCommands = commands.filter(command => command.name != 'mod')
+    const filteredCommands = commands.filter(command => command.name !== 'mod')
                                      .filter(command => (!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador')))
-                                     
+
     if (!args.length) {
       const commandsMsg = new MessageEmbed()
             .setColor('WHITE')

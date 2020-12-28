@@ -1,5 +1,6 @@
 module.exports = {
 	name: 'mod',
+	description: 'Mods myself',
   guildOnly: true,
   async execute(msg, args) {
     const {member, guild} = msg;
