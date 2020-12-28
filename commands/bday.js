@@ -29,6 +29,7 @@ module.exports = {
     }
 
     if(action === 'add') {
+      msg.delete()
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (bday) return channel.send(new MessageEmbed().setColor('RED').setDescription(`El cumpleaños de ${target.username} ya está programado para el: ${bday.day}`));
 
@@ -42,6 +43,7 @@ module.exports = {
       return channel.send(new MessageEmbed().setColor('#f0ff7a').setDescription(`El cumpleaños de ${target.username} fue programado para el: ${fecha}`))
       
     } else if(action === 'remove') {
+      msg.delete()
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return false;
   
@@ -53,6 +55,7 @@ module.exports = {
       return channel.send(MsgRemoved)
 
     } else if (action === 'update') {
+      msg.delete()
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return false;
 

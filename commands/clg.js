@@ -7,6 +7,7 @@ module.exports = {
   modOnly: true,
   async execute(msg, args) {
     const {author,guild, mentions, channel} = msg;
+    msg.delete()
     
     if(!args.length) return console.log(author);
     args.forEach(obj => {
@@ -17,6 +18,5 @@ module.exports = {
       if(obj === 'r') return console.log(guild.roles.cache)
     });
 
-    msg.delete()
   },
 };
