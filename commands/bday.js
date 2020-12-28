@@ -19,6 +19,7 @@ module.exports = {
   async execute(msg, args) {
     const {member, guild, mentions, channel} = msg;
     const [who, action, fecha] = args;
+    console.log(action)
 
     const target = mentions.users.first();
     if(!target) return;
@@ -40,7 +41,7 @@ module.exports = {
       });
       await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
 
-      return channel.send(new MessageEmbed().setColor('#f0ff7a').setDescription(`El cumpleaños de ${target.username} fue programado para el: ${fecha}`))
+      return channel.send(new MessageEmbed().setColor('#f0ff7a').setDescription(`El cumpleaños de **${target.username}** fue programado para el: ${fecha}`))
       
     } else if(action === 'remove') {
       msg.delete()
