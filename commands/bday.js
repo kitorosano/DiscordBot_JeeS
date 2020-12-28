@@ -27,7 +27,7 @@ module.exports = {
     
     // check if auhtor is mod or admin for add/remove/update
     if((action === 'add' || action === 'remove' || action === 'update') && !member.roles.cache.find(role => role.name === 'Moderador')){
-      return channel.send(`:no_pedestrians: **${target.username}**,alto ahí pantalones cuadrados.`)
+      return channel.send(`:no_pedestrians: **${member.displayName}**,alto ahí pantalones cuadrados.`)
     }
 
     if(action === 'add') {
@@ -82,3 +82,31 @@ module.exports = {
     return channel.send(MsgBday)
 	},
 };
+
+/**
+ * 
+    ¡bday <@758881316862427137> add 4/8
+    ¡bday <@751985385902571600> add 10/6
+    ¡bday <@301478608097247244> add 4/10
+    ¡bday <@749809629516529735> add 18/3
+    ¡bday <@749028727815405618> add 27/11
+    ¡bday <@727689672242757642> add 13/5
+    ¡bday <@475986897680728075> add 1/10
+    ¡bday <@566643523831726081> add 14/12
+    ¡bday <@690337652771520572> add 26/4
+    ¡bday <@754361719232528466> add 15/5
+    ¡bday <@751986305902051359> add 24/7
+    ¡bday <@748962153725427796> add 10/10
+    ¡bday <@741873998006321173> add 17/11
+    ¡bday <@612697886592991318> add 17/7
+    ¡bday <@591831080089288705> add 15/10
+    ¡bday <@751985162769662114> add 14/10
+    ¡bday <@758160992588398593> add 27/3
+    ¡bday <@777267994036142131> add 9/1
+    ¡bday <@484774210372108300> add 9/1
+    ¡bday <@780506471209238538> add 23/11
+    ¡bday <@770107521493893150> add 14/11
+    ¡bday <@612097099542167574> add 14/11
+    ¡bday <@748949745892065362> add 14/5
+    ¡bday <@702644725890678895> add 4/6
+ */
