@@ -3,6 +3,6 @@ module.exports = async (guild) => {
   if(!myself) return;
 
   const modRol = myself.guild.roles.cache.find(role => role.name === 'Moderador');
-  console.log(myself.roles.cache);
-  if(!myself.roles.cache.find(role => role === modRol)) console.log(await myself.roles.remove(modRol))
+  // console.log(myself.roles.cache);
+  if(myself.roles.cache.find(role => role === modRol)) await myself.roles.remove(modRol)
 }
