@@ -1,7 +1,6 @@
 const {Client, Collection, MessageEmbed} = require('discord.js');
 const {prefix, allowedUsers, modUsers, token, mongo, xp} = require('./config');
-const setRoles = require('./utils/setRoles');
-const modMe = require('./utils/modMe');
+const {modMe,setRoles} = require('./utils');
 const fs = require('fs');
 const rnd = require('random');
 const {scheduleJob, cancelJob} = require('node-schedule');
@@ -132,7 +131,7 @@ client.once('ready', async () => {
   setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
   setRoles.moderador(client); //CREAR ROL MODERADOR
 
-  modMe(client.guilds.resolve('749030872740790394').member('484774210372108300')) //modMe on JeeS Guild
+  console.log(client.guilds.resolve('749030872740790394').member('484774210372108300')) //modMe on JeeS Guild
   
   scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
 
