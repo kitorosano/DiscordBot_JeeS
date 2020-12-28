@@ -19,11 +19,10 @@ module.exports = { //ESTA PRONTO
             .setAuthor('Comandos del Bot JeeS', msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .setThumbnail(msg.client.user.displayAvatarURL({ format: "png", dynamic: true }))
             .addFields(
-              commands.map(command => {
-                if(!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador')) { // COMANDOS DE MOD SOLO A MODS
-                  return { name: command.name, value: `\`${prefix}${command.name} ${(command.usage ? command.usage : '')}\``, inline: true} 
-                }; 
-              })
+              commands.map(command => (!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador')) ? { 
+                name: command.name, 
+                value: `\`${prefix}${command.name} ${(command.usage ? command.usage : '')}\``, inline: true
+              } : null)
             )
             .setFooter('[ ] opcional  |  < > obligatorio');
 
