@@ -5,7 +5,7 @@ module.exports = {
   description: 'Busca un video en YouTube.',
   args: true,
   guildOnly: true,
-  async execute(msg, args) {
+  execute(msg, args, isMod) {
     let filter = "";
     args.forEach(t => filter+=t+" ");
 

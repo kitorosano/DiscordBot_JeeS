@@ -6,7 +6,7 @@ module.exports = {
 	name: 'gracias',
   description: 'El bot te reponde al gracias.',
   cooldown: 10,
-  async execute(msg, args) {
+  execute(msg, args, isMod) {
     const replies = [
       `De nada, ${msg.author} :sunglasses:`,
       `${msg.author}, cuando necesites maestro.`,

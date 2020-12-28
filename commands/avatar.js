@@ -5,7 +5,7 @@ module.exports = {
   aliases: ['icon'],
   description: 'Muestra el avatar del usuario mencionado',
   guildOnly: true,
-  execute(msg, args) {
+  execute(msg, args, isMod) {
     if (!msg.mentions.users.size) {
       return msg.channel.send(`Your avatar:`, new MessageAttachment(msg.author.displayAvatarURL({ format: "png", dynamic: true })), 'this');
     }

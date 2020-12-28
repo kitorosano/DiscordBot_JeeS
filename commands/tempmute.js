@@ -8,7 +8,7 @@ module.exports = {
   guildOnly: true,
   modOnly: true,
   args: true,
-  async execute(msg, args) {
+  async execute(msg, args, isMod) {
     const [who, time,...why] = args;
     const {guild, mentions,channel} = msg;
 

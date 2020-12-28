@@ -7,7 +7,7 @@ module.exports = {
   guildOnly: true,
   modOnly: true,
   args: true,
-  async execute(msg, args) {
+  execute(msg, args, isMod) {
     const {guild, mentions, channel} = msg;
     const [who, ...why] = args;
     const razon = why.length > 0 ? why.join(' ') : 'Sin especificar';

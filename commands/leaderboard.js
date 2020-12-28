@@ -10,7 +10,7 @@ module.exports = {
   aliases: ["levels", "dashboard", "top", "lb"],
   usage: "[limite]",
   guildOnly: true,
-  async execute(msg, args) {
+  async execute(msg, args, isMod) {
     const {channel, author, guild, client} = msg
 
     if (!args.length) args = [10];

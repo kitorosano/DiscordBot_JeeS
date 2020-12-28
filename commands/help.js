@@ -9,12 +9,12 @@ module.exports = { //ESTA PRONTO
 	aliases: ['commands'],
 	usage: '[comando]',
 	cooldown: 5,
-	execute(msg, args) {
+	execute(msg, args, isMod) {
     const { commands } = msg.client;
     const data = [];
 
     const filteredCommands = commands.filter(command => command.name !== 'mod')
-                                     .filter(command => (!command.modOnly || msg.member.roles.cache.find(role => role.name === 'Moderador')))
+                                     .filter(command => (!command.modOnly || isMod))
 
     if (!args.length) {
       const commandsMsg = new MessageEmbed()
@@ -24,7 +24,8 @@ module.exports = { //ESTA PRONTO
             .addFields(
               filteredCommands.map(comando => ({
                 name: comando.name, 
-                value: `\`${prefix}${comando.name} ${(comando.usage ? comando.usage : '')}\``, inline: true
+                value: `\`${prefix}${comando.name} ${isMod ? (comando.modUsage ? comando.modUsage : (comando.usage ? comando.usage : '')) : (comando.usage ? comando.usage : '')}\``, 
+                inline: true
               }))
             )
             .setFooter('[ ] opcional  |  < > obligatorio');

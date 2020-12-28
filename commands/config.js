@@ -10,7 +10,7 @@ module.exports = {
   usage: '<option> <value>',
   guildOnly: true,
   modOnly: true,
-  async execute(msg, args) {
+  async execute(msg, args, isMod) {
 
   } 
 }

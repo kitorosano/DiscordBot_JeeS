@@ -79,7 +79,8 @@ client.on('message', async (msg) => {
   if (!command) return; //OBTENER COMANDO O SU ALIAS, Y SI ESTE NO EXISTE TERMINAR
   
   // const MsgNoMod = new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí pantalones cuadrados... :eyes:')
-  if(command.modOnly && !member.roles.cache.find(role => role.name == 'Moderador' )) {// MENSAJE PARA COMANDOS SOLO DE MODERADORES
+  const isMod = member.roles.cache.find(role => role.name === 'Moderador');
+  if(command.modOnly && !isMod) {// MENSAJE PARA COMANDOS SOLO DE MODERADORES
     return channel.send(`:no_pedestrians: **${author.username}**,alto ahí pantalones cuadrados.`) 
   } 
 
@@ -116,7 +117,7 @@ client.on('message', async (msg) => {
   setTimeout(() => timestamps.delete(author.id), cooldownAmount);
 
   try { //ejecutar
-    command.execute(msg, args);
+    command.execute(msg, args, isMod);
   } catch (error) {
     console.error(error);
     const MsgError = new MessageEmbed().setColor("RED").setAuthor('Ha ocurrido un error al ejecutar el comando!');

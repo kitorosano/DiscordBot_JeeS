@@ -5,7 +5,7 @@ module.exports = {
   description: 'Reproduce musica desde YouTube',
   args: true,
   guildOnly: true,
-  async execute(msg, args) {
+  async execute(msg, args, isMod) {
     if (msg.member.voice.channel) {
       const connection = await msg.member.voice.channel.join();
     }

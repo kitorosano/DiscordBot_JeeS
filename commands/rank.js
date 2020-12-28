@@ -9,7 +9,7 @@ module.exports = {
   aliases: ['xp','lvl'],
   usage: '[usuario]',
   guildOnly: true,
-  async execute(msg, args) {
+  async execute(msg, args, isMod) {
     const {author, guild, mentions, channel} = msg;
 		if (!mentions.users.size) {
       const user = await Levels.fetch(author.id, guild.id, true);

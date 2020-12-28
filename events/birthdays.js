@@ -1,6 +1,6 @@
 const {MessageEmbed} = require('discord.js');
 const mongoose = require("mongoose");
-const birthdays = require("../models/birthdays.model");
+const birthdayEvent = require("../models/birthdays.model");
 // const config = require("../models/config.model");
 let {mongo} = require('../config');
 const {scheduleJob, cancelJob} = require('node-schedule');
@@ -16,8 +16,8 @@ const months = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul
 module.exports = { 
   async getEvents(today) {
     const day = `${today[2]}/${months[today[1]]}`
-    const birthday = await birthdays.find({ day });
-    return birthday;
+    const events = await birthdayEvent.find({ day });
+    return events;
   /**[ { guildID, userID, day("8/11"), time("00:01")}, {...}, {...} ] */
   },
   async execute(event, client) {
@@ -32,9 +32,9 @@ module.exports = {
 
 
     const MsgBday = new MessageEmbed()
-    .setColor('YELLOW')
-    .setAuthor(`¡Hay un Cumpleañer@ entre nosotros!`, member.user.displayAvatarURL())
-    .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor JeeS :partying_face:`)
+        .setColor('YELLOW')
+        .setAuthor(`¡Hay un Cumpleañer@ entre nosotros!`, member.user.displayAvatarURL())
+        .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor JeeS :partying_face:`)
 
     channel.send('@everyone');
     channel.send(MsgBday);

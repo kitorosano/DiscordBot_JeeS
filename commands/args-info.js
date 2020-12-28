@@ -5,7 +5,7 @@ module.exports = {
 	disable: true,
   usage: '<argumentos>',
   guildOnly: true,
-  execute(msg, args) {
+  execute(msg, args, isMod) {
 		if (args[0] === 'foo') {
 			return message.channel.send('bar');
 		}

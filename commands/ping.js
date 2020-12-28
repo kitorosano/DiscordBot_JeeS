@@ -1,10 +1,10 @@
 module.exports = {
+  disable: true,
   name: 'ping',
   description: 'Tiempo de respuesta del bot a tus mensajes',
   guildOnly: true,
-  disable: true,
   cooldown: 5,
-  execute(msg, args) {
+  execute(msg, args, isMod) {
     msg.channel.send('pong');
   }
 }

@@ -5,7 +5,7 @@ module.exports = {
   description: 'Console-Log a la propiedad dispuesta, para debuggear.',
   usage: '[ g=guild / c=channel / @MEMBER / @ROL]',
   modOnly: true,
-  async execute(msg, args) {
+  async execute(msg, args, isMod) {
     const {author,guild, mentions, channel} = msg;
     msg.delete()
     

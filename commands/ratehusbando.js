@@ -8,7 +8,7 @@ module.exports = {
   usage: '<tu_husbando>',
   guildOnly: true,
   args: true,
-  execute(msg, args) {
+  execute(msg, args, isMod) {
     const {author,channel, guild, mentions} = msg;
     let husbando = mentions.users.find(user => user.username == args[0] ? user : args.join(' '))
     console.log(guild.members.cache.map(member => member.user.username));

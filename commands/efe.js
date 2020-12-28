@@ -6,7 +6,7 @@ module.exports = {
   aliases: ['f'],
   usage: '[usuario]',
   guildOnly: true,
-  async execute(msg, args) {
+  execute(msg, args, isMod) {
 		if (!msg.mentions.users.size) { 
       msg.delete()
       return msg.channel.send("***F***")

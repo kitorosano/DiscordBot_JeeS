@@ -8,7 +8,7 @@ module.exports = {
   usage: '<usuario>',
   cooldown: 10,
   guildOnly: true,
-  async execute(msg, args) {
+  execute(msg, args, isMod) {
     return msg.channel.send(`${args[0]}... sos lamentable`)
   }
 	

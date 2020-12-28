@@ -14,9 +14,10 @@ module.exports = {
 	name: 'bday',
   description: 'Manejar cumpleaños',
   aliases: ['birthday'],
-  usage: '<usuario> ([add/remove/update] [dia/mes])',
+  usage: '[usuario]',
+  modUsage: '<usuario> [add/remove/update] [dia/mes]',
   guildOnly: true,
-  async execute(msg, args) {
+  async execute(msg, args, isMod) {
     const {member, author,guild, mentions, channel} = msg;
     let [who, action, fecha] = args;
 
@@ -24,7 +25,7 @@ module.exports = {
     if(!target) target = author;
     
     // SI SE ESPECIFICA UNA ACCION PERO NO ES UN MODERADOR, SIMPLEMENTE LE MOSRTAMOS LA INFO DEL CUMPLEAÑERO  
-    if((action === 'add' || action === 'remove' || action === 'update') && !member.roles.cache.find(role => role.name === 'Moderador')) action = undefined;
+    if((action === 'add' || action === 'remove' || action === 'update') && !isMod) action = undefined;
       // {return channel.send(`:no_pedestrians: Alto ahí **${member.user.username}** pantalones cuadrados.`)}
 
     if(action === 'add') {
