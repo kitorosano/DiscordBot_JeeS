@@ -1,5 +1,7 @@
 .env
-node_modules/
+.package.json
 bot_IDs
 ideas.txt
+
+node_modules/
 messages/
