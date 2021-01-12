@@ -4,7 +4,7 @@ module.exports = {
   name: 'leave',
   description: 'Expulsa al bot del canal de voz actual del usuario',
   guildOnly: true,
-  execute(msg, args, isMod) {
+  async execute(msg, args, isMod) {
     if (msg.member.voice.channel) {
       await msg.member.voice.channel.leave();
     }
