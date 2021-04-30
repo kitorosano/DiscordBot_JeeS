@@ -6,6 +6,7 @@ const {MessageEmbed, MessageAttachment} = require('discord.js');
 module.exports = {
 	name: 'user-info',
   description: 'Muestra informacion del usuario en el servidor.',
+  aliases: ['profile'],
   usage: '[usuario]',
   // disable: true,
   guildOnly: true,

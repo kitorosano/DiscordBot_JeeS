@@ -29,7 +29,7 @@ module.exports = {
       // {return channel.send(`:no_pedestrians: Alto ahí **${member.user.username}** pantalones cuadrados.`)}
 
     if(action === 'add') {
-      msg.delete()
+      // msg.delete()
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (bday) return channel.send(new MessageEmbed().setColor('RED').setDescription(`El cumpleaños de **${target.username}** ya está programado para el: ${bday.day}`));
 
@@ -44,7 +44,7 @@ module.exports = {
       
     }
     if(action === 'remove') {
-      msg.delete()
+      // msg.delete()
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return false;
   
@@ -57,7 +57,7 @@ module.exports = {
 
     }
     if (action === 'update') {
-      msg.delete()
+      // msg.delete()
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
       if (!bday) return false;
 

@@ -34,7 +34,7 @@ for (const file of commandFiles) {
       const id = 'initEvent-'+ singleEventData._id.toString(),
             formattedTime = singleEventData.time.split(':'),
             minute = parseInt(formattedTime[1]);
-      let   hour   = parseInt(formattedTime[0]) + 3;
+      let   hour   = parseInt(formattedTime[0]) + 3; //por el GMT-3
       if (hour > 23) hour -= 24;
       
       scheduleJob(id,`${minute} ${hour} * * *`, async () => {
@@ -103,7 +103,7 @@ client.on('message', async (msg) => {
   
   const now = Date.now();
   const timestamps = cooldowns.get(command.name);
-  const cooldownAmount = (command.cooldown || 3) * 1000;
+  const cooldownAmount = (command.cooldown || 2) * 1000;
   
   if (timestamps.has(author.id)) {
     const expirationTime = timestamps.get(author.id) + cooldownAmount;
@@ -128,9 +128,9 @@ client.on('message', async (msg) => {
 
 /** COMPROBAR AL INICIAR EL BOT */
 client.once('ready', async () => {
-  setRoles.silenciado(client); //CREAR ROL SILENCIADO
-  setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
-  setRoles.moderador(client); //CREAR ROL MODERADOR
+  // setRoles.silenciado(client); //CREAR ROL SILENCIADO
+  // setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
+  // setRoles.moderador(client); //CREAR ROL MODERADOR
   
   // modMe(client.guilds.resolve('749030872740790394')) //modMe on JeeS Guild when bot restarts
   
