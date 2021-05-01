@@ -5,7 +5,7 @@ const bdaysSchema = new mongoose.Schema({
   userID: { type: String },
   day: { type: String },
   time: { type: String, default: "00:01" },
-  done: {type: Boolean, default: false}
+  mention: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model("Birthdays", bdaysSchema);
