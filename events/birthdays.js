@@ -29,8 +29,8 @@ module.exports = {
 
     const initID = 'initEvent-'+ event._id.toString();
     let formattedTime, minute, hour;
-    if(!singleEventData.mention) {
-      formattedTime = singleEventData.time.split(':');
+    if(!event.mention) {
+      formattedTime = event.time.split(':');
       minute = parseInt(formattedTime[1]);
       hour = parseInt(formattedTime[0]) + 3; //por el GMT-3
       if (hour > 23) hour -= 24;
@@ -72,11 +72,6 @@ module.exports = {
       })
 
     })
-
-
-
-
-
   },
 };
 
