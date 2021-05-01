@@ -45,8 +45,8 @@ module.exports = {
       // const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
       const roles = await guild.roles.fetch();
       const BdayRole = roles.cache.find(role => role.name === 'Cumpleañer@');
-      console.log(BdayRole)
       member.roles.add(BdayRole)
+      console.log(member.roles)
 
       if(!event.mention) {
         const MsgBday = new MessageEmbed()

@@ -20,7 +20,7 @@ for (const file of commandFiles) {
 /** */ 
 
 /** INICIALIZAR EVENTOS DEL DIA */
-(async function restartEvents(){ 
+const restartEvents = async() =>{ 
   const today = new Date().toDateString().split(' '); // Obtener fecha de hoy
   // console.log(today);
   const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
@@ -35,7 +35,7 @@ for (const file of commandFiles) {
       typeEvent.execute(singleEventData,client);
     })
   } 
-}());
+};
 
 scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
 /** */
