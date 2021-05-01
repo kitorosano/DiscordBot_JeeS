@@ -47,9 +47,11 @@ module.exports = {
     scheduleJob(id,'59 2 * * *', () => {
       member.roles.remove(BdayRole)
 
-      const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
-      if (!bday) return false;
-      await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { done: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
+      (async function restartBday(){
+        const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
+        if (!bday) return false;
+        await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { done: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
+      }())
 
       cancelJob(id)
     })
