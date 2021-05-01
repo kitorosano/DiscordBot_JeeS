@@ -141,7 +141,7 @@ client.on('message', async (msg) => {
 
 
 /** COMPROBAR AL INICIAR EL BOT */
-client.once('ready', async () => {
+client.on('ready', async () => {
   // setRoles.silenciado(client); //CREAR ROL SILENCIADO
   // setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
   // setRoles.moderador(client); //CREAR ROL MODERADOR
