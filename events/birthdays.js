@@ -21,21 +21,34 @@ module.exports = {
   /**[ { guildID, userID, day("8/11"), time("00:01")}, {...}, {...} ] */
   },
   async execute(event, client) {
-    const guild = await client.guilds.fetch(event.guildID);
     // const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
     const channel = guild.channels.resolve('837826705678532608'); //HERE TEST CHANNEL FROM GUILD/SERVER
     const member = await guild.members.fetch(event.userID);
-
+    const guild = await client.guilds.fetch(event.guildID);
     if(!channel || !member.user) return console.log("HAY ALGO QUE NO HAY");
 
-    // const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
-    const roles = await guild.roles.fetch();
-    console.log(roles)
-    const BdayRole = roles.filter(role => role.name === 'Cumpleañer@');
-    member.roles.add(BdayRole)
-    // ARREGLAR ACA CUANDO SE DA EL ROL.
+    const initID = 'initEvent-'+ event._id.toString();
+    let formattedTime, minute, hour;
+    if(!singleEventData.mention) {
+      formattedTime = singleEventData.time.split(':');
+      minute = parseInt(formattedTime[1]);
+      hour = parseInt(formattedTime[0]) + 3; //por el GMT-3
+      if (hour > 23) hour -= 24;
+    } else {
+      formattedTime = new Date().toLocaleString().split(' ')[1].split(':');
+      hour = formattedTime[0];
+      minute = formattedTime[1] + 1
+    }
 
-    if(!event.mention) {
+    scheduleJob(initID,`${minute} ${hour} * * *`, async () => {
+
+      // const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
+      const roles = await guild.roles.fetch();
+      console.log(roles)
+      const BdayRole = roles.filter(role => role.name === 'Cumpleañer@');
+      member.roles.add(BdayRole)
+      // ARREGLAR ACA CUANDO SE DA EL ROL.
+
       const MsgBday = new MessageEmbed()
           .setColor('YELLOW')
           .setAuthor(`¡Hay un Cumpleañer@ entre nosotros!`, member.user.displayAvatarURL())
@@ -43,20 +56,27 @@ module.exports = {
 
       channel.send('@everyone');
       channel.send(MsgBday);
-    }
 
-    let id = 'endBday-' + event._id.toString();
-    scheduleJob(id,'59 2 * * *', () => {
-      member.roles.remove(BdayRole)
+      /*APAGAR EL EVENTO*/
+      const endID = 'endBday-' + event._id.toString();
+      scheduleJob(endID,'59 2 * * *', () => {
+        member.roles.remove(BdayRole)
+  
+        (async function restartBday(){
+          const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
+          if (!bday) return false;
+          await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
+        }())
+  
+        cancelJob(id)
+      })
 
-      (async function restartBday(){
-        const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
-        if (!bday) return false;
-        await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
-      }())
-
-      cancelJob(id)
     })
+
+
+
+
+
   },
 };
 
