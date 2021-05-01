@@ -16,9 +16,7 @@ const months = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul
 module.exports = { 
   async getEvents(today) {
     const day = `${parseInt(today[2])}/${months[today[1]]}`
-    console.log(day)
     const events = await birthdayEvent.find({ day });
-    console.log(day)
     return events;
   /**[ { guildID, userID, day("8/11"), time("00:01")}, {...}, {...} ] */
   },
@@ -29,21 +27,30 @@ module.exports = {
 
     if(!channel || !member.user) return console.log("HAY ALGO QUE NO HAY");
 
-    const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
+    // const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
+    const roles = await guild.roles.fetch();
+    const BdayRole = roles.filter(role => role.name === 'Cumpleañer@');
     member.roles.add(BdayRole)
 
 
-    const MsgBday = new MessageEmbed()
-        .setColor('YELLOW')
-        .setAuthor(`¡Hay un Cumpleañer@ entre nosotros!`, member.user.displayAvatarURL())
-        .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor JeeS :partying_face:`)
+    if(!event.mention) {
+      const MsgBday = new MessageEmbed()
+          .setColor('YELLOW')
+          .setAuthor(`¡Hay un Cumpleañer@ entre nosotros!`, member.user.displayAvatarURL())
+          .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`)
 
-    channel.send('@everyone');
-    channel.send(MsgBday);
+      channel.send('@everyone');
+      channel.send(MsgBday);
+    }
 
     let id = 'endBday-' + event._id.toString();
     scheduleJob(id,'59 2 * * *', () => {
       member.roles.remove(BdayRole)
+
+      const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
+      if (!bday) return false;
+      await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { done: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
+
       cancelJob(id)
     })
   },

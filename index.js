@@ -29,10 +29,8 @@ for (const file of commandFiles) {
     
     const typeEvents = await typeEvent.getEvents(today) //Obtener entradas del dia para este tipo de evento
     if(!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
-    console.log(typeEvents.length);
     
     typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno
-      console.log(singleEventData);
       const id = 'initEvent-'+ singleEventData._id.toString(),
             formattedTime = singleEventData.time.split(':'),
             minute = parseInt(formattedTime[1]);
