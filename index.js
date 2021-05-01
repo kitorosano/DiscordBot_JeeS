@@ -127,24 +127,8 @@ client.on('message', async (msg) => {
 });
 /** */ 
 
-client.on('message', async (msg) => {
-  let {channel, member, content} = msg;
-  if(content !== '¡reset' && content !== '¡restart') return;
-  const isMod = member.roles.cache.find(role => role.name === 'Moderador');
-  if(!isMod) return;
-
-  channel.send('*Reiniciando...*')
-  .then(() => {
-    client.destroy().then(() => {
-      client.login(token)
-    })
-  });
-
-});
-
-
-/** COMPROBAR AL INICIAR EL BOT */
-client.on('ready', async () => {
+const startUp = async(client) => { //Al iniciar le bot
+  
   // setRoles.silenciado(client); //CREAR ROL SILENCIADO
   // setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
   // setRoles.moderador(client); //CREAR ROL MODERADOR
@@ -158,6 +142,28 @@ client.on('ready', async () => {
 
   const testChannel = await client.channels.fetch('837826705678532608');
   testChannel.send('**Bot Iniciado, buenos dias!**');
+}
+
+client.on('message', async (msg) => { //Reset Bot - comando aparte
+  let {channel, member, content} = msg;
+  if(content !== '¡reset' && content !== '¡restart') return;
+  const isMod = member.roles.cache.find(role => role.name === 'Moderador');
+  if(!isMod) return;
+
+  channel.send('*Reiniciando...*')
+  .then(() => {
+    client.destroy().then(() => {
+      client.login(token)
+    })
+  });
+  startUp(client);
+
+});
+
+
+/** COMPROBAR AL INICIAR EL BOT */
+client.on('ready', async () => {
+  startUp(client);
 });
 
 
