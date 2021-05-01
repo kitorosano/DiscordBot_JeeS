@@ -1,6 +1,6 @@
 const {Client, Collection, MessageEmbed} = require('discord.js');
 const {prefix, allowedUsers, modUsers, token, mongo, xp} = require('./config');
-// const {modMe,setRoles} = require('./utils');
+const {modMe,setRoles} = require('./utils');
 const fs = require('fs');
 const rnd = require('random');
 const {scheduleJob, cancelJob} = require('node-schedule');
