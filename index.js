@@ -149,7 +149,8 @@ client.once('ready', async () => {
 
   console.log('Bot Connected');
   client.user.setActivity('ser un bot');
-  client.channels.fetch('837826705678532608').send('**Buenos dias!**');
+  const testChannel = await client.channels.fetch('837826705678532608')
+  testChannel.send('**Bot Iniciado, buenos dias!**');
 });
 
 
