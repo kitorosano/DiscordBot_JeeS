@@ -67,7 +67,8 @@ client.on('message', async (msg) => {
     const MsgLvlUp = new MessageEmbed()
             .setColor('#ADC00')
             .setDescription(`¡Felicidades **${author.username}**! Ahora eres **nivel ${level}**!. :confetti_ball: `)
-    channel.send(MsgLvlUp)
+    const rankChannel = await client.channels.fetch('772141688444682272'); //enviar mensaje al canal de spam
+    rankChannel.send(MsgLvlUp)
   }
   
   if (!content.startsWith(prefix)) return; //TERMINAR SI NO ES UN COMANDO
@@ -133,9 +134,11 @@ client.on('message', async (msg) => {
   if(!isMod) return;
 
   channel.send('*Reiniciando...*')
-  .then(m => setTimeout(() => { m.delete() },3000))
-  .then(() => client.destroy()
-  .then(() => client.login(token)))
+  .then(() => {
+    client.destroy().then(() => {
+      client.login(token)
+    })
+  });
 
 });
 
@@ -154,8 +157,7 @@ client.on('ready', async () => {
   client.user.setActivity('ser un bot');
 
   const testChannel = await client.channels.fetch('837826705678532608');
-  testChannel.send('**Bot Iniciado, buenos dias!**')
-  .then(m => setTimeout(() => { m.delete() },5000));
+  testChannel.send('**Bot Iniciado, buenos dias!**');
 });
 
 
