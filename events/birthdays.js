@@ -22,7 +22,7 @@ module.exports = {
   },
   async execute(event, client) {
     const guild = await client.guilds.fetch(event.guildID);
-    const channel = guild.channels.resolve('556213348585439245'); //HERE MAIN CHANNEL FROM GUILD/SERVER
+    const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
     const member = await guild.members.fetch(event.userID);
 
     if(!channel || !member.user) return console.log("HAY ALGO QUE NO HAY");
