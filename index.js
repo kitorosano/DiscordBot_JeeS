@@ -134,8 +134,8 @@ client.on('message', async (msg) => {
 
   channel.send('*Reiniciando...*')
   .then(m => setTimeout(() => { m.delete() },3000))
-  .then(() => client.destroy())
-  .then(() => client.login(token))
+  .then(() => client.destroy()
+  .then(() => client.login(token)))
 
 });
 
