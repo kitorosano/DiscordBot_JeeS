@@ -15,6 +15,7 @@ const months = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul
 
 module.exports = { 
   async getEvents(today) {
+    console.log(today)
     const day = `${today[2]}/${months[today[1]]}`
     console.log(day)
     const events = await birthdayEvent.find({ day });
