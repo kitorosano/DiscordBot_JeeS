@@ -25,9 +25,7 @@ module.exports = {
     const member = await guild.members.fetch(event.userID);
     // const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
     const channel = guild.channels.resolve('837826705678532608'); //HERE TEST CHANNEL FROM GUILD/SERVER
-    console.log(channel)
     if(!channel.id || !member.user) return console.log("HAY ALGO QUE NO HAY");
-    console.log("paso")
 
     const initID = 'initEvent-'+ event._id.toString();
     let formattedTime, minute, hour;
@@ -47,20 +45,22 @@ module.exports = {
       // const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
       const roles = await guild.roles.fetch();
       const BdayRole = roles.cache.find(role => role.name === 'Cumpleañer@');
+      console.log(BdayRole)
       member.roles.add(BdayRole)
-      // ARREGLAR ACA CUANDO SE DA EL ROL.
 
-      const MsgBday = new MessageEmbed()
-          .setColor('YELLOW')
-          .setAuthor(`¡Hay un Cumpleañer@ entre nosotros!`, member.user.displayAvatarURL())
-          .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`)
+      if(!event.mention) {
+        const MsgBday = new MessageEmbed()
+            .setColor('YELLOW')
+            .setAuthor(`¡Hay un Cumpleañer@ entre nosotros!`, member.user.displayAvatarURL())
+            .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`)
 
-      channel.send('@everyone');
-      channel.send(MsgBday);
-
-      const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
-      if (!bday) return false;
-      await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: true }).catch(e => console.log(`Failed to update bday_ ${e}`))
+        channel.send('@everyone');
+        channel.send(MsgBday);
+        
+        const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
+        if (!bday) return false;
+        await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: true }).catch(e => console.log(`Failed to update bday_ ${e}`))
+      }
 
       /*APAGAR EL EVENTO*/
       const endID = 'endBday-' + event._id.toString();
