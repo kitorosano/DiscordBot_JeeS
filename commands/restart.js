@@ -11,15 +11,10 @@ module.exports = {
     
     if(!isMod) return;
 
-		client.once('ready', async () => {
-			channel.send('Buenos dias!');
-		});
-
-
 		await channel.send('Reiniciando...');
 		await	client.destroy();
 		await	client.login(token)
-
+		channel.send('Buenos dias!');
   },
 };
 
