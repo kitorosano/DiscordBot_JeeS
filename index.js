@@ -127,7 +127,8 @@ client.on('message', async (msg) => {
 /** */ 
 
 client.on('message', async (msg) => {
-  let {channel} = msg;
+  let {channel, member} = msg;
+  const isMod = member.roles.cache.find(role => role.name === 'Moderador');
   if(!isMod) return;
 
   channel.send('*Reiniciando...*');
