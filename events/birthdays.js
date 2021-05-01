@@ -56,6 +56,10 @@ module.exports = {
       channel.send('@everyone');
       channel.send(MsgBday);
 
+      const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
+      if (!bday) return false;
+      await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: true }).catch(e => console.log(`Failed to update bday_ ${e}`))
+
       /*APAGAR EL EVENTO*/
       const endID = 'endBday-' + event._id.toString();
       scheduleJob(endID,'59 2 * * *', () => {

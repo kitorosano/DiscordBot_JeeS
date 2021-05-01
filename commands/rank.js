@@ -21,7 +21,7 @@ module.exports = {
         .setAuthor(`💈TOP #${user.position} ~ ${author.username}`)
         .setThumbnail(author.displayAvatarURL({ format: "png", dynamic: true }))
         .setTitle(`Nivel:  ${user.level}`)
-        .setDescription(`**Sig:**  ${user.xp} / ${xpToNextLvl} EXP\n**Total:** ✨ ${user.totalXP} EXP`)
+        .setDescription(`**Siguiente:**  ${user.xp} / ${xpToNextLvl} EXP\n**Total:** ✨ ${user.totalXP} EXP`)
         
       return channel.send(MsgToLvlUp)
     }
