@@ -127,17 +127,9 @@ client.on('message', async (msg) => {
 });
 /** */ 
 
-const startUp = async(client) => { //Al iniciar le bot
-  
-  // setRoles.silenciado(client); //CREAR ROL SILENCIADO
-  // setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
-  // setRoles.moderador(client); //CREAR ROL MODERADOR
-  
-  // modMe(client.guilds.resolve('749030872740790394')) //modMe on JeeS Guild when bot restarts
-  
+const startUp = async(client) => { //Al iniciar le bot  
   scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
-
-  console.log('Bot Connected');
+  
   client.user.setActivity('ser un bot');
 
   const testChannel = await client.channels.fetch('837826705678532608');
@@ -151,18 +143,16 @@ client.on('message', async (msg) => { //Reset Bot - comando aparte
   if(!isMod) return;
 
   channel.send('*Reiniciando...*')
-  .then(() => {
-    client.destroy().then(() => {
-      client.login(token)
-    })
-  });
-  startUp(client);
+  .then(m => client.destroy())
+  .then(() => client.login(token));
+  await startUp(client);
 
 });
 
 
 /** COMPROBAR AL INICIAR EL BOT */
-client.on('ready', async () => {
+client.once('ready', async () => {
+  console.log('Bot Connected');
   startUp(client);
 });
 
