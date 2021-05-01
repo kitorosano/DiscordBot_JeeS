@@ -126,7 +126,7 @@ client.on('message', async (msg) => {
 });
 /** */ 
 
-client.on('message', async ({msg}) => {
+client.on('message', async (msg) => {
   let {channel, member, content} = msg;
   console.log(msg)
   if(content !== '¡reset' || content !== '¡restart') return;
