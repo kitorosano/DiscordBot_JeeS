@@ -26,8 +26,8 @@ module.exports = {
     // const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
     const channel = guild.channels.resolve('837826705678532608'); //HERE TEST CHANNEL FROM GUILD/SERVER
     console.log(channel)
-    console.log(member)
-    if(!channel || !member.user) return console.log("HAY ALGO QUE NO HAY");
+    if(!channel.id || !member.user) return console.log("HAY ALGO QUE NO HAY");
+    console.log("paso")
 
     const initID = 'initEvent-'+ event._id.toString();
     let formattedTime, minute, hour;
