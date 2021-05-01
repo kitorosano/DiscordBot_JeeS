@@ -126,9 +126,10 @@ client.on('message', async (msg) => {
 });
 /** */ 
 
-client.on('message', async (msg) => {
-  if(msg !== '¡reset' || msg !== '¡restart') return;
-  let {channel, member} = msg;
+client.on('message', async ({msg}) => {
+  let {channel, member, content} = msg;
+  console.log(msg)
+  if(content !== '¡reset' || content !== '¡restart') return;
   const isMod = member.roles.cache.find(role => role.name === 'Moderador');
   if(!isMod) return;
 
