@@ -127,12 +127,13 @@ client.on('message', async (msg) => {
 /** */ 
 
 client.on('message', async (msg) => {
+  if(msg !== '¡reset' || msg !== '¡restart') return;
   let {channel, member} = msg;
   const isMod = member.roles.cache.find(role => role.name === 'Moderador');
   if(!isMod) return;
 
   channel.send('*Reiniciando...*')
-  .then(m => setTimeout(() => m.delete()),3000);
+  .then(m => setTimeout(() => { m.delete() },3000));
   client.destroy();
   client.login(token)
 
@@ -151,9 +152,10 @@ client.once('ready', async () => {
 
   console.log('Bot Connected');
   client.user.setActivity('ser un bot');
-  const testChannel = await client.channels.fetch('837826705678532608')
+
+  const testChannel = await client.channels.fetch('837826705678532608');
   testChannel.send('**Bot Iniciado, buenos dias!**')
-  .then(m => setTimeout(() => m.delete()),5000);
+  .then(m => setTimeout(() => { m.delete() },5000));
 });
 
 
