@@ -126,6 +126,17 @@ client.on('message', async (msg) => {
 });
 /** */ 
 
+client.on('message', async (msg) => {
+  let {channel} = msg;
+  if(!isMod) return;
+
+  channel.send('*Reiniciando...*');
+  client.destroy();
+  client.login(token)
+
+});
+
+
 /** COMPROBAR AL INICIAR EL BOT */
 client.once('ready', async () => {
   // setRoles.silenciado(client); //CREAR ROL SILENCIADO
@@ -138,6 +149,7 @@ client.once('ready', async () => {
 
   console.log('Bot Connected');
   client.user.setActivity('ser un bot');
+  client.channels.fetch('837826705678532608').send('**Buenos dias!**');
 });
 
 
