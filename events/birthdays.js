@@ -22,7 +22,8 @@ module.exports = {
   },
   async execute(event, client) {
     const guild = await client.guilds.fetch(event.guildID);
-    const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
+    // const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
+    const channel = guild.channels.resolve('837826705678532608'); //HERE TEST CHANNEL FROM GUILD/SERVER
     const member = await guild.members.fetch(event.userID);
 
     if(!channel || !member.user) return console.log("HAY ALGO QUE NO HAY");
@@ -50,7 +51,7 @@ module.exports = {
       (async function restartBday(){
         const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
         if (!bday) return false;
-        await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { done: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
+        await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
       }())
 
       cancelJob(id)
