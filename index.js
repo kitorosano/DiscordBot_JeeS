@@ -1,4 +1,4 @@
-const {Client, Collection, MessageEmbed} = require('discord.js');
+const {Client, Collection, MessageEmbed, TextChannel} = require('discord.js');
 const {prefix, allowedUsers, modUsers, token, mongo, xp} = require('./config');
 const {modMe,setRoles} = require('./utils');
 const fs = require('fs');
@@ -139,9 +139,10 @@ const startUp = async(client) => { //Al iniciar le bot
   scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
   
   client.user.setActivity('ser un bot');
-
+  
   const testChannel = await client.channels.fetch('837826705678532608');
   testChannel.send('**Bot Iniciado, buenos dias!**');
+  console.log("bot reiniciado en: " + testChannel.guild.name)
 }
 
 client.on('message', async (msg) => { //Reset Bot - comando aparte
