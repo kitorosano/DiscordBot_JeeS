@@ -9,4 +9,4 @@ const churchSchema = new mongoose.Schema({
   pass: { type: String}
 });
 
-module.exports = mongoose.model('Birthdays',churchSchema);
+module.exports = mongoose.model('Church',churchSchema);
