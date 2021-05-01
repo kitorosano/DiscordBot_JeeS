@@ -162,8 +162,8 @@ client.on('message', async (msg) => { //Reset Bot - comando aparte
 /** COMPROBAR AL INICIAR EL BOT */
 client.once('ready', async () => {
   
-  setRoles.silenciado(client); //CREAR ROL SILENCIADO
-  setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
+  // setRoles.silenciado(client); //CREAR ROL SILENCIADO
+  // setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
 
   console.log('Bot Connected');
   startUp(client);
