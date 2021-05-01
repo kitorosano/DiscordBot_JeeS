@@ -33,7 +33,7 @@ module.exports = {
     console.log(roles)
     const BdayRole = roles.filter(role => role.name === 'Cumpleañer@');
     member.roles.add(BdayRole)
-
+    // ARREGLAR ACA CUANDO SE DA EL ROL.
 
     if(!event.mention) {
       const MsgBday = new MessageEmbed()
