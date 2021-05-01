@@ -66,6 +66,7 @@ module.exports = {
       const endID = 'endBday-' + event._id.toString();
       scheduleJob(endID,'59 2 * * *', () => {
         member.roles.remove(BdayRole)
+        console.log('rol removido')
   
         (async function restartBday(){
           const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
