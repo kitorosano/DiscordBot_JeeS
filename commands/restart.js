@@ -1,5 +1,6 @@
 const {token,} = require('../config');
 
+
 module.exports = {
 	name: 'restart',
 	description: 'Restart JeeS bot',
@@ -10,9 +11,14 @@ module.exports = {
     
     if(!isMod) return;
 
-		await channel.send('Restarting...');
+		client.once('ready', async () => {
+			channel.send('Buenos dias!');
+		});
+
+
+		await channel.send('Reiniciando...');
 		await	client.destroy();
-		await	client.login(token);
+		await	client.login(token)
 
   },
 };
