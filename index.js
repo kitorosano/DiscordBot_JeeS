@@ -32,26 +32,12 @@ for (const file of commandFiles) {
     if(!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
     
     typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno
-      // console.log(singleEventData);
       typeEvent.execute(singleEventData,client);
-      
-      // const id = 'initEvent-'+ singleEventData._id.toString();
-      // let formattedTime, minute, hour;
-      // if(!singleEventData.mention) {
-      //   formattedTime = singleEventData.time.split(':');
-      //   minute = parseInt(formattedTime[1]);
-      //   hour = parseInt(formattedTime[0]) + 3; //por el GMT-3
-      //   if (hour > 23) hour -= 24;
-      // } else {
-      //   formattedTime = today
-      // }
-      // scheduleJob(id,`${minute} ${hour} * * *`, async () => {
-      //   await typeEvent.execute(singleEventData, client)
-      //   cancelJob(id);
-      // })
     })
   } 
 }());
+
+scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
 /** */
 
 
@@ -136,13 +122,11 @@ client.on('message', async (msg) => {
 /** */ 
 
 const startUp = async(client) => { //Al iniciar le bot  
-  scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
-  
+  restartEvents();
   client.user.setActivity('ser un bot');
   
   const testChannel = await client.channels.fetch('837826705678532608');
   testChannel.send('**Bot Iniciado, buenos dias!**');
-  console.log("bot reiniciado en: " + testChannel.guild.name)
 }
 
 client.on('message', async (msg) => { //Reset Bot - comando aparte
@@ -155,6 +139,7 @@ client.on('message', async (msg) => { //Reset Bot - comando aparte
   .then(m => client.destroy())
   .then(() => client.login(token));
   await startUp(client);
+  console.log("bot reiniciado en: " + channel.guild.name)
 
 });
 
