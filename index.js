@@ -160,6 +160,9 @@ client.on('message', async (msg) => { //Reset Bot - comando aparte
 
 /** COMPROBAR AL INICIAR EL BOT */
 client.once('ready', async () => {
+
+  
+
   console.log('Bot Connected');
   startUp(client);
 });

@@ -25,7 +25,7 @@ module.exports = { //ROLES QUE TIENEN QUE ESTAR EN EL SERVER SI O SI
       }, reason: 'Rol para los cumpleañeros miembros'})
     );
   },
-  moderador(client) {// Crear el rol de CUMPLEAÑERO si no existe en el server
+  moderador(client) {// Crear el rol de Moderador si no existe en el server
     client.guilds.cache.map(guild => guild.roles.cache.find(rol => rol.name === 'Moderador') ? null : guild.roles.create({
       data: {
         name: 'Moderador',

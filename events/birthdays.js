@@ -44,8 +44,7 @@ module.exports = {
 
       // const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
       const roles = await guild.roles.fetch();
-      console.log(roles)
-      const BdayRole = roles.filter(role => role.name === 'Cumpleañer@');
+      const BdayRole = roles.cache.find(role => role.name === 'Cumpleañer@');
       member.roles.add(BdayRole)
       // ARREGLAR ACA CUANDO SE DA EL ROL.
 
