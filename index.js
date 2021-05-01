@@ -133,9 +133,9 @@ client.on('message', async (msg) => {
   if(!isMod) return;
 
   channel.send('*Reiniciando...*')
-  .then(m => setTimeout(() => { m.delete() },3000));
-  client.destroy();
-  client.login(token)
+  .then(m => setTimeout(() => { m.delete() },3000))
+  .then(() => client.destroy())
+  .then(() => client.login(token))
 
 });
 
