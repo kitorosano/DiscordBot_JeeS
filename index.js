@@ -123,7 +123,7 @@ client.on('message', async (msg) => {
 
 const startUp = async(client) => { //Al iniciar le bot  
   restartEvents();
-  client.user.setActivity('ser un bot');
+  client.user.setActivity('¡help');
   
   const testChannel = await client.channels.fetch('837826705678532608');
   testChannel.send('**Bot Iniciado, buenos dias!**');
