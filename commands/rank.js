@@ -33,7 +33,7 @@ module.exports = {
         const name = args[0].split('#')[0];
         // const hash = args[0].split('#')[1]; //Por ahora no estaremos usando el hash. 
         const members = await guild.members.fetch()
-        member = members.filter(user => user.username === name || user.nickname === name)
+        member = members.find(user => user.username === name || user.nickname === name)
       } else {
         member = mentions.users.first();
       }
