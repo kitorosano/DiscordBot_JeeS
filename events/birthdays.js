@@ -63,7 +63,7 @@ module.exports = {
       
        /*APAGAR EL EVENTO*/
        const endID = 'endBday-' + event._id.toString();
-       scheduleJob(endID,'45 3 * * *', () => {
+       scheduleJob(endID,'50 3 * * *', () => {
          member.roles.remove(BdayRole)
          console.log('rol removido')
    
