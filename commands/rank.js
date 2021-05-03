@@ -45,7 +45,7 @@ module.exports = {
       const MsgToLvlUp = new MessageEmbed()
         .setColor('#0080FF')
         .setAuthor(`💈TOP #${user.position} ~ ${user.username}`)
-        .setThumbnail(user.displayAvatarURL({ format: "png", dynamic: true }))
+        .setThumbnail(member.displayAvatarURL({ format: "png", dynamic: true }))
         .setTitle(`Nivel:  ${user.level}`)
         .setDescription(`**Sig: ** ${user.xp} / ${xpToNextLvl} EXP\n**Total: ** ✨ ${user.totalXP} EXP`)
 
