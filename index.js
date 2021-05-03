@@ -28,7 +28,7 @@ const restartEvents = async() =>{
     const typeEvent = require(`./events/${file}`); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
     if(typeEvent.disable) return; //filtrar eventos desactivados
     
-    const typeEvents = await typeEvent.getEvents(today) //Obtener entradas del dia para este tipo de evento
+    const typeEvents = await typeEvent.getEvents(today,client) //Obtener entradas del dia para este tipo de evento
     if(!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
     
     typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno

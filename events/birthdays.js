@@ -46,7 +46,7 @@ module.exports = {
       const roles = await guild.roles.fetch();
       const BdayRole = roles.cache.find(role => role.name === 'Cumpleañer@');
       member.roles.add(BdayRole)
-      console.log(member.roles)
+      // console.log(member.roles)
 
       if(!event.mention) {
         const MsgBday = new MessageEmbed()
@@ -60,23 +60,23 @@ module.exports = {
         const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
         if (!bday) return false;
         await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: true }).catch(e => console.log(`Failed to update bday_ ${e}`))
+      
+       /*APAGAR EL EVENTO*/
+       const endID = 'endBday-' + event._id.toString();
+       scheduleJob(endID,'45 3 * * *', () => {
+         member.roles.remove(BdayRole)
+         console.log('rol removido')
+   
+         (async function restartBday(){
+           const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
+           if (!bday) return false;
+           await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
+         }())
+   
+         cancelJob(endID)
+       })
+      
       }
-
-      /*APAGAR EL EVENTO*/
-      const endID = 'endBday-' + event._id.toString();
-      scheduleJob(endID,'59 2 * * *', () => {
-        member.roles.remove(BdayRole)
-        console.log('rol removido')
-  
-        (async function restartBday(){
-          const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
-          if (!bday) return false;
-          await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
-        }())
-  
-        cancelJob(id)
-      })
-
     })
   },
 };
