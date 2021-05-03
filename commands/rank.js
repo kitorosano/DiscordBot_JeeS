@@ -11,8 +11,11 @@ module.exports = {
   guildOnly: true,
   async execute(msg, args, isMod) {
     const {author, guild, mentions, channel} = msg;
-		if (!mentions.users.size) {
-      const user = await Levels.fetch(author.id, guild.id, true);
+
+    console.log(args);
+    let user;
+		if (!args.length) { //si no se meciona a nadie
+      user = await Levels.fetch(author.id, guild.id, true);
       if(!user) return msg.reply('Intenta enviar un mensaje NO COMANDO, para que te podamos agregar al sistema :raised_hands:')
       
       const xpToNextLvl = Levels.xpFor(user.level+1);
@@ -24,10 +27,14 @@ module.exports = {
         .setDescription(`**Siguiente:**  ${user.xp} / ${xpToNextLvl} EXP\n**Total:** ✨ ${user.totalXP} EXP`)
         
       return channel.send(MsgToLvlUp)
-    }
 
-    mentions.users.forEach(async user => {
-      const userL = await Levels.fetch(user.id, guild.id, true);
+    } else {
+      if(!mentions.users.size){
+        const username = args.split
+        const members = await guild.members.fetch()
+        user = members.find(user => user.username === args)
+      }
+      user = await Levels.fetch(user.id, guild.id, true);
       if(!userL) return msg.reply('Este usuario aún no ha enviado ningún mensaje :eyes:')
       const xpToNextLvl = Levels.xpFor(userL.level+1);
 
@@ -39,6 +46,7 @@ module.exports = {
         .setDescription(`**Sig: ** ${userL.xp} / ${xpToNextLvl} EXP\n**Total: ** ✨ ${userL.totalXP} EXP`)
 
       return channel.send(MsgToLvlUp)
-    });
+
+    }
 	},
 };

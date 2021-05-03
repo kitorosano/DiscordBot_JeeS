@@ -21,6 +21,13 @@ module.exports = {
     const {member, author,guild, mentions, channel} = msg;
     let [who, action, fecha] = args;
 
+    if(who === "next"){
+      // Ver proximo cumpleaños
+    }
+    if(who === "previous" || who === "prev"){
+      // Ver cumpleaños anterior
+    }
+
     let target = mentions.users.first();
     if(!target) target = author;
     
