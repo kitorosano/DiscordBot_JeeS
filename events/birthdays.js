@@ -61,22 +61,20 @@ module.exports = {
         if (!bday) return false;
         await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: true }).catch(e => console.log(`Failed to update bday_ ${e}`))
       
-       /*APAGAR EL EVENTO*/
-       const endID = 'endBday-' + event._id.toString();
-       scheduleJob(endID,'50 3 * * *', () => {
-         member.roles.remove(BdayRole)
-         console.log('rol removido')
-   
-         (async function restartBday(){
-           const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
-           if (!bday) return false;
-           await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
-         }())
-   
-         cancelJob(endID)
-       })
-      
       }
+      /*APAGAR EL EVENTO*/
+      const endID = 'endBday-' + event._id.toString();
+      scheduleJob(endID,'25 8 * * *', async() => {
+        member.roles.remove(BdayRole)
+        console.log('rol removido')
+        
+        const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
+        if (!bday) return false;
+        await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
+        
+        cancelJob(endID)
+      })
+      
     })
   },
 };
