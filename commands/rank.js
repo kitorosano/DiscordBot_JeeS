@@ -35,10 +35,10 @@ module.exports = {
         let member = await guild.members.fetch({ query: name, limit: 1 })
         console.log(member);
         console.log("\n=====\n")
-        console.log(member[0])
+        console.log(member.first())
         console.log("\n=====\n")
-        console.log(member[0].user)
-        user = member[0].user;
+        console.log(member.first().user)
+        user = member.first().user
       } else {
         user = mentions.users.first();
       }
