@@ -12,7 +12,7 @@ module.exports = {
   async execute(msg, args, isMod) {
     const {author, guild, mentions, channel} = msg;
 
-    guild.members.fetch().then(m => console.log(m));
+    guild.members.fetch({ query: 'hydra', limit: 1 }).then(console.log).catch(console.error)
     
 		if (!args.length) { //si no se meciona a nadie
       let user = await Levels.fetch(author.id, guild.id, true);
