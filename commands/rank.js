@@ -11,6 +11,8 @@ module.exports = {
   guildOnly: true,
   async execute(msg, args, isMod) {
     const {author, guild, mentions, channel} = msg;
+
+    guild.members.fetch().then(m => console.log(m));
     
 		if (!args.length) { //si no se meciona a nadie
       let user = await Levels.fetch(author.id, guild.id, true);
