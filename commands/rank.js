@@ -34,9 +34,10 @@ module.exports = {
         console.log(name);
         // const hash = args[0].split('#')[1]; //Por ahora no estaremos usando el hash. 
         const members = await guild.members.fetch()
-        // console.log(members)
+        console.log(members)
+        console.log('==========')
         member = members.find(user => user.username === name || user.nickname === name)
-        // console.log(member)
+        console.log(member)
       } else {
         member = mentions.users.first();
       }
@@ -47,7 +48,7 @@ module.exports = {
 
       const MsgToLvlUp = new MessageEmbed()
         .setColor('#0080FF')
-        .setAuthor(`💈TOP #${user.position} ~ ${user.username}`)
+        .setAuthor(`💈TOP #${user.position} ~ ${member.username}`)
         .setThumbnail(member.displayAvatarURL({ format: "png", dynamic: true }))
         .setTitle(`Nivel:  ${user.level}`)
         .setDescription(`**Sig: ** ${user.xp} / ${xpToNextLvl} EXP\n**Total: ** ✨ ${user.totalXP} EXP`)
