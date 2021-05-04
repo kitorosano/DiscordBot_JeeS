@@ -28,7 +28,7 @@ module.exports = {
 
     } else {
 
-      let user;
+      let member;
       if(!mentions.users.size){
         const name = args[0].split('#')[0];
         // const hash = args[0].split('#')[1]; //Por ahora no estaremos usando el hash. 
