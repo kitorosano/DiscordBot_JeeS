@@ -11,8 +11,6 @@ module.exports = {
   guildOnly: true,
   async execute(msg, args, isMod) {
     const {author, guild, mentions, channel} = msg;
-
-    guild.members.fetch({ query: 'hydra', limit: 1 }).then(console.log).catch(console.error)
     
 		if (!args.length) { //si no se meciona a nadie
       let user = await Levels.fetch(author.id, guild.id, true);
@@ -34,22 +32,21 @@ module.exports = {
       if(!mentions.users.size){
         const name = args[0].split('#')[0];
         // const hash = args[0].split('#')[1]; //Por ahora no estaremos usando el hash. 
-        let member = guild.members.cache.find(user => user.username === name || user.nickname === name)
-        user = member.user;
+        member = await guild.members.fetch({ query: name, limit: 1 })
       } else {
-        user = mentions.users.first();
+        member = mentions.users.first();
       }
 
-      let userL = await Levels.fetch(user.id, guild.id, true);
-      if(!userL) return msg.reply('Este usuario aún no ha enviado ningún mensaje :eyes:')
-      const xpToNextLvl = Levels.xpFor(userL.level+1);
+      let user = await Levels.fetch(member.id, guild.id, true);
+      if(!user) return msg.reply('Este usuario aún no ha enviado ningún mensaje :eyes:')
+      const xpToNextLvl = Levels.xpFor(user.level+1);
 
       const MsgToLvlUp = new MessageEmbed()
         .setColor('#0080FF')
-        .setAuthor(`💈TOP #${userL.position} ~ ${user.username}`)
-        .setThumbnail(user.displayAvatarURL({ format: "png", dynamic: true }))
-        .setTitle(`Nivel:  ${userL.level}`)
-        .setDescription(`**Sig: ** ${userL.xp} / ${xpToNextLvl} EXP\n**Total: ** ✨ ${userL.totalXP} EXP`)
+        .setAuthor(`💈TOP #${user.position} ~ ${member.username}`)
+        .setThumbnail(member.displayAvatarURL({ format: "png", dynamic: true }))
+        .setTitle(`Nivel:  ${user.level}`)
+        .setDescription(`**Sig: ** ${user.xp} / ${xpToNextLvl} EXP\n**Total: ** ✨ ${user.totalXP} EXP`)
 
       return channel.send(MsgToLvlUp)
 
