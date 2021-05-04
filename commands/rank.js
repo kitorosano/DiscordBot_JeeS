@@ -33,12 +33,10 @@ module.exports = {
         const name = args[0].split('#')[0];
         // const hash = args[0].split('#')[1]; //Por ahora no estaremos usando el hash. 
         let member = await guild.members.fetch({ query: name, limit: 1 })
-        console.log(member)
-        user = member.user;
+        user = member[0].user;
       } else {
         user = mentions.users.first();
       }
-      // console.log(user)
 
       let userL = await Levels.fetch(user.id, guild.id, true);
       if(!userL) return msg.reply('Este usuario aún no ha enviado ningún mensaje :eyes:')
