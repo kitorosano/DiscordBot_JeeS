@@ -12,6 +12,7 @@ module.exports = {
       `${msg.author}, cuando necesites maestro.`,
       `${msg.author}, mi casa es tu casa bro.`,
       `${msg.author}, PUEEDE SERR PAA?!.`,
+      `De nada facha, un abrazo.`,
     ];
     const index = rnd.int(0, replies.length -1)
     return msg.channel.send(replies[index])

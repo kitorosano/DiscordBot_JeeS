@@ -105,7 +105,11 @@ client.on('message', async (msg) => {
 
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000;
-      return msg.reply(`por favor espera ${timeLeft.toFixed(1)} segundo(s) mas para reusar el comando \`${command.name}\``);
+      msg.reply(`por favor espera ${timeLeft.toFixed(1)} segundo(s) mas para reusar el comando \`${command.name}\``)
+      .then(msg => {
+        msg.delete({timeout: 5000})
+      })
+      return;
     }
   }
   timestamps.set(author.id, now);

@@ -31,9 +31,12 @@ module.exports = {
       let member;
       if(!mentions.users.size){
         const name = args[0].split('#')[0];
+        console.log(name);
         // const hash = args[0].split('#')[1]; //Por ahora no estaremos usando el hash. 
         const members = await guild.members.fetch()
+        // console.log(members)
         member = members.find(user => user.username === name || user.nickname === name)
+        // console.log(member)
       } else {
         member = mentions.users.first();
       }
