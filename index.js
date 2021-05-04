@@ -61,7 +61,7 @@ client.on('message', async (msg) => {
     const MsgLvlUp = new MessageEmbed()
             .setColor('#ADC00')
             .setDescription(`¡Felicidades **${author.username}**! Ahora eres **nivel ${level}**!. :confetti_ball: `)
-            .setThumbnail(author.displayAvatarURL({ format: "png", dynamic: true }))
+            .setThumbnail(author.displayAvatarURL({ format: "png", dynamic: true, size: 16}))
     // const rankChannel = await client.channels.fetch('772141688444682272'); //enviar mensaje al canal de spam
     const rankChannel = guild.channels.resolve('749030872740790394') || channel;
     rankChannel.send(MsgLvlUp)
