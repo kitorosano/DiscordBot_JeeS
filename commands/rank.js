@@ -33,11 +33,6 @@ module.exports = {
         const name = args[0].split('#')[0];
         // const hash = args[0].split('#')[1]; //Por ahora no estaremos usando el hash. 
         let member = await guild.members.fetch({ query: name, limit: 1 })
-        console.log(member);
-        console.log("\n=====\n")
-        console.log(member.first())
-        console.log("\n=====\n")
-        console.log(member.first().user)
         user = member.first().user
       } else {
         user = mentions.users.first();
