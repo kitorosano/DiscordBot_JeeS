@@ -64,6 +64,10 @@ client.on('message', async (msg) => {
             .setDescription(`:tada: Has ascendido a **nivel ${level}**!. :confetti_ball: Cada vez mas cerca del admin.`)
     // const rankChannel = await client.channels.fetch('772141688444682272'); //enviar mensaje al canal de spam
     const rankChannel = guild.channels.resolve('749030872740790394') || channel;
+    console.log(guild.channels.resolve('749030872740790394'))
+    console.log("=============")
+    console.log(rankChannel)
+
     rankChannel.send(MsgLvlUp)
   }
   
