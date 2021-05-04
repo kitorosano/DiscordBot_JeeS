@@ -60,8 +60,8 @@ client.on('message', async (msg) => {
     const {level} = await Levels.fetch(author.id, guild.id);
     const MsgLvlUp = new MessageEmbed()
             .setColor('#ADC00')
-            .setAuthor(author.username, author.displayAvatarURL({ format: "png", dynamic: true, size: 4096}))
-            .setDescription(`¡Felicidades! Ahora eres **nivel ${level}**!. :confetti_ball: `)
+            .setAuthor(`¡Felicidades! ${author.username}`, author.displayAvatarURL({ format: "png", dynamic: true, size: 4096}))
+            .setDescription(`Ahora eres **nivel ${level}**!. :confetti_ball: `)
     // const rankChannel = await client.channels.fetch('772141688444682272'); //enviar mensaje al canal de spam
     const rankChannel = guild.channels.resolve('749030872740790394') || channel;
     rankChannel.send(MsgLvlUp)
@@ -132,7 +132,7 @@ const startUp = async(client) => { //Al iniciar le bot
   client.user.setActivity('¡help');
   
   const testChannel = await client.channels.fetch('837826705678532608');
-  testChannel.send('**Bot Iniciado, buenos dias!**');
+  testChannel.send('**Bot reiniciado, buenos dias!**');
 }
 
 client.on('message', async (msg) => { //Reset Bot - comando aparte
