@@ -1,4 +1,4 @@
-const {MessageEmbed, MessageAttachment} = require('discord.js');
+const {MessageEmbed, MessageAttachment, ClientVoiceManager} = require('discord.js');
 const ms = require('ms');
 
 module.exports = {
@@ -12,6 +12,7 @@ module.exports = {
     const [who, time,...why] = args;
     const {guild, mentions,channel} = msg;
 
+    console.log(args);
     if (who) {
       const MsgNoMiembro = new MessageEmbed()
         .setColor("RED")
@@ -26,8 +27,9 @@ module.exports = {
     const razon = why.length > 0 ? why.join(' ') : 'Sin especificar';
     const target = mentions.users.first();
 
-    const mutedRole = guild.roles.cache.find(role => role.name === 'Silenciado');
-    const memberTarget = guild.members.cache.get(target.id)
+    const roles = await guild.roles.fetch();
+    const mutedRole = roles.cache.find(role => role.name === 'Silenciado');
+    const memberTarget = await guild.members.fetch(target.id);
     memberTarget.roles.add(mutedRole); //AGREGA EL ROL
     const {tag} = memberTarget.user
 

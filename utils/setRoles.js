@@ -4,7 +4,7 @@ module.exports = { //ROLES QUE TIENEN QUE ESTAR EN EL SERVER SI O SI
     client.guilds.cache.map(guild => guild.roles.cache.find(rol => rol.name === 'Silenciado') === undefined ? guild.roles.create({
       data: {
         name: 'Silenciado',
-        color: '#0c0c0c', 
+        color: '#FFF', 
         hoist: true,
         position: 1,
         permissions: 104324673,

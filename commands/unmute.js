@@ -12,9 +12,10 @@ module.exports = {
     const target = mentions.users.first();
     if(!target) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
 
-    const mutedRole = guild.roles.cache.find(role => role.name === 'Silenciado');
-    const memberTarget = guild.members.cache.get(target.id)
-
+    const roles = await guild.roles.fetch();
+    const mutedRole = roles.cache.find(role => role.name === 'Silenciado');
+    const memberTarget = await guild.members.fetch(target.id);
+    
     if(memberTarget.roles.cache.find(role => role === mutedRole)) {
       memberTarget.roles.remove(mutedRole); //QUITA EL ROL
       const {tag} = memberTarget.user
