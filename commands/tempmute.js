@@ -12,8 +12,7 @@ module.exports = {
     const [who, time,...why] = args;
     const {guild, mentions,channel} = msg;
 
-    console.log(args);
-    if (mentions.users.first()) {
+    if (!who) {
       const MsgNoMiembro = new MessageEmbed()
         .setColor("RED")
         .setAuthor('Asegurate de mencionar al un miembro para silenciar.')
