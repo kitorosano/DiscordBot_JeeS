@@ -18,30 +18,30 @@ module.exports = {
     const {guild, mentions, channel, client} = msg;
     const [emoji,...anime] = args;
 
-    const getEmoji = (emoticon) => client.emojis.cache.find(emoji => emoji.name === emoticon);
-    console.log(getEmoji(emoji))
-
-    // const MsgVIP = new MessageEmbed()
-    //     .setColor('BLACK')
-    //     .setTitle(`¡:loudspeaker: Reunion de emergencia :rotating_light: !`)
-    //     .setDescription(`Hoy se mira: ${anime}\nReacciona a este mensaje con un :raised_hand: para poder particiar.`)
-    //     .setFooter(`Este mensaje se eliminara en 5m.`);
+    const MsgVIP = new MessageEmbed()
+        .setColor('BLACK')
+        .setTitle(`¡:loudspeaker: Reunion de emergencia :rotating_light: !`)
+        .setDescription(`Hoy se mira: ${anime}\nReacciona a este mensaje con un :raised_hand: para poder particiar.`)
+        .setFooter(`Este mensaje se eliminara en 5m.`);
     
-    // channel.send(MsgVIP)
-    // .then(msg => {
-    //     addReactions(msg, reactions)
-    // })
+    channel.send(MsgVIP)
+    .then(msg => {
+        msg.react(':raised_hand:')
+        addReactions(msg, reactions)
+    })
 
-    // .then(msg => setTimeout(() => {
-    //     msg.delete();        
-    // }, 300000)); //5m
+    .then(msg => setTimeout(() => {
+        msg.delete();        
+    }, 5000)); //5m
     
 
     // const roles = await guild.roles.fetch();
     // const VPIrole = roles.cache.find(role => role.name === 'VPI');
     // member.roles.add(VPIrole)
 
-    
+    client.on('messageReactionAdd',(reaction, user) => {
+      
+    })
   },
 };
 
