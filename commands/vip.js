@@ -16,9 +16,9 @@ module.exports = {
   modOnly: true,
   async execute(msg, args, isMod) {
     const {guild, mentions, channel, client} = msg;
-    const [emoji,anime] = args;
+    const [emoji,...anime] = args;
 
-    const getEmoji = (nombreEmoji) => client.emojis.cache.find(emoji => emoji.name == 'raised_hand');
+    const getEmoji = () => client.emojis.cache.first();
     console.log(getEmoji())
 
     // const MsgVIP = new MessageEmbed()
