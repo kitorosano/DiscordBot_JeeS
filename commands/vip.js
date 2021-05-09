@@ -18,8 +18,8 @@ module.exports = {
     const {guild, mentions, channel, client} = msg;
     const [emoji,...anime] = args;
 
-    const getEmoji = () => client.emojis.cache.first();
-    console.log(getEmoji())
+    const getEmoji = (emoticon) => client.emojis.cache.find(emoji => emoji.name === emoticon);
+    console.log(getEmoji(emoji))
 
     // const MsgVIP = new MessageEmbed()
     //     .setColor('BLACK')
