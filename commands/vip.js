@@ -9,7 +9,7 @@ const addReactions = (message, reactions) => {
 }   
 
 module.exports = {
-  name: 'vpi',
+  name: 'vip',
   description: '...',
   usage: '[emoji] [anime a mirar]',
   guildOnly: true,
@@ -18,16 +18,16 @@ module.exports = {
     const {guild, mentions, channel, client} = msg;
     const [emoji,anime] = args;
 
-    console.log(args)
-    // const getEmoji = (nombreEmoji) => client.emojis.cache.find(emoji => emoji.name = nombreEmoji);
+    const getEmoji = (nombreEmoji) => client.emojis.cache.find(emoji => emoji.name == 'raised_hand');
+    console.log(getEmoji())
 
-    // const MsgVPI = new MessageEmbed()
+    // const MsgVIP = new MessageEmbed()
     //     .setColor('BLACK')
     //     .setTitle(`¡:loudspeaker: Reunion de emergencia :rotating_light: !`)
     //     .setDescription(`Hoy se mira: ${anime}\nReacciona a este mensaje con un :raised_hand: para poder particiar.`)
     //     .setFooter(`Este mensaje se eliminara en 5m.`);
     
-    // channel.send(MsgVPI)
+    // channel.send(MsgVIP)
     // .then(msg => {
     //     addReactions(msg, reactions)
     // })
