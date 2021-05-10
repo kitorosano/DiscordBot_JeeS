@@ -1,13 +1,5 @@
 const {MessageEmbed, MessageAttachment, MessageReaction} = require('discord.js');
 
-const addReactions = (message, reactions) => {
-    message.react(reactions[0]) 
-    reactions.shift()
-    if(reactions.length > 0){
-        setTimeout(() => addReactions(msg, reactions), 750)
-    }
-}   
-
 module.exports = {
   name: 'vip',
   description: '...',
@@ -17,31 +9,32 @@ module.exports = {
   async execute(msg, args, isMod) {
     const {guild, mentions, channel, client} = msg;
     const [emoji,...anime] = args;
+    
+    const roles = await guild.roles.fetch();
+    const VPIrole = roles.cache.find(role => role.name === 'VPI');
 
     const MsgVIP = new MessageEmbed()
         .setColor('BLACK')
         .setTitle(`¡:loudspeaker: Reunion de emergencia :rotating_light: !`)
-        .setDescription(`Hoy se mira: ${anime}\nReacciona a este mensaje con un :raised_hand: para poder particiar.`)
+        .setDescription(`Hoy se mira: ${anime}\nReacciona a este mensaje con un ${emoji} para poder particiar.`)
         .setFooter(`Este mensaje se eliminara en 5m.`);
-    
+
     channel.send(MsgVIP)
-    .then(msg => {
-        msg.react(':raised_hand:')
-        addReactions(msg, reactions)
-    })
-
-    .then(msg => setTimeout(() => {
-        msg.delete();        
-    }, 5000)); //5m
-    
-
-    // const roles = await guild.roles.fetch();
-    // const VPIrole = roles.cache.find(role => role.name === 'VPI');
-    // member.roles.add(VPIrole)
-
-    client.on('messageReactionAdd',(reaction, user) => {
+    .then(async msg => {
+      await msg.react(`${emoji}`);
       
+      msg.client.on('messageReactionAdd',(reaction, user) => {
+        if(reaction.message.channel.id !== channel.id) return;
+        if(user.id === '776917497382436884') return;
+
+        const member = await guild.members.fetch(user);
+        member.roles.add(VPIrole)
+      })
+      setTimeout(() => {
+        msg.delete();        
+      }, 5000)
     })
+
   },
 };
 
