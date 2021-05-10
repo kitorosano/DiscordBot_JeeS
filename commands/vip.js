@@ -11,7 +11,7 @@ module.exports = {
     const [emoji,...anime] = args;
     
     const roles = await guild.roles.fetch();
-    const VPIrole = roles.cache.find(role => role.name === 'VPI');
+    const VPIrole = roles.cache.find(role => role.name === 'VIP');
 
     const MsgVIP = new MessageEmbed()
         .setColor('BLACK')
@@ -32,7 +32,7 @@ module.exports = {
       })
       setTimeout(() => {
         msg.delete();        
-      }, 5000)
+      }, 300000)
     })
 
   },
