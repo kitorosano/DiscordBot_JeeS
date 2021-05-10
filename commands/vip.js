@@ -23,7 +23,7 @@ module.exports = {
     .then(async msg => {
       await msg.react(`${emoji}`);
       
-      msg.client.on('messageReactionAdd',(reaction, user) => {
+      msg.client.on('messageReactionAdd',async (reaction, user) => {
         if(reaction.message.channel.id !== channel.id) return;
         if(user.id === '776917497382436884') return;
 
