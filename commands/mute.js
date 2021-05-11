@@ -10,6 +10,7 @@ module.exports = {
   async execute(msg, args, isMod) {
     const {guild, mentions, channel} = msg;
     const [who, ...why] = args;
+    
     const razon = why.length > 0 ? why.join(' ') : 'Sin especificar';
     const target = mentions.users.first();
     if(!target) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))

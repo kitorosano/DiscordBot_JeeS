@@ -2,10 +2,11 @@ const {MessageEmbed, MessageAttachment, MessageReaction} = require('discord.js')
 
 module.exports = {
   name: 'vip',
-  description: '...',
+  description: 'Inicializa un mensaje de evento en el grupo enviado. Los que reaccionen al mensajes obtendran el rol VIP',
   usage: '[emoji] [anime a mirar]',
   guildOnly: true,
   modOnly: true,
+  args: true,
   async execute(msg, args, isMod) {
     const {guild, mentions, channel, client} = msg;
     const [emoji,...anime] = args;

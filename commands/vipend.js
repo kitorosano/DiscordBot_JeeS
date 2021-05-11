@@ -2,7 +2,7 @@ const {MessageEmbed, MessageAttachment, MessageReaction} = require('discord.js')
 
 module.exports = {
   name: 'vipend',
-  description: '...',
+  description: 'Terminar el evento. Se les sera quitado el rol VIP a todos los miembros que los tengan.',
   guildOnly: true,
   modOnly: true,
   async execute(msg, args, isMod) {
