@@ -7,7 +7,7 @@ module.exports = {
   modOnly: true,
   async execute(msg, args, isMod) {
     const {guild, mentions, channel, client} = msg;
-    msg.destroy();
+    msg.delete();
     
     const roles = await guild.roles.fetch();
     const VPIrole = roles.cache.find(role => role.name === 'VIP');

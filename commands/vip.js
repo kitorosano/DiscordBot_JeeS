@@ -31,6 +31,13 @@ module.exports = {
         const member = await guild.members.fetch(user);
         member.roles.add(VPIrole)
       })
+      msg.client.on('messageReactionRemove',async (reaction, user) => {
+        if(reaction.message.channel.id !== channel.id) return;
+        if(user.id === '776917497382436884') return;
+
+        const member = await guild.members.fetch(user);
+        member.roles.remove(VPIrole)
+      })
       setTimeout(() => {
         msg.delete();        
       }, 300000)

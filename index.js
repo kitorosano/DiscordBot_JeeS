@@ -78,7 +78,7 @@ client.on('message', async (msg) => {
   // const MsgNoMod = new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí pantalones cuadrados... :eyes:')
   const isMod = member.roles.cache.find(role => role.name === 'Moderador' || role.name === 'Admin');
   if(command.modOnly && !isMod) {// MENSAJE PARA COMANDOS SOLO DE MODERADORES
-    return channel.send(`:no_pedestrians: **${author.username}**,alto ahí pantalones cuadrados.`) 
+    return channel.send(`:no_pedestrians: **${author.username}**, alto ahí pantalones cuadrados.`) 
   } 
 
   
