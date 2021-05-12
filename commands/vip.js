@@ -20,6 +20,7 @@ module.exports = {
         .setDescription(`Hoy se mira: ${anime}\nReacciona a este mensaje con un ${emoji} para poder particiar.`)
         .setFooter(`Este mensaje se eliminara en 5m.`);
 
+    channel.send('<@&824881331490127902> y <@&835738568043003906>') //mencionar a @Leyenda y @Heroico
     channel.send(MsgVIP)
     .then(async msg => {
       await msg.react(`${emoji}`);
