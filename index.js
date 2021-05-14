@@ -5,6 +5,7 @@ const fs = require('fs');
 const rnd = require('random');
 const {scheduleJob, cancelJob} = require('node-schedule');
 const Levels = require("discord-xp");
+const { type } = require('os');
 Levels.setURL(mongo);
 
 const client = new Client();
@@ -18,6 +19,7 @@ for (const file of commandFiles) {
   if(!command.disable) client.commands.set(command.name, command);
 }
 /** */ 
+
 
 /** INICIALIZAR EVENTOS DEL DIA */
 const restartEvents = async() =>{ 
@@ -38,6 +40,7 @@ const restartEvents = async() =>{
 };
 
 scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
+
 /** */
 
 

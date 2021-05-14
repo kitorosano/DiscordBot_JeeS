@@ -13,8 +13,20 @@ mongoose.connect(mongo, {
 
 const months = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12};
 
+const restartYear = async (today) => {
+  const day = parseInt(today[2]), 
+      month = months[today[1]];
+
+  if(day === 1 && month === 1){
+    const bday = await birthdayEvent.find({});
+    if (!bday) return false;
+    await birthdayEvent.updateMany({}, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
+  }
+};
+
 module.exports = { 
   async getEvents(today) {
+    restartYear(today);
     const day = `${parseInt(today[2])}/${months[today[1]]}`
     const events = await birthdayEvent.find({ day });
     return events;
@@ -67,11 +79,7 @@ module.exports = {
       scheduleJob(endID,'59 2 * * *', async() => {
         member.roles.remove(BdayRole)
         console.log('rol removido')
-        
-        const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
-        if (!bday) return false;
-        await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
-        
+      
         cancelJob(endID)
       })
       
