@@ -31,17 +31,11 @@ module.exports = {
 				
 				const messages = channel.messages.fetch();
 				const userMessages = (await messages).filter(msg => msg.author.id === member.id);
-				
-				console.log("=========================\n===================")
-				const firsts = Array.prototype.slice.call(Array.from(userMessages), parseInt(many / mentions.users.size))
-				const lasts = Array.prototype.slice.call(Array.from(userMessages), - parseInt(many / mentions.users.size))
-				console.log(firsts);
-				console.log("=========================\n===================")
-				console.log(lasts);
-				// channel.bulkDelete(new Map())
-				// .catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal, pero recuerda que no puedo eliminar mensajes anteriores a 2semanas...`)));
+
+				channel.bulkDelete(new Map(Array.prototype.slice.call(Array.from(userMessages), 0, parseInt(many / mentions.users.size))))
+				.catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal, pero recuerda que no puedo eliminar mensajes anteriores a 2semanas...`)));
 			});
-			// channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${many} mensajes en total de los usuarios mencionados.`))
+			channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${many} mensajes en total de los usuarios mencionados.`))
 		}
 	},
 };
