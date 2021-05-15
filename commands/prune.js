@@ -42,7 +42,7 @@ module.exports = {
 					channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size * count}/${many} mensajes en total de los usuarios mencionados.`))
 					.then(msg => {count++; setTimeout(() => msg.delete() ,5000)})
 				})
-				.catch(() => console.error)
+				.catch((e) => console.error(e))
 				// channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`).setFooter('Recuerda que no puedo eliminar mensajes anteriores a 2 semanas'))
 			});
 		}
