@@ -22,7 +22,10 @@ module.exports = {
 		if(!mentions.users.size) {
 			
 			return channel.bulkDelete(many, true)
-			.then(mensajes => channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size}/${many} mensajes.`)))
+			.then(mensajes => {
+				channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size}/${many} mensajes.`))
+				.then(msg => setTimeout(() => msg.delete() ,5000))
+			})
 			.catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`)));
 		
 		}else {
@@ -33,16 +36,13 @@ module.exports = {
 				const messages = channel.messages.fetch();
 				const userMessages = (await messages).filter(msg => msg.author.id === member.id);
 
-				console.log(new Map(Array.prototype.slice.call(Array.from(userMessages), 0, parseInt(many / mentions.users.size))))
-				channel.bulkDelete(new Map(Array.prototype.slice.call(Array.from(userMessages), 0, parseInt(many / mentions.users.size))))
-				.then((mensajes) => {
+				console.log(Array.from(userMessages).slice(0, parseInt(many / mentions.users.size)))
+				channel.bulkDelete(Array.from(userMessages).slice(0, parseInt(many / mentions.users.size)))
+				.then(mensajes => {
 					channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size * count}/${many} mensajes en total de los usuarios mencionados.`))
-					.then(msg => setTimeout(() => msg.delete() ,5000))
-					count++;
+					.then(msg => {count++; setTimeout(() => msg.delete() ,5000)})
 				})
-				.catch(() => {
-					channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`).setFooter('Recuerda que no puedo eliminar mensajes anteriores a 2 semanas'))
-				})
+				.catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`).setFooter('Recuerda que no puedo eliminar mensajes anteriores a 2 semanas')))
 			});
 		}
 	},
