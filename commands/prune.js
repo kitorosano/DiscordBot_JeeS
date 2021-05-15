@@ -33,6 +33,7 @@ module.exports = {
 				const messages = channel.messages.fetch();
 				const userMessages = (await messages).filter(msg => msg.author.id === member.id);
 
+				console.log(new Map(Array.prototype.slice.call(Array.from(userMessages), 0, parseInt(many / mentions.users.size))))
 				channel.bulkDelete(new Map(Array.prototype.slice.call(Array.from(userMessages), 0, parseInt(many / mentions.users.size))))
 				.then((mensajes) => {
 					channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size * count}/${many} mensajes en total de los usuarios mencionados.`))
@@ -40,7 +41,7 @@ module.exports = {
 					count++;
 				})
 				.catch(() => {
-					channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal :nada:`).setFooter('Recuerda que no puedo eliminar mensajes anteriores a 2 semanas'))
+					channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`).setFooter('Recuerda que no puedo eliminar mensajes anteriores a 2 semanas'))
 				})
 			});
 		}
