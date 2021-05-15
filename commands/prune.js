@@ -21,7 +21,7 @@ module.exports = {
 
 		if(!mentions.users) {
 			const target = mentions.users;
-			target.forEach(member => {
+			target.forEach(async member => {
 				if(!member) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
 				const messages = await channel.messages.fetch();
 				
