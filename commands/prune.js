@@ -32,7 +32,7 @@ module.exports = {
 				if(!member) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
 				const messages = await channel.messages.fetch();
 				
-				const userMessages = messages.filter(msg => msg.author.id === member.user.id);
+				const userMessages = messages.filter(msg => msg.author.id === member.id);
 				console.log(userMessages);
 				console.log("==============")
 			});
