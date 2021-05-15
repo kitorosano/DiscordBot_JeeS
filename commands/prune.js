@@ -19,7 +19,13 @@ module.exports = {
     if(many > 100) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Ingrese un valor menor a 100`))
 		if(many <= 1) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Ingrese un valor mayor a 1`))
 
-		if(mentions.users.size) {
+		if(!mentions.users.size) {
+			
+			// channel.bulkDelete(many)
+			// .then(mensajes => channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size}/${many} mensajes.`)))
+			// .catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`)));
+		
+		}else {
 			const target = mentions.users;
 
 			target.tap(async member => {
@@ -30,10 +36,6 @@ module.exports = {
 				console.log(userMessages);
 				console.log("==============")
 			});
-		}else {
-			// channel.bulkDelete(many)
-			// .then(mensajes => channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size}/${many} mensajes.`)))
-			// .catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`)));
 		}
 			
 
