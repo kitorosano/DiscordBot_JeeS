@@ -4,10 +4,10 @@ const {mongo} = require('../config');
 Levels.setURL(mongo);
 
 module.exports = {
-	name: 'prune',	
-  description: 'Elimina cantidad mensajes. Incluso se puede especificar de que usuarios borrar mensajes.',
-  aliases: ['delete', 'del','purge', 'test'],
-  usage: '<cantidad total> [usuarios]',
+  name: 'prune',	
+  description: 'Elimina entre 1-100 mensajes del canal. Se puede especificar de que usuarios borrar los mensajes.',
+  aliases: ['delete', 'del','purge'],
+  usage: '<cantidad total> [@usuarios]',
   guildOnly: true,
 	modOnly: true,
 	args: true,		
