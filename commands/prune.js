@@ -21,18 +21,20 @@ module.exports = {
 
 		if(!mentions.users.size) {
 			
-			// channel.bulkDelete(many)
-			// .then(mensajes => channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size}/${many} mensajes.`)))
-			// .catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`)));
+			channel.bulkDelete(many)
+			.then(mensajes => channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size}/${many} mensajes.`)))
+			.catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`)));
 		
 		}else {
 			const target = mentions.users;
-
-			target.tap(async member => {
+			console.log(target)
+			console.log("-----------")
+			target.forEach(async member => {
+				console.log(member)
 				if(!member) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
-				const messages = await channel.messages.fetch();
+				const messages = channel.messages.fetch();
 				
-				const userMessages = messages.filter(msg => msg.author.id === member.id);
+				const userMessages = (await messages).filter(msg => msg.author.id === member.id);
 				console.log(userMessages);
 				console.log("==============")
 			});
