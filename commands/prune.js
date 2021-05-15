@@ -36,7 +36,7 @@ module.exports = {
 				const messages = channel.messages.fetch();
 				const userMessages = (await messages).filter(msg => msg.author.id === member.id);
 
-				console.log(Array.from(userMessages).slice(0, parseInt(many / mentions.users.size)))
+				// console.log(Array.from(userMessages).slice(0, parseInt(many / mentions.users.size)))
 				channel.bulkDelete(Array.from(userMessages).slice(0, parseInt(many / mentions.users.size)))
 				.then(mensajes => {
 					channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size * count}/${many} mensajes en total de los usuarios mencionados.`))
