@@ -26,6 +26,7 @@ module.exports = {
 			.catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`)));
 		
 		}else {
+			let count = 1;
 			mentions.users.forEach(async member => {
 				if(!member) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
 				
@@ -33,9 +34,15 @@ module.exports = {
 				const userMessages = (await messages).filter(msg => msg.author.id === member.id);
 
 				channel.bulkDelete(new Map(Array.prototype.slice.call(Array.from(userMessages), 0, parseInt(many / mentions.users.size))))
-				.catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal, pero recuerda que no puedo eliminar mensajes anteriores a 2semanas...`)));
+				.then((mensajes) => {
+					channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size * count}/${many} mensajes en total de los usuarios mencionados.`))
+					.then(msg => setTimeout(() => msg.delete() ,5000))
+					count++;
+				})
+				.catch(() => {
+					channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal :nada:`).setFooter('Recuerda que no puedo eliminar mensajes anteriores a 2 semanas'))
+				})
 			});
-			channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${many} mensajes en total de los usuarios mencionados.`))
 		}
 	},
 };
