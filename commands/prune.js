@@ -7,7 +7,7 @@ module.exports = {
 	name: 'prune',	
   description: 'Elimina cantidad mensajes. Incluso se puede especificar de que usuarios borrar mensajes.',
   aliases: ['delete', 'del','purge', 'test'],
-  usage: '<cantidad> [usuarios]',
+  usage: '<cantidad total> [usuarios]',
   guildOnly: true,
 	modOnly: true,
 	args: true,		
@@ -21,25 +21,25 @@ module.exports = {
 
 		if(!mentions.users.size) {
 			
-			channel.bulkDelete(many)
+			return channel.bulkDelete(many)
 			.then(mensajes => channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${mensajes.size}/${many} mensajes.`)))
 			.catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`)));
 		
 		}else {
-			const target = mentions.users;
-			console.log(target)
-			console.log("-----------")
-			target.forEach(async member => {
-				console.log(member)
+			mentions.users.forEach(async member => {
 				if(!member) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
 				const messages = channel.messages.fetch();
 				
+				console.log("==============")
 				const userMessages = (await messages).filter(msg => msg.author.id === member.id);
 				console.log(userMessages);
-				console.log("==============")
-			});
-		}
-			
 
+					
+				channel.bulkDelete(userMessages)
+				.catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`)));
+			});
+
+			channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${userMessages.size}/${many} mensajes en total de los usuarios mencionados.`))
+		}
 	},
 };
