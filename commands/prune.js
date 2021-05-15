@@ -28,17 +28,15 @@ module.exports = {
 		}else {
 			mentions.users.forEach(async member => {
 				if(!member) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
-				const messages = channel.messages.fetch();
 				
-				console.log("==============")
+				const messages = channel.messages.fetch();
 				const userMessages = (await messages).filter(msg => msg.author.id === member.id);
-				console.log(userMessages);
+				
 
-					
 				channel.bulkDelete(userMessages)
 				.catch(() => channel.send(new MessageEmbed().setColor("RED").setAuthor(`Algo malio sal...`)));
 			});
-
+			console.log("enters")
 			channel.send(new MessageEmbed().setColor("GREEN").setAuthor(`Se han eliminado ${userMessages.size}/${many} mensajes en total de los usuarios mencionados.`))
 		}
 	},
