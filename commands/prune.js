@@ -19,7 +19,7 @@ module.exports = {
     if(many > 100) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Ingrese un valor menor a 100`))
 		if(many <= 1) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Ingrese un valor mayor a 1`))
 
-		if(!mentions.users) {
+		if(!mentions.users.size) {
 			const target = mentions.users;
 
 			target.tap(async member => {
