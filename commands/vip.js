@@ -21,6 +21,11 @@ module.exports = {
         .setFooter(`Este mensaje se eliminara en 5m.`);
 
     channel.send('<@&824881331490127902> y <@&835738568043003906>') //mencionar a @Leyenda y @Heroico
+    .then(msg => {
+      setTimeout(() => {
+        msg.delete();        
+      }, 300000)
+    })
     channel.send(MsgVIP)
     .then(async msg => {
       await msg.react(`${emoji}`);
