@@ -4,7 +4,7 @@ const AnimeFLV = require("animeflv");
 module.exports = {
 	name: 'anime',
   description: 'Va de anime',
-  aliases: ['ani, test'],
+  aliases: ['ani', 'test'],
   // usage: '[usuario]',
   guildOnly: true,
   async execute(msg, args, isMod) {
