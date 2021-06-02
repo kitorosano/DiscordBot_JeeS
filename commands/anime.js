@@ -12,7 +12,7 @@ module.exports = {
 
 		AnimeFLV.latestEpisodesAdded()
 		.then(res => console.log(res))
-		.catch(console.error())
+		.catch(err => console.log(err))
     
 		// const xpToNextLvl = Levels.xpFor(user.level+1);
 		// const MsgToLvlUp = new MessageEmbed()
