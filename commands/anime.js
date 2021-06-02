@@ -4,14 +4,15 @@ const AnimeFLV = require("animeflv");
 module.exports = {
 	name: 'anime',
   description: 'Va de anime',
-  aliases: ['ani'],
+  aliases: ['ani, test'],
   // usage: '[usuario]',
   guildOnly: true,
   async execute(msg, args, isMod) {
     const {author, guild, mentions, channel} = msg;
 
-		const añadidos = AnimeFLV.latestEpisodesAdded();
-		console.log(añadidos)
+		AnimeFLV.latestEpisodesAdded()
+		.then(res => console.log(res))
+		.catch(console.error())
     
 		// const xpToNextLvl = Levels.xpFor(user.level+1);
 		// const MsgToLvlUp = new MessageEmbed()
