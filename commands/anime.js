@@ -11,7 +11,7 @@ module.exports = {
     const {author, guild, mentions, channel} = msg;
 
 		if (!args.length) { //si no hay argumentos
-			const schedule = await _anime.schedule()
+			const schedule = await _anime.schedule(new Date().getDay())
 			console.log(schedule)
 		}
 
