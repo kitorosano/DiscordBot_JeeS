@@ -135,7 +135,11 @@ const startUp = async(client) => { //Al iniciar le bot
   client.user.setActivity('¡help');
   
   const testChannel = await client.channels.fetch('837826705678532608');
-  testChannel.send('**Bot reiniciado, buenos dias!**');
+  testChannel.send('**Bot reiniciado, buenos dias!**')
+  .then(msg => 
+    setTimeout(() => {
+      msg.delete()
+    }, 5000))
 }
 
 client.on('message', async (msg) => { //Reset Bot - comando aparte
