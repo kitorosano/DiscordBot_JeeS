@@ -1,20 +1,20 @@
 const {MessageEmbed} = require('discord.js');
-const AnimeFLV = require("animeflv");
+const _anime = require("jkanime");
 
 module.exports = {
 	name: 'anime',
   description: 'Va de anime',
-  aliases: ['ani', 'test'],
+  aliases: ['test'],
   // usage: '[usuario]',
   guildOnly: true,
   async execute(msg, args, isMod) {
     const {author, guild, mentions, channel} = msg;
 
-		AnimeFLV.latestEpisodesAdded()
-		.then(res => console.log(res))
-		.catch(err => console.log(err))
-    
-		// const xpToNextLvl = Levels.xpFor(user.level+1);
+		if (!args.length) { //si no hay argumentos
+			const schedule = _anime.schedule()
+			console.log(schedule)
+		}
+
 		// const MsgToLvlUp = new MessageEmbed()
 		// 	.setColor('#0080FF')
 		// 	.setAuthor(`💈TOP #${user.position} ~ ${author.username}`)
