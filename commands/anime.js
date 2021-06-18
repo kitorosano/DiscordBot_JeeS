@@ -1,7 +1,8 @@
 const {MessageEmbed} = require('discord.js');
 const _anime = require("jkanime");
 
-const dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"]
+const dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"];
+
 
 module.exports = {
 	name: 'anime',
@@ -21,11 +22,13 @@ module.exports = {
 		if (!args.length) {
 			const schedule = await _anime.schedule(day)
 			MsgToSend.setTitle(`:alarm_clock: Animes en Emision`)
-							 .addField(`DIA ${dias[day -1]}`, schedule.map(anime => {
+							 .addField(`${dias[day -1]} ${new Date().getDate()}`, schedule.map(anime => {
 								 const {time, title, episode} = anime;
 								 if(time && title && episode) return `**${anime.time}**\t| ${anime.title} ***Ep${anime.episode}***`
 							 }))
 		};
+
+
 
 		return channel.send(MsgToSend)
 	},
