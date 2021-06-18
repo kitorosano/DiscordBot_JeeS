@@ -12,12 +12,16 @@ module.exports = {
   async execute(msg, args, isMod) {
     const {author, guild, channel, client} = msg;
 
+		let hora = new Date().getDay()
+		console.log(hora);
+
+
 		const MsgToSend = new MessageEmbed()
 											.setColor('#ffff55')
 											.setFooter('Provisto por animeschedule.net', client.user.displayAvatarURL())
 
 		if (!args.length) {
-			const {day, schedule} = await _anime.schedule(new Date().getDay())
+			const {day, schedule} = await _anime.schedule()
 			MsgToSend.setTitle(`:alarm_clock: Animes en Emision`)
 							 .addField(`DIA ${dias[day -1]}`, schedule.map(anime => {
 								 const {time, title, episode} = anime;
