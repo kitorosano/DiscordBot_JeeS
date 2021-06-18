@@ -8,7 +8,7 @@ module.exports = {
   // usage: '[usuario]',
   guildOnly: true,
   async execute(msg, args, isMod) {
-    const {author, guild, mentions, channel} = msg;
+    const {author, guild, channel, client} = msg;
 
 		const MsgToSend = new MessageEmbed()
 											.setColor('#ffff55')
