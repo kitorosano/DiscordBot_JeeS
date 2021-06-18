@@ -1,5 +1,6 @@
 const {MessageEmbed} = require('discord.js');
 const _anime = require("jkanime");
+const { getAnimeMovies } = require('../../../testing/jkanime/src/api/api');
 
 module.exports = {
 	name: 'anime',
@@ -10,19 +11,23 @@ module.exports = {
   async execute(msg, args, isMod) {
     const {author, guild, mentions, channel} = msg;
 
+		const MsgToSend = new MessageEmbed().setColor('#ffff55');
+
 		if (!args.length) { //si no hay argumentos
 			const schedule = await _anime.schedule(new Date().getDay())
-			console.log(schedule)
-		}
-
-		// const MsgToLvlUp = new MessageEmbed()
-		// 	.setColor('#0080FF')
-		// 	.setAuthor(`💈TOP #${user.position} ~ ${author.username}`)
-		// 	.setThumbnail(author.displayAvatarURL({ format: "png", dynamic: true }))
-		// 	.setTitle(`Nivel:  ${user.level}`)
-		// 	.setDescription(`**Siguiente:**  ${user.xp} / ${xpToNextLvl} EXP\n**Total:** ✨ ${user.totalXP} EXP`)
 			
-		// return channel.send(MsgToLvlUp)
+			MsgToSend.setTitle(`Animes en Emision del dia:`);
+				
+			schedule.map(anime => {
+				const {title, episode, time, poster} = anime;
 
+				MsgToSend.addField({
+					name: `${time}`, 
+					value: `${title} - Ep${episode}`, 
+				})
+			})
+		};
+
+		return channel.send(MsgToSend)
 	},
 };
