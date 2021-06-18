@@ -1,6 +1,5 @@
 const {MessageEmbed} = require('discord.js');
 const _anime = require("jkanime");
-const { getAnimeMovies } = require('../../../testing/jkanime/src/api/api');
 
 module.exports = {
 	name: 'anime',
