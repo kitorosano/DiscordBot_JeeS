@@ -12,7 +12,7 @@ module.exports = {
   async execute(msg, args, isMod) {
     const {author, guild, channel, client} = msg;
 
-		const day = (new Date().getHours() < 2 ? new Date().getDate() - 1 : new Date().getDate())
+		const day = (new Date().getHours() < 2 ? new Date().getDay() - 1 : new Date().getDay())
 		console.log(day)
 
 		const MsgToSend = new MessageEmbed()
