@@ -1,6 +1,8 @@
 const {MessageEmbed} = require('discord.js');
 const _anime = require("jkanime");
 
+const dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DOMINGO"]
+
 module.exports = {
 	name: 'anime',
   description: 'Va de anime',
@@ -15,9 +17,12 @@ module.exports = {
 											.setFooter('Provisto por animeschedule.net', client.user.displayAvatarURL())
 
 		if (!args.length) {
-			const schedule = await _anime.schedule(new Date().getDay())
-			MsgToSend.setTitle(`:alarm_clock: Animes en Emision del dia:`)
-							 .addField("https://www3.animeflv.net", schedule.map(anime => `**${anime.time}**\t| ${anime.title} *Ep${anime.episode}*`))
+			const {day, schedule} = await _anime.schedule(new Date().getDay())
+			MsgToSend.setTitle(`:alarm_clock: Animes en Emision`)
+							 .addField(`DIA ${dias[day]}`, schedule.map(anime => {
+								 const {time, title, episode} = anime;
+								 if(time && title && episode) return `**${anime.time}**\t| ${anime.title} *Ep${anime.episode}*`
+							 }))
 		};
 
 		return channel.send(MsgToSend)
