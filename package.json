@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "updatePKG": "npm update jkanime",
-    "start": "npm run updatePKG && node .",
+    "start": "node .",
     "dev": "npm run updatePKG && nodemon ."
   },
   "author": "",
