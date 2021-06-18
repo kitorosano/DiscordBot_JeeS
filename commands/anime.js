@@ -12,8 +12,7 @@ module.exports = {
   async execute(msg, args, isMod) {
     const {author, guild, channel, client} = msg;
 
-		const day = (new Date().getHours() < 2 ? new Date().getDay() - 1 : new Date().getDay())
-		console.log(day)
+		const day = (new Date().getHours() < 3 ? new Date().getDay() - 1 : new Date().getDay())
 
 		const MsgToSend = new MessageEmbed()
 											.setColor('#ffff55')
