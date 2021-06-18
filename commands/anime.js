@@ -18,7 +18,7 @@ module.exports = {
 			const schedule = await _anime.schedule(new Date().getDay())
 			schedule.map(anime => {
 				const {title, episode, time, poster} = anime;
-				MsgToSend.addField(`${time}`, `${title} *Ep${episode}*`)
+				MsgToSend.addField('\u200B', `**${time}** | ${title} *Ep${episode}*`)
 			})
 		};
 
