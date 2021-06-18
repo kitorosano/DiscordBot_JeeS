@@ -21,7 +21,7 @@ module.exports = {
 			MsgToSend.setTitle(`:alarm_clock: Animes en Emision`)
 							 .addField(`DIA ${dias[day]}`, schedule.map(anime => {
 								 const {time, title, episode} = anime;
-								 if(time && title && episode) return `**${anime.time}**\t| ${anime.title} *Ep${anime.episode}*`
+								 if(time && title && episode) return `**${anime.time}**\t| ${anime.title} **Ep${anime.episode}**`
 							 }))
 		};
 
