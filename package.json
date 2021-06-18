@@ -4,8 +4,9 @@
   "description": "Bot para el discord JeeS",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
-    "dev": "nodemon ."
+    "updatePKG": "npm update jkanime",
+    "start": "npm run updatePKG && node .",
+    "dev": "npm run updatePKG && nodemon ."
   },
   "author": "",
   "license": "ISC",

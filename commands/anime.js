@@ -13,11 +13,10 @@ module.exports = {
 
 		const MsgToSend = new MessageEmbed().setColor('#ffff55');
 
-		if (!args.length) { //si no hay argumentos
-			const schedule = await _anime.schedule(new Date().getDay())
-			
+		if (!args.length) {
 			MsgToSend.setTitle(`Animes en Emision del dia:`);
-				
+			
+			const schedule = await _anime.schedule(new Date().getDay())
 			schedule.map(anime => {
 				const {title, episode, time, poster} = anime;
 
