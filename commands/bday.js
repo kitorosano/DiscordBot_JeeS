@@ -76,6 +76,16 @@ module.exports = {
       return channel.send(MsgUpdated)
 
     }
+    if (action === 'list'){
+      const bdays = await birthdays.find({});
+      if (!bdays) return false;
+
+      const MsgBdays = new MessageEmbed()
+      .setColor('#f0ff7a')
+      .setDescription(bdays.map(bday => `El cumpleaños de **${target.username}** es el \`${bday.day}\``).join('\n'))
+      
+      return channel.send(MsgBdays)
+    }
     if(action === undefined){
 
       const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });

@@ -28,7 +28,7 @@ module.exports = {
 							 }))
 		};
 
-
+		// Buscar por dia
 
 		return channel.send(MsgToSend)
 	},
