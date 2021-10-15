@@ -1,103 +1,153 @@
-const {MessageEmbed} = require('discord.js');
-const mongoose = require("mongoose");
-const birthdays = require("../models/birthdays.model");
-let {mongo} = require('../config');
+const { MessageEmbed } = require('discord.js');
+const mongoose = require('mongoose');
+const birthdays = require('../models/birthdays.model');
+let { mongo } = require('../config');
 
 mongoose.connect(mongo, {
-  useFindAndModify: false,
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
- 
+	useFindAndModify: false,
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+});
+
 // Semi-modOnly
 module.exports = {
 	name: 'bday',
-  description: 'Manejar cumpleaños',
-  aliases: ['birthday'],
-  usage: '[usuario]',
-  modUsage: '<usuario> [add/remove/update] [dia/mes]',
-  guildOnly: true,
-  async execute(msg, args, isMod) {
-    const {member, author,guild, mentions, channel} = msg;
-    let [who, action, fecha] = args;
+	description: 'Manejar cumpleaños',
+	aliases: ['birthday'],
+	usage: '[usuario]',
+	modUsage: '<usuario> [add/remove/update] [dia/mes]',
+	guildOnly: true,
+	async execute(msg, args, isMod) {
+		const { member, author, guild, mentions, channel } = msg;
+		let [who, action, fecha] = args;
 
-    if(who === "next"){
-      // Ver proximo cumpleaños
-    }
-    if(who === "previous" || who === "prev"){
-      // Ver cumpleaños anterior
-    }
+		if (who === 'next') {
+			// Ver proximo cumpleaños
+		}
+		if (who === 'previous' || who === 'prev') {
+			// Ver cumpleaños anterior
+		}
 
-    let target = mentions.users.first();
-    if(!target) target = author;
-    
-    // SI SE ESPECIFICA UNA ACCION PERO NO ES UN MODERADOR, SIMPLEMENTE LE MOSRTAMOS LA INFO DEL CUMPLEAÑERO  
-    if((action === 'add' || action === 'remove' || action === 'update') && !isMod) action = undefined;
-      // {return channel.send(`:no_pedestrians: Alto ahí **${member.user.username}** pantalones cuadrados.`)}
+		let target = mentions.users.first();
+		if (!target) target = author;
 
-    if(action === 'add') {
-      // msg.delete()
-      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-      if (bday) return channel.send(new MessageEmbed().setColor('RED').setDescription(`El cumpleaños de **${target.username}** ya está programado para el: ${bday.day}`));
+		// SI SE ESPECIFICA UNA ACCION PERO NO ES UN MODERADOR, SIMPLEMENTE LE MOSRTAMOS LA INFO DEL CUMPLEAÑERO
+		if ( (action === 'add' || action === 'remove' || action === 'update') && !isMod ) // action = undefined;
+		  return channel.send(`:no_pedestrians: Alto ahí **${member.user.username}** pantalones cuadrados.`)
 
-      const newBday = new birthdays({
-        userID: target.id,
-        guildID: guild.id,
-        day: fecha
-      });
-      await newBday.save().catch(e => console.log(`Failed to save birthday: ${e}`));
+		if (action === 'add') {
+			// msg.delete()
+			const bday = await birthdays.findOne({
+				userID: target.id,
+				guildID: guild.id,
+			});
+			if (bday)
+				return channel.send(
+					new MessageEmbed()
+						.setColor('RED')
+						.setDescription(
+							`El cumpleaños de **${target.username}** ya está programado para el: ${bday.day}`
+						)
+				);
 
-      return channel.send(new MessageEmbed().setColor('#f0ff7a').setDescription(`El cumpleaños de **${target.username}** fue programado para el \`${fecha}\``))
-      
-    }
-    if(action === 'remove') {
-      // msg.delete()
-      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-      if (!bday) return false;
-  
-      await birthdays.findOneAndDelete({ userID: target.id, guildID: guild.id }).catch(e => console.log(`Failed to delete bday: ${e}`));
+			const newBday = new birthdays({
+				userID: target.id,
+				guildID: guild.id,
+				day: fecha,
+			});
+			await newBday
+				.save()
+				.catch((e) => console.log(`Failed to save birthday: ${e}`));
 
-      const MsgRemoved = new MessageEmbed()
-          .setColor('#f0ad7a')
-          .setDescription(`El cumpleaños de **${target.username}** fue eliminado`)  
-      return channel.send(MsgRemoved)
+			return channel.send(
+				new MessageEmbed()
+					.setColor('#f0ff7a')
+					.setDescription(
+						`El cumpleaños de **${target.username}** fue programado para el \`${fecha}\``
+					)
+			);
+		}
+		if (action === 'remove') {
+			// msg.delete()
+			const bday = await birthdays.findOne({
+				userID: target.id,
+				guildID: guild.id,
+			});
+			if (!bday) return false;
 
-    }
-    if (action === 'update') {
-      msg.delete()
-      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-      if (!bday) return false;
+			await birthdays
+				.findOneAndDelete({ userID: target.id, guildID: guild.id })
+				.catch((e) => console.log(`Failed to delete bday: ${e}`));
 
-      await birthdays.findOneAndUpdate({ userID: target.id, guildID: guild.id }, { day: fecha }).catch(e => console.log(`Failed to update bday_ ${e}`))
+			const MsgRemoved = new MessageEmbed()
+				.setColor('#f0ad7a')
+				.setDescription(
+					`El cumpleaños de **${target.username}** fue eliminado`
+				);
+			return channel.send(MsgRemoved);
+		}
+		if (action === 'update') {
+			msg.delete();
+			const bday = await birthdays.findOne({
+				userID: target.id,
+				guildID: guild.id,
+			});
+			if (!bday) return false;
 
-      const MsgUpdated = new MessageEmbed()
-          .setColor('#f0ff7a')
-          .setDescription(`El cumpleaños de **${target.username}** ahora es el \`${fecha}\``)
-      return channel.send(MsgUpdated)
+			await birthdays
+				.findOneAndUpdate(
+					{ userID: target.id, guildID: guild.id },
+					{ day: fecha }
+				)
+				.catch((e) => console.log(`Failed to update bday_ ${e}`));
 
-    }
-    if (who === 'list'){
-      const bdays = await birthdays.find({});
-      if (!bdays) return false;
+			const MsgUpdated = new MessageEmbed()
+				.setColor('#f0ff7a')
+				.setDescription(
+					`El cumpleaños de **${target.username}** ahora es el \`${fecha}\``
+				);
+			return channel.send(MsgUpdated);
+		}
+		if (who === 'list') {
+			const bdays = await birthdays.find({});
+			if (!bdays) return false;
 
-      const MsgBdays = new MessageEmbed()
-      .setColor('#f0ff7a')
-      .setTitle(':birthday: Cumpleaños establecidos:')
-      .setDescription(bdays.map(bday => `**<@${bday.userID}>** para el \`${bday.day}\``).join('\n'))
-      
-      return channel.send(MsgBdays)
-    }
-    if(action === undefined){
+			const MsgBdays = new MessageEmbed()
+				.setColor('#f0ff7a')
+				.setTitle(':birthday: Cumpleaños establecidos:')
+				.setDescription(
+					bdays
+            .sort((a, b) => 
+              parseInt(a.day.split('/')[1]) - parseInt(b.day.split('/')[1])
+            )
+						.map((bday) => `**<@${bday.userID}>** para el \`${bday.day}\``)
+						.join('\n')
+				);
 
-      const bday = await birthdays.findOne({ userID: target.id, guildID: guild.id });
-      if (!bday) return channel.send(new MessageEmbed().setColor('RED').setDescription(`Aún no tenemos el cumpleaños de **${target.username}**`));
-      
-      const MsgBday = new MessageEmbed()
-      .setColor('#ffe47a')
-      .setDescription(`El cumpleaños de **${target.username}** es el \`${bday.day}\``)
-      
-      return channel.send(MsgBday)
-    }
+			return channel.send(MsgBdays);
+		}
+		if (action === undefined) {
+			const bday = await birthdays.findOne({
+				userID: target.id,
+				guildID: guild.id,
+			});
+			if (!bday)
+				return channel.send(
+					new MessageEmbed()
+						.setColor('RED')
+						.setDescription(
+							`Aún no tenemos el cumpleaños de **${target.username}**`
+						)
+				);
+
+			const MsgBday = new MessageEmbed()
+				.setColor('#ffe47a')
+				.setDescription(
+					`El cumpleaños de **${target.username}** es el \`${bday.day}\``
+				);
+
+			return channel.send(MsgBday);
+		}
 	},
 };
 
