@@ -20,7 +20,7 @@ module.exports = {
 	async execute(msg, args, isMod) {
 		const { member, author, guild, mentions, channel } = msg;
 		let [who, action, fecha] = args;
-
+    
 		if (who === 'next') {
 			// Ver proximo cumpleaños
 		}
@@ -109,7 +109,8 @@ module.exports = {
 			return channel.send(MsgUpdated);
 		}
 		if (who === 'list') {
-			const bdays = await birthdays.find({});
+      // OBTENER TODOS LOS CUMPLEAÑOS DEL SERVIDOR
+			const bdays = await birthdays.find({guildID: guild.id});
 			if (!bdays) return false;
 
 			const MsgBdays = new MessageEmbed()

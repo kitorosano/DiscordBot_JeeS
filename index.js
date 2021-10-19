@@ -135,6 +135,7 @@ client.on('message', async (msg) => {
 /** CUANDO EL MENSAJE ES PARA REINCIAR EL BOT */
 client.on('message', async (msg) => { 
   let {channel, member, content} = msg;
+  
   if(content !== '¡reset' && content !== '¡restart') return;
   const isMod = member.roles.cache.find(role => role.name === 'Moderador');
   if(!isMod) return;
