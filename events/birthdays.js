@@ -54,7 +54,7 @@ module.exports = {
       console.log('else')
       /*APAGAR EL EVENTO*/
       const endID = 'endBday-' + event._id.toString();
-      scheduleJob(endID, {minute: 59, hour: 23, tz: 'America/Montevideo'}, async() => {
+      scheduleJob(endID, {minute: 23, hour: 1, tz: 'America/Montevideo'}, async() => {
         member.roles.remove(BdayRole)
         // console.log('rol removido')
 

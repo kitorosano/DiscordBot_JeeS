@@ -87,7 +87,7 @@ module.exports = {
 			return channel.send(MsgRemoved);
 		}
 		if (action === 'update') {
-			msg.delete();
+			// msg.delete();
 			const bday = await birthdays.findOne({
 				userID: target.id,
 				guildID: guild.id,
