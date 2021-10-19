@@ -54,13 +54,6 @@ const startUp = async(client) => { //Al iniciar el bot
   const job = scheduleJob({minute: 0, hour: 0, tz: 'America/Montevideo'}, () => initializeEvents()); // CONFIGURO REINICIAR LOS EVENTOS A LAS 00:00 GMT-3
   
   client.user.setActivity('¡help');
-  
-  const testChannel = await client.channels.fetch('837826705678532608');
-  testChannel.send('**Bot reiniciado, buenos dias!**')
-  .then(msg => 
-    setTimeout(() => {
-      msg.delete()
-    }, 5000))
 }
 
 /** CUANDO SE ENVIA UN MENSAJE **/
@@ -149,8 +142,15 @@ client.on('message', async (msg) => {
   channel.send('*Reiniciando...*')
   .then(m => client.destroy())
   .then(() => client.login(token));
-  await startUp(client);
   console.log("bot reiniciado en: " + channel.guild.name)
+  
+  startUp(client);
+  const testChannel = await client.channels.fetch(channel.id);
+  testChannel.send('**Buenos dias!**')
+  .then(msg => 
+    setTimeout(() => {
+      msg.delete()
+    }, 5000))
 
 });
 /** */

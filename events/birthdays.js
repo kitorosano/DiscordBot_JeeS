@@ -23,12 +23,13 @@ module.exports = {
   async execute(event, client) {
     const guild = await client.guilds.fetch(event.guildID);
     const member = await guild.members.fetch(event.userID);
-    const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
-    // const channel = guild.channels.resolve('837826705678532608'); //HERE TEST CHANNEL FROM GUILD/SERVER
+    // const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
+    const channel = guild.channels.resolve('837826705678532608'); //HERE TEST CHANNEL FROM GUILD/SERVER
     if(!channel.id || !member.user) return console.log("HAY ALGO QUE NO HAY");
 
     const initID = 'initBday-'+ event._id.toString();
     if(!event.mention) { //SI NO ESTA MENCIONADO, LO MENCIONO
+    console.log('if')
     scheduleJob(initID, {minute: 1, hour: 0, tz: 'America/Montevideo'}, async () => {
 
       // const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
@@ -53,7 +54,7 @@ module.exports = {
       cancelJob(initID)
     });
   } else { //SI YA ESTA MENCIONADO, ESPERO HASTA LAS 23:59 PARA QUITARLE EL ROL
-
+    console.log('else')
     /*APAGAR EL EVENTO*/
     const endID = 'endBday-' + event._id.toString();
     scheduleJob(endID, {minute: 59, hour: 23, tz: 'America/Montevideo'}, async() => {
