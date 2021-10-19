@@ -51,7 +51,7 @@ client.on('guildMemberAdd', member => {
 
 const startUp = async(client) => { //Al iniciar el bot  
   initializeEvents(); //REINICIO LOS EVENTOS POR SI ESTOY A MITAD DEL DIA
-  const job = scheduleJob({minute: 0, hour: 0, tz: 'America/Montevideo'}, () => initializeEvents()); // CONFIGURO REINICIAR LOS EVENTOS A LAS 00:00 GMT-3
+  scheduleJob({minute: 0, hour: 0, tz: 'America/Montevideo'}, () => initializeEvents()); // CONFIGURO REINICIAR LOS EVENTOS A LAS 00:00 GMT-3
   
   client.user.setActivity('¡help');
 }
@@ -135,7 +135,7 @@ client.on('message', async (msg) => {
 /** CUANDO EL MENSAJE ES PARA REINCIAR EL BOT */
 client.on('message', async (msg) => { 
   let {channel, member, content} = msg;
-  
+
   if(content !== '¡reset' && content !== '¡restart') return;
   const isMod = member.roles.cache.find(role => role.name === 'Moderador');
   if(!isMod) return;

@@ -23,8 +23,8 @@ module.exports = {
   async execute(event, client) {
     const guild = await client.guilds.fetch(event.guildID);
     const member = await guild.members.fetch(event.userID);
-    // const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
-    const channel = guild.channels.resolve('837826705678532608'); //HERE TEST CHANNEL FROM GUILD/SERVER
+    const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
+    // const channel = guild.channels.resolve('837826705678532608'); //HERE TEST CHANNEL FROM GUILD/SERVER
     if(!channel.id || !member.user) return console.log("HAY ALGO QUE NO HAY");
 
     // const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
@@ -32,7 +32,6 @@ module.exports = {
     const BdayRole = roles.cache.find(role => role.name === 'Cumpleañer@');
 
     if(!event.mention) { //SI NO ESTA MENCIONADO, LO MENCIONO
-      console.log('if')
 
       member.roles.add(BdayRole)
       // console.log(member.roles)
@@ -51,9 +50,9 @@ module.exports = {
       await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: true }).catch(e => console.log(`Failed to update bday_ ${e}`))
       
     }
-
+    // QUITAR EL ROL NI BIEN TERMINE EL DIA
     const endID = 'endBday-' + event._id.toString();
-    scheduleJob(endID, {minute: 39, hour: 1, tz: 'America/Montevideo'}, async() => {
+    scheduleJob(endID, {second: 50, minute: 59, hour: 23, tz: 'America/Montevideo'}, async() => {
       member.roles.remove(BdayRole)
       // console.log('rol removido')
 
