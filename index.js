@@ -3,7 +3,7 @@ const {prefix, allowedUsers, modUsers, token, mongo, xp} = require('./config');
 const {modMe,setRoles} = require('./utils');
 const fs = require('fs');
 const rnd = require('random');
-const {scheduleJob, cancelJob} = require('node-schedule');
+const {scheduleJob, cancelJob } = require('node-schedule');
 const Levels = require("discord-xp");
 const { type } = require('os');
 Levels.setURL(mongo);
@@ -22,7 +22,7 @@ for (const file of commandFiles) {
 
 
 /** INICIALIZAR EVENTOS DEL DIA */
-const restartEvents = async() =>{ 
+const initializeEvents = async() =>{ 
   const today = new Date().toDateString().split(' '); // Obtener fecha de hoy
   // console.log(today);
   const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
@@ -38,9 +38,6 @@ const restartEvents = async() =>{
     })
   } 
 };
-
-scheduleJob("0 3 * * *", () => restartEvents()); // REINICIAR EVENTOS CADA DIA A LAS 00:00 UTC-3
-
 /** */
 
 
@@ -52,6 +49,19 @@ client.on('guildMemberAdd', member => {
 })
 /** */
 
+const startUp = async(client) => { //Al iniciar el bot  
+  initializeEvents(); //REINICIO LOS EVENTOS POR SI ESTOY A MITAD DEL DIA
+  const job = scheduleJob({minute: 0, hour: 0, tz: 'America/Montevideo'}, () => initializeEvents()); // CONFIGURO REINICIAR LOS EVENTOS A LAS 00:00 GMT-3
+  
+  client.user.setActivity('¡help');
+  
+  const testChannel = await client.channels.fetch('837826705678532608');
+  testChannel.send('**Bot reiniciado, buenos dias!**')
+  .then(msg => 
+    setTimeout(() => {
+      msg.delete()
+    }, 5000))
+}
 
 /** CUANDO SE ENVIA UN MENSAJE **/
 client.on('message', async (msg) => {
@@ -129,20 +139,8 @@ client.on('message', async (msg) => {
   }
 });
 /** */ 
-
-const startUp = async(client) => { //Al iniciar le bot  
-  restartEvents();
-  client.user.setActivity('¡help');
-  
-  const testChannel = await client.channels.fetch('837826705678532608');
-  testChannel.send('**Bot reiniciado, buenos dias!**')
-  .then(msg => 
-    setTimeout(() => {
-      msg.delete()
-    }, 5000))
-}
-
-client.on('message', async (msg) => { //Reset Bot - comando aparte
+/** CUANDO EL MENSAJE ES PARA REINCIAR EL BOT */
+client.on('message', async (msg) => { 
   let {channel, member, content} = msg;
   if(content !== '¡reset' && content !== '¡restart') return;
   const isMod = member.roles.cache.find(role => role.name === 'Moderador');
@@ -155,7 +153,7 @@ client.on('message', async (msg) => { //Reset Bot - comando aparte
   console.log("bot reiniciado en: " + channel.guild.name)
 
 });
-
+/** */
 
 /** COMPROBAR AL INICIAR EL BOT */
 client.once('ready', async () => {

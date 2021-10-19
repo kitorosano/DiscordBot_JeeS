@@ -7,7 +7,7 @@ const dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO", "DO
 module.exports = {
 	name: 'anime',
   description: 'Va de anime',
-  aliases: ['test'],
+  // aliases: [''],
   // usage: '[usuario]',
   guildOnly: true,
   async execute(msg, args, isMod) {
