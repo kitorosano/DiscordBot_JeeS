@@ -29,8 +29,7 @@ module.exports = {
 
     const initID = 'initBday-'+ event._id.toString();
     if(!event.mention) { //SI NO ESTA MENCIONADO, LO MENCIONO
-    console.log('if')
-    scheduleJob(initID, {minute: 1, hour: 0, tz: 'America/Montevideo'}, async () => {
+      console.log('if')
 
       // const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
       const roles = await guild.roles.fetch();
@@ -51,24 +50,22 @@ module.exports = {
       if (!bday) return false;
       await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: true }).catch(e => console.log(`Failed to update bday_ ${e}`))
       
-      cancelJob(initID)
-    });
-  } else { //SI YA ESTA MENCIONADO, ESPERO HASTA LAS 23:59 PARA QUITARLE EL ROL
-    console.log('else')
-    /*APAGAR EL EVENTO*/
-    const endID = 'endBday-' + event._id.toString();
-    scheduleJob(endID, {minute: 59, hour: 23, tz: 'America/Montevideo'}, async() => {
-      member.roles.remove(BdayRole)
-      // console.log('rol removido')
+    } else { //SI YA ESTA MENCIONADO, ESPERO HASTA LAS 23:59 PARA QUITARLE EL ROL
+      console.log('else')
+      /*APAGAR EL EVENTO*/
+      const endID = 'endBday-' + event._id.toString();
+      scheduleJob(endID, {minute: 59, hour: 23, tz: 'America/Montevideo'}, async() => {
+        member.roles.remove(BdayRole)
+        // console.log('rol removido')
 
-      // Ahora que termino el cumpleaños, vuelvo a poner la mencion en false, para su proximo cumpleaños
-      const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
-      if (!bday) return false;
-        await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
-    
-      cancelJob(endID)
-    })   
-  }
+        // Ahora que termino el cumpleaños, vuelvo a poner la mencion en false, para su proximo cumpleaños
+        const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });
+        if (!bday) return false;
+          await birthdayEvent.findOneAndUpdate({ userID: event.userID, guildID: event.guildID }, { mention: false }).catch(e => console.log(`Failed to update bday_ ${e}`))
+      
+        cancelJob(endID)
+      })   
+    }
   },
 };
 
