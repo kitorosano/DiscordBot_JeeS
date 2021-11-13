@@ -37,7 +37,7 @@ module.exports = {
       const MsgNextBday = new MessageEmbed()
 				.setColor('#ffe47a')
 				.setDescription(
-					`El proximo cumpleaños será de **<@${bday.userID}>** el \`${bday.day}\``
+					`El proximo cumpleaños será de **<@${nextBday.userID}>** el \`${nextBday.day}\``
 				);
 
 			return channel.send(MsgNextBday);
@@ -56,7 +56,7 @@ module.exports = {
       const MsgPrevBday = new MessageEmbed()
 				.setColor('#ffe47a')
 				.setDescription(
-					`El proximo cumpleaños será de **<@${bday.userID}>** el \`${bday.day}\``
+					`El proximo cumpleaños será de **<@${prevBday.userID}>** el \`${prevBday.day}\``
 				);
 
 			return channel.send(MsgPrevBday);
