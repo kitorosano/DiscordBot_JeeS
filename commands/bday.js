@@ -25,48 +25,46 @@ module.exports = {
     
 		if (who === 'next') { // Ver proximo cumpleaños
       let today = new Date();
-      let nextBday;
+      let nextBdays;
       let founded = false;
       while(!founded){
         today.setDate(today.getDate() +1)
         let bDay = parseInt(today.toDateString().split(' ')[2]),
             bMonth = months[today.toDateString().split(' ')[1]];
 
-        nextBday = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(nextBday) {
-          console.log(nextBday)
-          founded = true
-        };
+        nextBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
+        if(nextBdays)  founded = true
       }
 
-      const MsgNextBday = new MessageEmbed()
+
+      const MsgNextBdays = new MessageEmbed()
 				.setColor('#ffe47a')
 				.setDescription(
-					`El proximo cumpleaños será de **<@${nextBday.userID}>** el \`${nextBday.day}\``
+					nextBdays.map(nBday => `El proximo cumpleaños será de **<@${nBday.userID}>** el \`${nBday.day}\``).join('\n')
 				);
 
-			return channel.send(MsgNextBday);
+			return channel.send(MsgNextBdays);
 		}
 		if (who === 'prev') { // Ver cumpleaños anterior
       let today = new Date();
-      let prevBday;
+      let prevBdays;
       let founded = false;
       while(!founded){
         today.setDate(today.getDate()-1) 
         let bDay = parseInt(today.toDateString().split(' ')[2]),
             bMonth = months[today.toDateString().split(' ')[1]];
 
-        prevBday = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(prevBday) founded = true;
+        prevBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
+        if(prevBdays) founded = true;
       }
 
-      const MsgPrevBday = new MessageEmbed()
+      const MsgPrevBdays = new MessageEmbed()
 				.setColor('#ffe47a')
 				.setDescription(
-					`El proximo cumpleaños será de **<@${prevBday.userID}>** el \`${prevBday.day}\``
+					prevBdays.map(pBday => `El proximo cumpleaños será de **<@${pBday.userID}>** el \`${pBday.day}\``).join('\n')
 				);
 
-			return channel.send(MsgPrevBday);
+			return channel.send(MsgPrevBdays);
 		}
 
 		let target = mentions.users.first();
