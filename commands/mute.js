@@ -13,7 +13,7 @@ module.exports = {
     
     const razon = why.length > 0 ? why.join(' ') : 'Sin especificar';
     const target = mentions.users.first();
-    if(!target) return channel.send(new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`))
+    if(!target) return channel.send({embeds: [new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`)]})
 
     const roles = await guild.roles.fetch();
     const mutedRole = roles.cache.find(role => role.name === 'Silenciado');
@@ -28,12 +28,12 @@ module.exports = {
             .setAuthor(`${tag} ha sido silenciad@`, memberTarget.user.displayAvatarURL({ format: "png", dynamic: true }))
             .setDescription(`**Razón**: ${razon}`)
             .setFooter(`Para desmutearlo utiliza: ¡unmute <usuario>`)
-      return msg.channel.send(exampleEmbed)
+      return msg.channel.send({embeds: [exampleEmbed]})
     } else {
       const MsgNoSePuede = new MessageEmbed()
             .setColor("ORANGE")
             .setAuthor('No puedes mutear a alguien que ya está silenciado.')
-      return channel.send(MsgNoSePuede)
+      return channel.send({embeds: [MsgNoSePuede]})
     }
   },
 };

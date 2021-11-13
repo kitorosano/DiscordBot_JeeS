@@ -21,7 +21,7 @@ module.exports = {
         .setTitle(`¡:loudspeaker: El evento termino :rotating_light: !`)
         .setDescription(`Muchas gracias por participar.`)
 
-    channel.send(MsgVIP)
+    channel.send({embeds: [MsgVIP]})
 
   },
 };

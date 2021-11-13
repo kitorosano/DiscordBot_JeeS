@@ -14,13 +14,13 @@
     "@discordjs/opus": "^0.3.3",
     "@keyv/postgres": "^1.0.17",
     "discord-xp": "git+https://github.com/Kitorosano/discord-xp.git",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.3.1",
     "dotenv": "^8.6.0",
     "ffmpeg-static": "^4.4.0",
     "fs": "0.0.1-security",
     "jkanime": "git+https://github.com/Kitorosano/jkanime.git",
-    "keyv": "^4.0.3",
-    "mongoose": "^5.13.11",
+    "keyv": "^4.0.4",
+    "mongoose": "^5.13.13",
     "ms": "^2.1.3",
     "node-schedule": "^2.0.0",
     "random": "^2.2.0",
@@ -29,6 +29,6 @@
     "ytsr": "^1.0.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.15"
   }
 }

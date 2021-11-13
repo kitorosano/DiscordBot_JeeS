@@ -11,7 +11,8 @@ module.exports = {
     }
     
     msg.mentions.users.forEach(user => {
-      msg.channel.send(`Avatar de ${user.username}: `, new MessageAttachment(user.displayAvatarURL({ format: "png", dynamic: true })))
+      const file = new MessageAttachment(user.displayAvatarURL({ format: "png", dynamic: true }))
+      msg.channel.send({content: `Avatar de ${user.username}: `, files: [file]})
     });
   }
 }

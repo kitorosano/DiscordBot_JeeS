@@ -42,7 +42,7 @@ module.exports = {
           .setDescription(`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`)
 
       channel.send('@everyone');
-      channel.send(MsgBday);
+      channel.send({embeds: [MsgBday]});
       
       // Me aseguro que mencione al usuario en su cumpleaños, por si surge un reinicio imprevisto y salta otra mencion
       const bday = await birthdayEvent.findOne({ userID: event.userID, guildID: event.guildID });

@@ -10,7 +10,7 @@ module.exports = { //ROLES QUE TIENEN QUE ESTAR EN EL SERVER SI O SI
         permissions: 104324673,
         mentionable: false
       }, reason: 'Rol para mutear miembros',
-    }) : guild.channels.cache.map(channel => channel.type !== 'text' ? null : channel.overwritePermissions([{
+    }) : guild.channels.cache.map(channel => channel.type !== 'GUILD_TEXT' ? null : channel.overwritePermissions([{
       id: guild.roles.cache.find(rol => rol.name === 'Silenciado').id,
       deny: ['SEND_MESSAGES']
     }], 'Rol para los que son muteados')));

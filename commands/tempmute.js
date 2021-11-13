@@ -16,12 +16,12 @@ module.exports = {
       const MsgNoMiembro = new MessageEmbed()
         .setColor("RED")
         .setAuthor('Asegurate de mencionar al un miembro para silenciar.')
-      return channel.send(MsgNoMiembro)
+      return channel.send({embeds: [MsgNoMiembro]})
 		} else if(!isNaN(time)) {
       const MsgMalTiempo = new MessageEmbed()
         .setColor("ORANGE")
         .setAuthor('Asegurate de ingresar una duracion adecuada. Ej: 1h, 2m, 10s')
-      return channel.send(MsgMalTiempo)
+      return channel.send({embeds: [MsgMalTiempo]})
     }
     const razon = why.length > 0 ? why.join(' ') : 'Sin especificar';
     const target = mentions.users.first();
@@ -37,14 +37,14 @@ module.exports = {
           .setAuthor(`${tag} ha sido silenciad@ durante ${ms(ms(time))}`, memberTarget.user.displayAvatarURL({ format: "png", dynamic: true }))
           .setDescription(`**Razón**: ${razon}`)
           .setFooter(`Para desmutearlo enseguida usa: ¡unmute <usuario>`)
-    channel.send(exampleEmbed)
+    channel.send({embeds: [exampleEmbed]})
     
     setTimeout(() => {
       memberTarget.roles.remove(mutedRole); //QUITA EL ROL
       const MsgDesmuteado = new MessageEmbed()
             .setColor("#424242")
             .setAuthor(`${tag} ya no está silenciad@`, memberTarget.user.displayAvatarURL({ format: "png", dynamic: true }))
-      return msg.channel.send(MsgDesmuteado)
+      return msg.channel.send({embeds: [MsgDesmuteado]})
     }, ms(time));
 
   },

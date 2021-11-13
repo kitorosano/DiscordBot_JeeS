@@ -30,9 +30,9 @@ module.exports = { //ESTA PRONTO
             )
             .setFooter('[ ] opcional  |  < > obligatorio');
 
-      return msg.author.send(commandsMsg)
+      return msg.author.send({embeds: [commandsMsg]})
         .then(() => {
-          if (msg.channel.type === 'dm') return;
+          if (msg.channel.type === 'DM') return;
           const commandMsg = new MessageEmbed()
                 .setColor('WHITE')
                 .setDescription(`${msg.author}, te he enviado un mensaje con todos mis comandos!`)
@@ -65,7 +65,7 @@ module.exports = { //ESTA PRONTO
 
     helpMsg.addField('Enfriamiento', `${command.cooldown || 3} segundo(s)`)
 
-    msg.channel.send(helpMsg);
+    msg.channel.send({embeds: [helpMsg]});
 
 	},
 };

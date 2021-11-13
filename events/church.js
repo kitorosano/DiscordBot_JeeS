@@ -30,6 +30,6 @@ module.exports = {
         .setDescription(``)
 
     channel.send('@everyone');
-    channel.send(MsgChurch);
+    channel.send({embeds: [MsgChurch]});
   },
 };

@@ -24,7 +24,7 @@ module.exports = {
         .setTitle(`Nivel:  ${user.level}`)
         .setDescription(`**Siguiente:**  ${user.xp} / ${xpToNextLvl} EXP\n**Total:** ✨ ${user.totalXP} EXP`)
         
-      return channel.send(MsgToLvlUp)
+      return channel.send({embeds: [MsgToLvlUp]})
 
     } else {
 
@@ -49,7 +49,7 @@ module.exports = {
         .setTitle(`Nivel:  ${userL.level}`)
         .setDescription(`**Sig: ** ${userL.xp} / ${xpToNextLvl} EXP\n**Total: ** ✨ ${userL.totalXP} EXP`)
 
-      return channel.send(MsgToLvlUp)
+      return channel.send({embeds: [MsgToLvlUp]})
 
     }
 	},

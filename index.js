@@ -57,7 +57,7 @@ const startUp = async(client) => { //Al iniciar el bot
 }
 
 /** CUANDO SE ENVIA UN MENSAJE **/
-client.on('message', async (msg) => {
+client.on('messageCreate', async (msg) => {
   let {content, author, member, channel, guild} = msg;
   if(author.bot) return; // TERMINAR SI ES UN BOT
 
@@ -70,7 +70,7 @@ client.on('message', async (msg) => {
             .setDescription(`:tada: Has ascendido a **nivel ${level}**!. :confetti_ball: Cada vez mas cerca del admin.`)
     // const rankChannel = await client.channels.fetch('772141688444682272'); //enviar mensaje al canal de spam
     const rankChannel = guild.channels.resolve('772141688444682272') || channel;
-    rankChannel.send(MsgLvlUp)
+    rankChannel.send({embeds: [MsgLvlUp]})
   }
   
   if (!content.startsWith(prefix)) return; //TERMINAR SI NO ES UN COMANDO
@@ -88,7 +88,7 @@ client.on('message', async (msg) => {
   } 
 
   
-  if (command.guildOnly && channel.type === 'dm') return channel.send('No puedo ejecutar eso por mensaje directo');
+  if (command.guildOnly && channel.type === 'DM') return channel.send('No puedo ejecutar eso por mensaje directo');
   
   if (command.args && !args.length) {
     const replyMsg = new MessageEmbed().setColor('RED').setTitle(`Algo le falta al comando...`)
@@ -96,7 +96,7 @@ client.on('message', async (msg) => {
     if(command.usage) {
       replyMsg.setDescription(`El uso correcto sería: \`${prefix}${command.name} ${command.usage}\``)
     }
-    return channel.send(replyMsg);
+    return channel.send({embeds: [replyMsg]});
   }
 
 
@@ -115,7 +115,7 @@ client.on('message', async (msg) => {
       const timeLeft = (expirationTime - now) / 1000;
       msg.reply(`por favor espera ${timeLeft.toFixed(1)} segundo(s) mas para reusar el comando \`${command.name}\``)
       .then(msg => {
-        msg.delete({timeout: 5000})
+        setTimeout(() => msg.delete(), 5000);
       })
       return;
     }
@@ -133,7 +133,7 @@ client.on('message', async (msg) => {
 });
 /** */ 
 /** CUANDO EL MENSAJE ES PARA REINCIAR EL BOT */
-client.on('message', async (msg) => { 
+client.on('messageCreate', async (msg) => { 
   let {channel, member, content} = msg;
 
   if(content !== '¡reset' && content !== '¡restart') return;

@@ -30,6 +30,6 @@ module.exports = {
 
 		// Buscar por dia
 
-		return channel.send(MsgToSend)
+		return channel.send({embeds: [MsgToSend]})
 	},
 };

@@ -36,21 +36,21 @@ module.exports = {
         if(nextBdays)  founded = true
       }
 
-
       const MsgNextBdays = new MessageEmbed()
 				.setColor('#ffe47a')
 				.setDescription(
 					nextBdays.map(nBday => `El proximo cumpleaños será de **<@${nBday.userID}>** el \`${nBday.day}\``).join('\n')
 				);
 
-			return channel.send(MsgNextBdays);
+			return channel.send({embeds: [MsgNextBdays]});
 		}
+
 		if (who === 'prev') { // Ver cumpleaños anterior
       let today = new Date();
       let prevBdays;
       let founded = false;
       while(!founded){
-        today.setDate(today.getDate()-1) 
+        today.setDate(today.getDate() -1) 
         let bDay = parseInt(today.toDateString().split(' ')[2]),
             bMonth = months[today.toDateString().split(' ')[1]];
 
@@ -60,11 +60,11 @@ module.exports = {
 
       const MsgPrevBdays = new MessageEmbed()
 				.setColor('#ffe47a')
-				.setDescription(
+        .setDescription(
 					prevBdays.map(pBday => `El proximo cumpleaños será de **<@${pBday.userID}>** el \`${pBday.day}\``).join('\n')
 				);
 
-			return channel.send(MsgPrevBdays);
+			return channel.send({embeds: [MsgPrevBdays]});
 		}
 
 		let target = mentions.users.first();
@@ -81,13 +81,13 @@ module.exports = {
 				guildID: guild.id,
 			});
 			if (bday)
-				return channel.send(
-					new MessageEmbed()
+				return channel.send({embeds:[
+          new MessageEmbed()
 						.setColor('RED')
 						.setDescription(
 							`El cumpleaños de **${target.username}** ya está programado para el: ${bday.day}`
 						)
-				);
+        ]});
 
 			const newBday = new birthdays({
 				userID: target.id,
@@ -98,13 +98,13 @@ module.exports = {
 				.save()
 				.catch((e) => console.log(`Failed to save birthday: ${e}`));
 
-			return channel.send(
+			return channel.send({embeds: [
 				new MessageEmbed()
 					.setColor('#f0ff7a')
 					.setDescription(
 						`El cumpleaños de **${target.username}** fue programado para el \`${fecha}\``
 					)
-			);
+			]});
 		}
 		if (action === 'remove') {
 			// msg.delete()
@@ -123,7 +123,7 @@ module.exports = {
 				.setDescription(
 					`El cumpleaños de **${target.username}** fue eliminado`
 				);
-			return channel.send(MsgRemoved);
+			return channel.send({embeds: [MsgRemoved]});
 		}
 		if (action === 'update') {
 			// msg.delete();
@@ -145,7 +145,7 @@ module.exports = {
 				.setDescription(
 					`El cumpleaños de **${target.username}** ahora es el \`${fecha}\``
 				);
-			return channel.send(MsgUpdated);
+			return channel.send({embeds: [MsgUpdated]});
 		}
 		if (who === 'list') {
       // OBTENER TODOS LOS CUMPLEAÑOS DEL SERVIDOR
@@ -164,7 +164,7 @@ module.exports = {
 						.join('\n')
 				);
 
-			return channel.send(MsgBdays);
+			return channel.send({embeds: [MsgBdays]});
 		}
 		if (action === undefined) {
 			const bday = await birthdays.findOne({
@@ -172,13 +172,13 @@ module.exports = {
 				guildID: guild.id,
 			});
 			if (!bday)
-				return channel.send(
+				return channel.send({embeds: [
 					new MessageEmbed()
 						.setColor('RED')
 						.setDescription(
 							`Aún no tenemos el cumpleaños de **${target.username}**`
 						)
-				);
+				]});
 
 			const MsgBday = new MessageEmbed()
 				.setColor('#ffe47a')
@@ -186,7 +186,7 @@ module.exports = {
 					`El cumpleaños de **${target.username}** es el \`${bday.day}\``
 				);
 
-			return channel.send(MsgBday);
+			return channel.send({embeds: [MsgBday]});
 		}
 	},
 };

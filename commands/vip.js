@@ -26,7 +26,7 @@ module.exports = {
         msg.delete();        
       }, 300000)
     })
-    channel.send(MsgVIP)
+    channel.send({embeds: [MsgVIP]})
     .then(async msg => {
       await msg.react(`${emoji}`);
       
