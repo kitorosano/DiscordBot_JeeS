@@ -9,6 +9,8 @@ mongoose.connect(mongo, {
 	useUnifiedTopology: true,
 });
 
+const months = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12};
+
 // Semi-modOnly
 module.exports = {
 	name: 'bday',
@@ -21,11 +23,43 @@ module.exports = {
 		const { member, author, guild, mentions, channel } = msg;
 		let [who, action, fecha] = args;
     
-		if (who === 'next') {
-			// Ver proximo cumpleaños
+		if (who === 'next') { // Ver proximo cumpleaños
+      let today = new Date();
+      let nextBday;
+      do{
+        today.setDate(today.getDate()+1) 
+        let bDay = parseInt(today.toDateString().split(' ')[2]),
+            bMonth = months[today.toDateString().split(' ')[1]];
+
+        nextBday = await birthdayEvent.find({day: `${bDay}/${bMonth}`});
+      }while(!nextBday)
+
+      const MsgNextBday = new MessageEmbed()
+				.setColor('#ffe47a')
+				.setDescription(
+					`El proximo cumpleaños será de **<@${bday.userID}>** el \`${bday.day}\``
+				);
+
+			return channel.send(MsgNextBday);
 		}
-		if (who === 'previous' || who === 'prev') {
-			// Ver cumpleaños anterior
+		if (who === 'prev') { // Ver cumpleaños anterior
+      let today = new Date();
+      let prevBday;
+      do{
+        today.setDate(today.getDate()-1) 
+        let bDay = parseInt(today.toDateString().split(' ')[2]),
+            bMonth = months[today.toDateString().split(' ')[1]];
+
+        prevBday = await birthdayEvent.find({day: `${bDay}/${bMonth}`});
+      }while(!prevBday)
+
+      const MsgPrevBday = new MessageEmbed()
+				.setColor('#ffe47a')
+				.setDescription(
+					`El proximo cumpleaños será de **<@${bday.userID}>** el \`${bday.day}\``
+				);
+
+			return channel.send(MsgPrevBday);
 		}
 
 		let target = mentions.users.first();
