@@ -31,7 +31,7 @@ module.exports = {
         let bDay = parseInt(today.toDateString().split(' ')[2]),
             bMonth = months[today.toDateString().split(' ')[1]];
 
-        nextBday = await birthdayEvent.find({day: `${bDay}/${bMonth}`});
+        nextBday = await birthdays.find({day: `${bDay}/${bMonth}`});
       }while(!nextBday)
 
       const MsgNextBday = new MessageEmbed()
@@ -50,7 +50,7 @@ module.exports = {
         let bDay = parseInt(today.toDateString().split(' ')[2]),
             bMonth = months[today.toDateString().split(' ')[1]];
 
-        prevBday = await birthdayEvent.find({day: `${bDay}/${bMonth}`});
+        prevBday = await birthdays.find({day: `${bDay}/${bMonth}`});
       }while(!prevBday)
 
       const MsgPrevBday = new MessageEmbed()
