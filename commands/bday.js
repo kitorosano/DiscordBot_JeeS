@@ -26,13 +26,15 @@ module.exports = {
 		if (who === 'next') { // Ver proximo cumpleaños
       let today = new Date();
       let nextBday;
-      do{
+      let founded = false;
+      while(!founded){
         today.setDate(today.getDate()+1) 
         let bDay = parseInt(today.toDateString().split(' ')[2]),
             bMonth = months[today.toDateString().split(' ')[1]];
 
         nextBday = await birthdays.find({day: `${bDay}/${bMonth}`});
-      }while(!nextBday)
+        if(nextBday) founded = true;
+      }
 
       const MsgNextBday = new MessageEmbed()
 				.setColor('#ffe47a')
@@ -45,13 +47,15 @@ module.exports = {
 		if (who === 'prev') { // Ver cumpleaños anterior
       let today = new Date();
       let prevBday;
-      do{
+      let founded = false;
+      while(!founded){
         today.setDate(today.getDate()-1) 
         let bDay = parseInt(today.toDateString().split(' ')[2]),
             bMonth = months[today.toDateString().split(' ')[1]];
 
         prevBday = await birthdays.find({day: `${bDay}/${bMonth}`});
-      }while(!prevBday)
+        if(prevBday) founded = true;
+      }
 
       const MsgPrevBday = new MessageEmbed()
 				.setColor('#ffe47a')
