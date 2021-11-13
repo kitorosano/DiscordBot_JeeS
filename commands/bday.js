@@ -28,12 +28,15 @@ module.exports = {
       let nextBday;
       let founded = false;
       while(!founded){
-        today.setDate(today.getDate()+1) 
-        let bDay = parseInt(today.toDateString().split(' ')[2]),
-            bMonth = months[today.toDateString().split(' ')[1]];
+        today.setDate(today.getDate() +1).toDateString().split(' ')
+        let bDay = parseInt(today[2]),
+            bMonth = months[today[1]];
 
         nextBday = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(nextBday) founded = true;
+        if(nextBday) {
+          console.log(nextBday)
+          founded = true
+        };
       }
 
       const MsgNextBday = new MessageEmbed()
