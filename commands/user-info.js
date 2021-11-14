@@ -1,6 +1,6 @@
 // FINISHED
 
-const { discriminator } = require('discord-xp/models/levels');
+// const { discriminator } = require('discord-xp/models/levels');
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 
 module.exports = {
@@ -11,8 +11,8 @@ module.exports = {
 	// disable: true,
 	guildOnly: true,
 	async execute(msg, args) {
-		const { author, client, member } = msg;
-		if (!msg.mentions.users.size) {
+		const { author, client, member, channel, mentions } = msg;
+		if (!mentions.users.size) {
 			const { id, username, discriminator, bot } = author;
 			const { nickname, joinedAt, roles } = member;
 			// console.log(roles.cache)
@@ -27,7 +27,7 @@ module.exports = {
 						name: 'Roles: ',
 						value: roles.cache.map((role) =>
 							role.name === '@everyone' ? `@everyone\t` : `<@&${role.id}>\t`
-						),
+						).join('\n'),
 						inline: true,
 					},
 					{ name: 'Es un Bot?', value: bot ? ':eyes:' : 'Y no.', inline: true },
@@ -37,10 +37,10 @@ module.exports = {
 					`Pedido por ${username}#${discriminator}`,
 					author.displayAvatarURL({ format: 'png', dynamic: true })
 				);
-			return msg.channel.send({ embeds: [exampleEmbed] });
+			return channel.send({ embeds: [exampleEmbed] });
 		}
 
-		msg.mentions.members.forEach((member) => {
+		mentions.members.forEach((member) => {
 			const { nickname, roles, joinedAt, user } = member;
 			const { id, username, bot } = user;
 
@@ -65,7 +65,7 @@ module.exports = {
 					`Pedido por ${author.username}#${author.discriminator}`,
 					author.displayAvatarURL({ format: 'png', dynamic: true })
 				);
-			return msg.channel.send({ embeds: [exampleEmbed] });
+			return channel.send({ embeds: [exampleEmbed] });
 		});
 	},
 };
