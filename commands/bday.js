@@ -35,7 +35,7 @@ module.exports = {
             bMonth = months[today.toDateString().split(' ')[1]];
 
         nextBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(nextBdays) return console.log(nextBday);
+        if(nextBdays) return console.log(nextBdays);
       }
       
       console.log(nextBdays);
