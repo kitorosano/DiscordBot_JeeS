@@ -36,6 +36,8 @@ module.exports = {
         if(nextBdays) founded = true
       }
       
+      console.log(nextBdays);
+      
       return channel.send({
         embeds: [...nextBdays.map(nBday =>
           new MessageEmbed()
@@ -58,6 +60,7 @@ module.exports = {
         if(prevBdays) founded = true;
       }
 
+      console.log(prevBdays);
       return channel.send({
         embeds: [...prevBdays.map(nBday =>
           new MessageEmbed()
