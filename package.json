@@ -1,6 +1,6 @@
 {
   "name": "jees",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "Bot para el discord JeeS",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "node .",
     "dev": "nodemon ."
   },
-  "author": "",
+  "author": "Kitorosano",
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
