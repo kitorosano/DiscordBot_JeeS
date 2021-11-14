@@ -11,7 +11,7 @@ module.exports = {
   execute(msg, args, isMod) {
     const {author,channel, guild, mentions} = msg;
     let husbando = mentions.users.find(user => user.username == args[0] ? user : args.join(' '))
-    console.log(guild.members.cache.map(member => member.user.username));
+    // console.log(guild.members.cache.map(member => member.user.username));
     let rate = rnd.int(3,8) + rnd.int(-2,2);
     if(args.length === 1 && husbando == 'JeeS') return channel.send({embeds: [new MessageEmbed().setColor("YELLOW").setDescription(`😎 Y yo me doy un **11/10**`)]});
 

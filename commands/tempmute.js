@@ -27,7 +27,7 @@ module.exports = {
     const target = mentions.users.first();
 
     const roles = await guild.roles.fetch();
-    const mutedRole = roles.cache.find(role => role.name === 'Silenciado');
+    const mutedRole = roles.find(role => role.name === 'Silenciado');
     const memberTarget = await guild.members.fetch(target.id);
     memberTarget.roles.add(mutedRole); //AGREGA EL ROL
     const {tag} = memberTarget.user

@@ -10,7 +10,7 @@ module.exports = {
     msg.delete();
     
     const roles = await guild.roles.fetch();
-    const VPIrole = roles.cache.find(role => role.name === 'VIP');
+    const VPIrole = roles.find(role => role.name === 'VIP');
 
     guild.members.cache.forEach(member => {
       if(member.roles.cache.find(role => role.name === 'VIP')) member.roles.remove(VPIrole);

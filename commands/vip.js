@@ -12,7 +12,7 @@ module.exports = {
     const [emoji,...anime] = args;
     
     const roles = await guild.roles.fetch();
-    const VPIrole = roles.cache.find(role => role.name === 'VIP');
+    const VPIrole = roles.find(role => role.name === 'VIP');
 
     const MsgVIP = new MessageEmbed()
         .setColor('BLACK')

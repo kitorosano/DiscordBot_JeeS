@@ -16,7 +16,7 @@ module.exports = {
     if(!target) return channel.send({embeds: [new MessageEmbed().setColor("RED").setAuthor(`Miembro no encontrado`)]})
 
     const roles = await guild.roles.fetch();
-    const mutedRole = roles.cache.find(role => role.name === 'Silenciado');
+    const mutedRole = roles.find(role => role.name === 'Silenciado');
     const memberTarget = await guild.members.fetch(target.id);
 
     if(memberTarget.roles.cache.find(role => role !== mutedRole)) {
