@@ -30,7 +30,7 @@ module.exports = {
       let founded = false;
       while(!founded){
         today.setDate(today.getDate() +1)        
-        if(today.getDate() == _today.getDate() && today.getMonth == _today.getMonth) return channel.send('No tenemos proximos cumpleaños');
+        if(today.getDate() == todayCopy.getDate() && today.getMonth == todayCopy.getMonth) return channel.send('No tenemos proximos cumpleaños');
         let bDay = parseInt(today.toDateString().split(' ')[2]),
             bMonth = months[today.toDateString().split(' ')[1]];
 
