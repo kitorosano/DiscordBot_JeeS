@@ -1,4 +1,4 @@
-const {Client, Collection, MessageEmbed, TextChannel} = require('discord.js');
+const {Client, Collection, MessageEmbed, Intents } = require('discord.js');
 const {prefix, allowedUsers, modUsers, token, mongo, xp} = require('./config');
 const {modMe,setRoles} = require('./utils');
 const fs = require('fs');
@@ -8,7 +8,20 @@ const Levels = require("discord-xp");
 const { type } = require('os');
 Levels.setURL(mongo);
 
-const client = new Client();
+const client = new Client({ 
+  allowedMentions: {
+    parse: ['users', 'roles'],
+    repliedUser: true
+  },
+  intents: [
+    "GUILDS",
+    "GUILD_MEMBERS",
+    "GUILD_PRESENCES",
+    "GUILD_MESSAGES",
+    "GUILD_MESSAGE_REACTIONS",
+    "DIRECT_MESSAGES"
+  ] 
+});;
 client.commands = new Collection();
 const cooldowns = new Collection();
 
