@@ -7,7 +7,8 @@ module.exports = {
   guildOnly: true,
   execute(msg, args, isMod) {
     if (!msg.mentions.users.size) {
-      return msg.channel.send(`Your avatar:`, new MessageAttachment(msg.author.displayAvatarURL({ format: "png", dynamic: true })), 'this');
+      const file = new MessageAttachment(msg.author.displayAvatarURL({ format: "png", dynamic: true }))
+      return msg.channel.send({content:`Your avatar:`, files: [file]});
     }
     
     msg.mentions.users.forEach(user => {

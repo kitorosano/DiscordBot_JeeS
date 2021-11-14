@@ -22,7 +22,6 @@ module.exports = {
 				.setDescription('UserID: ' + id)
 				.setThumbnail(author.displayAvatarURL({ format: 'png', dynamic: true }))
 				.addFields(
-					{ name: 'Alias: ', value: nickname, inline: true },
 					{
 						name: 'Roles: ',
 						value: roles.cache.map((role) =>
@@ -30,6 +29,7 @@ module.exports = {
 						).join('\n'),
 						inline: true,
 					},
+          { name: 'Alias: ', value: nickname, inline: true },
 					{ name: 'Es un Bot?', value: bot ? ':eyes:' : 'Y no.', inline: true },
 					{ name: 'Se unió: ', value: joinedAt.toUTCString().slice(0, -4) }
 				)
