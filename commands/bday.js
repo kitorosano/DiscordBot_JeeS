@@ -24,45 +24,47 @@ module.exports = {
 		let [who, action, fecha] = args;
     
 		if (who === 'next') { // Ver proximo cumpleaños
-      let today = new Date();
+      let today = new Date(), bDay, bMonth;
       let todayCopy = new Date(today);
       let nextBdays;
       let founded = false;
       while(!founded){
         today.setDate(today.getDate() +1)        
         if(today.getDate() == todayCopy.getDate() && today.getMonth == todayCopy.getMonth) return channel.send('No tenemos proximos cumpleaños');
-        let bDay = parseInt(today.toDateString().split(' ')[2]),
-            bMonth = months[today.toDateString().split(' ')[1]];
+        
+        bDay = parseInt(today.toDateString().split(' ')[2]);
+        bMonth = months[today.toDateString().split(' ')[1]];
 
         nextBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(nextBdays) return console.log(nextBdays);
+        if(nextBdays.length) founded = true;
       }
       
       console.log(nextBdays);
       
       return channel.send({
-        embeds: [...nextBdays.map(nBday =>
+        embeds: nextBdays.map(nBday =>
           new MessageEmbed()
             .setColor('#ffe47a')
             .setDescription(`El proximo cumpleaños será de **<@${nBday.userID}>** el \`${nBday.day}\``)
-        )]
+        )
       })
     }
 
 		if (who === 'prev') { // Ver cumpleaños anterior
-      let today = new Date();
+      let today = new Date(), bDay, bMonth;
       let prevBdays;
       let founded = false;
       while(!founded){
-        today.setDate(today.getDate() -1) 
-        let bDay = parseInt(today.toDateString().split(' ')[2]),
-            bMonth = months[today.toDateString().split(' ')[1]];
+        today.setDate(today.getDate() -1);
+        bDay = parseInt(today.toDateString().split(' ')[2]);
+        bMonth = months[today.toDateString().split(' ')[1]];
 
         prevBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
         if(prevBdays) founded = true;
       }
 
       console.log(prevBdays);
+      prevBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
       return channel.send({
         embeds: [...prevBdays.map(nBday =>
           new MessageEmbed()
