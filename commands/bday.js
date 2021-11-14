@@ -37,11 +37,11 @@ module.exports = {
       }
       
       return channel.send({
-        embeds: nextBdays.map(nBday =>
+        embeds: [...nextBdays.map(nBday =>
           new MessageEmbed()
             .setColor('#ffe47a')
             .setDescription(`El proximo cumpleaños será de **<@${nBday.userID}>** el \`${nBday.day}\``)
-        )
+        )]
       })
     }
 
@@ -59,11 +59,11 @@ module.exports = {
       }
 
       return channel.send({
-        embeds: prevBdays.map(nBday =>
+        embeds: [...prevBdays.map(nBday =>
           new MessageEmbed()
             .setColor('#ffe47a')
             .setDescription(`El cumpleaños anterior fue de **<@${nBday.userID}>** el dia \`${nBday.day}\``)
-        )
+        )]
       })
 		}
 
