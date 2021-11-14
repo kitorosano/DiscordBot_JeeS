@@ -39,8 +39,6 @@ module.exports = {
         if(nextBdays.length) founded = true;
       }
       
-      console.log(nextBdays);
-      
       return channel.send({
         embeds: nextBdays.map(nBday =>
           new MessageEmbed()
@@ -52,25 +50,26 @@ module.exports = {
 
 		if (who === 'prev') { // Ver cumpleaños anterior
       let today = new Date(), bDay, bMonth;
+      let todayCopy = new Date(today);
       let prevBdays;
       let founded = false;
       while(!founded){
         today.setDate(today.getDate() -1);
+        if(today.getDate() == todayCopy.getDate() && today.getMonth == todayCopy.getMonth) return channel.send('No tenemos proximos cumpleaños');
+        
         bDay = parseInt(today.toDateString().split(' ')[2]);
         bMonth = months[today.toDateString().split(' ')[1]];
 
         prevBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(prevBdays) founded = true;
+        if(prevBdays.length) founded = true;
       }
 
-      console.log(prevBdays);
-      prevBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
       return channel.send({
-        embeds: [...prevBdays.map(nBday =>
+        embeds: prevBdays.map(nBday =>
           new MessageEmbed()
             .setColor('#ffe47a')
             .setDescription(`El cumpleaños anterior fue de **<@${nBday.userID}>** el dia \`${nBday.day}\``)
-        )]
+        )
       })
 		}
 
