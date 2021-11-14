@@ -33,17 +33,17 @@ module.exports = {
             bMonth = months[today.toDateString().split(' ')[1]];
 
         nextBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(nextBdays)  founded = true
+        if(nextBdays) founded = true
       }
-
-      const MsgNextBdays = new MessageEmbed()
-				.setColor('#ffe47a')
-				.setDescription(
-					nextBdays.map(nBday => `El proximo cumpleaños será de **<@${nBday.userID}>** el \`${nBday.day}\``).join('\n')
-				);
-
-			return channel.send({embeds: [MsgNextBdays]});
-		}
+      
+      return channel.send({
+        embeds: nextBdays.map(nBday =>
+          new MessageEmbed()
+            .setColor('#ffe47a')
+            .setDescription(`El proximo cumpleaños será de **<@${nBday.userID}>** el \`${nBday.day}\``)
+        )
+      })
+    }
 
 		if (who === 'prev') { // Ver cumpleaños anterior
       let today = new Date();
@@ -58,13 +58,13 @@ module.exports = {
         if(prevBdays) founded = true;
       }
 
-      const MsgPrevBdays = new MessageEmbed()
-				.setColor('#ffe47a')
-        .setDescription(
-					prevBdays.map(pBday => `El proximo cumpleaños será de **<@${pBday.userID}>** el \`${pBday.day}\``).join('\n')
-				);
-
-			return channel.send({embeds: [MsgPrevBdays]});
+      return channel.send({
+        embeds: prevBdays.map(nBday =>
+          new MessageEmbed()
+            .setColor('#ffe47a')
+            .setDescription(`El cumpleaños anterior fue de **<@${nBday.userID}>** el dia \`${nBday.day}\``)
+        )
+      })
 		}
 
 		let target = mentions.users.first();
