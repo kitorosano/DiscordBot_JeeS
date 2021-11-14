@@ -25,15 +25,17 @@ module.exports = {
     
 		if (who === 'next') { // Ver proximo cumpleaños
       let today = new Date();
+      let todayCopy = new Date(today);
       let nextBdays;
       let founded = false;
       while(!founded){
-        today.setDate(today.getDate() +1)
+        today.setDate(today.getDate() +1)        
+        if(today.getDate() == _today.getDate() && today.getMonth == _today.getMonth) return channel.send('No tenemos proximos cumpleaños');
         let bDay = parseInt(today.toDateString().split(' ')[2]),
             bMonth = months[today.toDateString().split(' ')[1]];
 
         nextBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(nextBdays) founded = true
+        if(nextBdays) return console.log(nextBday);
       }
       
       console.log(nextBdays);
