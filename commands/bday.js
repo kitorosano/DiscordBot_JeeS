@@ -14,9 +14,9 @@ const months = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul
 // Semi-modOnly
 module.exports = {
 	name: 'bday',
-	description: 'Manejar cumpleaños',
+	description: 'Manejar cumpleaños, ver cumpleaños previos o siguientes',
 	aliases: ['birthday'],
-	usage: '[usuario]',
+	usage: '[@usuario] o sino [next/prev]',
 	modUsage: '<usuario> [add/remove/update] [dia/mes]',
 	guildOnly: true,
 	async execute(msg, args, isMod) {
