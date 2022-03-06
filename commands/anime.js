@@ -39,9 +39,6 @@ module.exports = {
 						return `**${anime.time}**\t| ${anime.title} ***Ep${anime.episode}***`;
 				})
 			);
-		// };
-
-		// Buscar por dia
 
 		return channel.send({ embeds: [MsgToSend] });
 	},
