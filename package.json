@@ -18,7 +18,7 @@
     "@discordjs/opus": "^0.3.3",
     "@keyv/postgres": "^1.0.17",
     "discord-xp": "git+https://github.com/Kitorosano/discord-xp.git",
-    "discord.js": "^13.3.1",
+    "discord.js": "^13.6.0",
     "dotenv": "^8.6.0",
     "ffmpeg-static": "^4.4.0",
     "fs": "0.0.1-security",
