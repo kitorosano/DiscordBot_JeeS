@@ -2,13 +2,13 @@ const { MessageEmbed } = require('discord.js');
 const _anime = require('jkanime');
 
 const dias = [
+	'DOMINGO',
 	'LUNES',
 	'MARTES',
 	'MIERCOLES',
 	'JUEVES',
 	'VIERNES',
 	'SABADO',
-	'DOMINGO',
 ];
 
 module.exports = {
