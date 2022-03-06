@@ -22,7 +22,7 @@
     "dotenv": "^8.6.0",
     "ffmpeg-static": "^4.4.0",
     "fs": "0.0.1-security",
-    "jkanime": "git+https://github.com/Kitorosano/jkanime.git",
+    "jkanime": "github:Kitorosano/jkanime",
     "keyv": "^4.0.4",
     "mongoose": "^5.13.13",
     "ms": "^2.1.3",
