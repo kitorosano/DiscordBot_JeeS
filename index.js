@@ -1,12 +1,19 @@
-import { Client, Collection, MessageEmbed, Intents } from 'discord.js';
-import { prefix, allowedUsers, modUsers, token, mongo, xp } from './config';
-import { modMe, setRoles } from './utils';
-import { readdirSync } from 'fs';
-import { int } from 'random';
-import { scheduleJob, cancelJob } from 'node-schedule';
-import { setURL, appendXp, fetch } from 'discord-xp';
-import { type } from 'os';
-setURL(mongo);
+const { Client, Collection, MessageEmbed, Intents } = require('discord.js');
+const {
+	prefix,
+	allowedUsers,
+	modUsers,
+	token,
+	mongo,
+	xp,
+} = require('./config');
+const { modMe, setRoles } = require('./utils');
+const fs = require('fs');
+const rnd = require('random');
+const { scheduleJob, cancelJob } = require('node-schedule');
+const Levels = require('discord-xp');
+const { type } = require('os');
+Levels.setURL(mongo);
 
 const client = new Client({
 	allowedMentions: {
@@ -26,7 +33,8 @@ client.commands = new Collection();
 const cooldowns = new Collection();
 
 /** OBTENER TODOS LOS COMANDOS */
-const commandFiles = readdirSync('./commands')
+const commandFiles = fs
+	.readdirSync('./commands')
 	.filter((file) => file.endsWith('.js'));
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -38,7 +46,8 @@ for (const file of commandFiles) {
 const initializeEvents = async () => {
 	const today = new Date().toDateString().split(' '); // Obtener fecha de hoy
 	// console.log(today);
-	const eventFiles = readdirSync('./events')
+	const eventFiles = fs
+		.readdirSync('./events')
 		.filter((file) => file.endsWith('.js'));
 	for (const file of eventFiles) {
 		//para cada tipo de evento como archivo .js, obtengo los eventos del dia.
@@ -81,13 +90,13 @@ client.on('messageCreate', async (msg) => {
 	let { content, author, member, channel, guild } = msg;
 	if (author.bot) return; // TERMINAR SI ES UN BOT
 
-	const hasLeveledUp = await appendXp(
+	const hasLeveledUp = await Levels.appendXp(
 		author.id,
 		guild.id,
-		int(xp.from, xp.to)
+		rnd.int(xp.from, xp.to)
 	); //Agrego a la BD la nueva xp entre <from> a <to>
 	if (hasLeveledUp) {
-		const { level } = await fetch(author.id, guild.id);
+		const { level } = await Levels.fetch(author.id, guild.id);
 		const MsgLvlUp = new MessageEmbed()
 			.setColor('#ADC00')
 			.setAuthor(
