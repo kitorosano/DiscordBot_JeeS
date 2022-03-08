@@ -1,7 +1,15 @@
+#files for developing
 .env
 .package.json.copy
 bot_IDs
 ideas.txt
 
+#folders
 node_modules/
 messages/
+
+#discarded commands
+commands/join.js
+commands/leave.js
+commands/play.js
+commands/search.js
