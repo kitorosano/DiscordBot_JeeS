@@ -1,183 +1,218 @@
-const {Client, Collection, MessageEmbed, Intents } = require('discord.js');
-const {prefix, allowedUsers, modUsers, token, mongo, xp} = require('./config');
-const {modMe,setRoles} = require('./utils');
-const fs = require('fs');
-const rnd = require('random');
-const {scheduleJob, cancelJob } = require('node-schedule');
-const Levels = require("discord-xp");
-const { type } = require('os');
-Levels.setURL(mongo);
+import { Client, Collection, MessageEmbed, Intents } from 'discord.js';
+import { prefix, allowedUsers, modUsers, token, mongo, xp } from './config';
+import { modMe, setRoles } from './utils';
+import { readdirSync } from 'fs';
+import { int } from 'random';
+import { scheduleJob, cancelJob } from 'node-schedule';
+import { setURL, appendXp, fetch } from 'discord-xp';
+import { type } from 'os';
+setURL(mongo);
 
-const client = new Client({ 
-  allowedMentions: {
-    parse: ['users', 'roles'],
-    repliedUser: true
-  },
-  intents: [
-    "GUILDS",
-    "GUILD_MEMBERS",
-    "GUILD_PRESENCES",
-    "GUILD_MESSAGES",
-    "GUILD_MESSAGE_REACTIONS",
-    "DIRECT_MESSAGES"
-  ] 
-});;
+const client = new Client({
+	allowedMentions: {
+		parse: ['users', 'roles'],
+		repliedUser: true,
+	},
+	intents: [
+		'GUILDS',
+		'GUILD_MEMBERS',
+		'GUILD_PRESENCES',
+		'GUILD_MESSAGES',
+		'GUILD_MESSAGE_REACTIONS',
+		'DIRECT_MESSAGES',
+	],
+});
 client.commands = new Collection();
 const cooldowns = new Collection();
 
 /** OBTENER TODOS LOS COMANDOS */
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+const commandFiles = readdirSync('./commands')
+	.filter((file) => file.endsWith('.js'));
 for (const file of commandFiles) {
-  const command = require(`./commands/${file}`)
-  if(!command.disable) client.commands.set(command.name, command);
+	const command = require(`./commands/${file}`);
+	if (!command.disable) client.commands.set(command.name, command);
 }
-/** */ 
-
+/** */
 
 /** INICIALIZAR EVENTOS DEL DIA */
-const initializeEvents = async() =>{ 
-  const today = new Date().toDateString().split(' '); // Obtener fecha de hoy
-  // console.log(today);
-  const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'))
-  for (const file of eventFiles) { //para cada tipo de evento como archivo .js, obtengo los eventos del dia.
-    const typeEvent = require(`./events/${file}`); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
-    if(typeEvent.disable) return; //filtrar eventos desactivados
-    
-    const typeEvents = await typeEvent.getEvents(today,client) //Obtener entradas del dia para este tipo de evento
-    if(!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
-    
-    typeEvents.forEach(singleEventData => { //para cada evento de grupo, configurar una "alarma" del dia para cada uno
-      typeEvent.execute(singleEventData,client);
-    })
-  } 
+const initializeEvents = async () => {
+	const today = new Date().toDateString().split(' '); // Obtener fecha de hoy
+	// console.log(today);
+	const eventFiles = readdirSync('./events')
+		.filter((file) => file.endsWith('.js'));
+	for (const file of eventFiles) {
+		//para cada tipo de evento como archivo .js, obtengo los eventos del dia.
+		const typeEvent = require(`./events/${file}`); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
+		if (typeEvent.disable) return; //filtrar eventos desactivados
+
+		const typeEvents = await typeEvent.getEvents(today, client); //Obtener entradas del dia para este tipo de evento
+		if (!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
+
+		typeEvents.forEach((singleEventData) => {
+			//para cada evento de grupo, configurar una "alarma" del dia para cada uno
+			typeEvent.execute(singleEventData, client);
+		});
+	}
 };
 /** */
 
-
 /** MENSAJE DE BIENVENIDA **/
-client.on('guildMemberAdd', member => {
-  const channel = member.guild.channels.cache.find(ch => ch.name === 'chat-general');
-  if (!channel) return;
-  channel.send(`Bienvenido al servidor, ${member}!`)
-})
+client.on('guildMemberAdd', (member) => {
+	const channel = member.guild.channels.cache.find(
+		(ch) => ch.name === 'chat-general'
+	);
+	if (!channel) return;
+	channel.send(`Bienvenido al servidor, ${member}!`);
+});
 /** */
 
-const startUp = async(client) => { //Al iniciar el bot  
-  initializeEvents(); //REINICIO LOS EVENTOS POR SI ESTOY A MITAD DEL DIA
-  scheduleJob({minute: 0, hour: 0, tz: 'America/Montevideo'}, () => initializeEvents()); // CONFIGURO REINICIAR LOS EVENTOS A LAS 00:00 GMT-3
-  
-  client.user.setActivity('¡help');
-}
+const startUp = async (client) => {
+	//Al iniciar el bot
+	initializeEvents(); //REINICIO LOS EVENTOS POR SI ESTOY A MITAD DEL DIA
+	scheduleJob({ minute: 0, hour: 0, tz: 'America/Montevideo' }, () =>
+		initializeEvents()
+	); // CONFIGURO REINICIAR LOS EVENTOS A LAS 00:00 GMT-3
+
+	client.user.setActivity('¡help');
+};
 
 /** CUANDO SE ENVIA UN MENSAJE **/
 client.on('messageCreate', async (msg) => {
-  let {content, author, member, channel, guild} = msg;
-  if(author.bot) return; // TERMINAR SI ES UN BOT
+	let { content, author, member, channel, guild } = msg;
+	if (author.bot) return; // TERMINAR SI ES UN BOT
 
-  const hasLeveledUp = await Levels.appendXp(author.id, guild.id, rnd.int(xp.from,xp.to)); //Agrego a la BD la nueva xp entre <from> a <to>
-  if(hasLeveledUp) {
-    const {level} = await Levels.fetch(author.id, guild.id);
-    const MsgLvlUp = new MessageEmbed()
-            .setColor('#ADC00')
-            .setAuthor(`¡Felicidades! ${author.username}`, author.displayAvatarURL({ format: "png", dynamic: true, size: 4096}))
-            .setDescription(`:tada: Has ascendido a **nivel ${level}**!. :confetti_ball: Cada vez mas cerca del admin.`)
-    // const rankChannel = await client.channels.fetch('772141688444682272'); //enviar mensaje al canal de spam
-    const rankChannel = guild.channels.resolve('772141688444682272') || channel;
-    rankChannel.send({embeds: [MsgLvlUp]})
-  }
-  
-  if (!content.startsWith(prefix)) return; //TERMINAR SI NO ES UN COMANDO
+	const hasLeveledUp = await appendXp(
+		author.id,
+		guild.id,
+		int(xp.from, xp.to)
+	); //Agrego a la BD la nueva xp entre <from> a <to>
+	if (hasLeveledUp) {
+		const { level } = await fetch(author.id, guild.id);
+		const MsgLvlUp = new MessageEmbed()
+			.setColor('#ADC00')
+			.setAuthor(
+				`¡Felicidades! ${author.username}`,
+				author.displayAvatarURL({ format: 'png', dynamic: true, size: 4096 })
+			)
+			.setDescription(
+				`:tada: Has ascendido a **nivel ${level}**!. :confetti_ball: Cada vez mas cerca del admin.`
+			);
+		// const rankChannel = await client.channels.fetch('772141688444682272'); //enviar mensaje al canal de spam
+		const rankChannel = guild.channels.resolve('772141688444682272') || channel;
+		rankChannel.send({ embeds: [MsgLvlUp] });
+	}
 
-  const args = content.slice(prefix.length).split(/ +/); //Obtengo un array con el comando sin el prefijo y los argumentos
-  const commandName = args.shift().toLowerCase(); //Aparto el comando del array de los argumentos y lo hago minuscula.
+	if (!content.startsWith(prefix)) return; //TERMINAR SI NO ES UN COMANDO
 
-  const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-  if (!command) return; //OBTENER COMANDO O SU ALIAS, Y SI ESTE NO EXISTE TERMINAR
-  
-  // const MsgNoMod = new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí pantalones cuadrados... :eyes:')
-  const isMod = member.roles.cache.find(role => role.name === 'Moderador' || role.name === 'Admin');
-  if(command.modOnly && !isMod) {// MENSAJE PARA COMANDOS SOLO DE MODERADORES
-    return channel.send(`:no_pedestrians: **${author.username}**, alto ahí pantalones cuadrados.`) 
-  } 
+	const args = content.slice(prefix.length).split(/ +/); //Obtengo un array con el comando sin el prefijo y los argumentos
+	const commandName = args.shift().toLowerCase(); //Aparto el comando del array de los argumentos y lo hago minuscula.
 
-  
-  if (command.guildOnly && channel.type === 'DM') return channel.send('No puedo ejecutar eso por mensaje directo');
-  
-  if (command.args && !args.length) {
-    const replyMsg = new MessageEmbed().setColor('RED').setTitle(`Algo le falta al comando...`)
+	const command =
+		client.commands.get(commandName) ||
+		client.commands.find(
+			(cmd) => cmd.aliases && cmd.aliases.includes(commandName)
+		);
+	if (!command) return; //OBTENER COMANDO O SU ALIAS, Y SI ESTE NO EXISTE TERMINAR
 
-    if(command.usage) {
-      replyMsg.setDescription(`El uso correcto sería: \`${prefix}${command.name} ${command.usage}\``)
-    }
-    return channel.send({embeds: [replyMsg]});
-  }
+	// const MsgNoMod = new MessageEmbed().setColor('RED').setDescription(':no_pedestrians: Alto ahí pantalones cuadrados... :eyes:')
+	const isMod = member.roles.cache.find(
+		(role) => role.name === 'Moderador' || role.name === 'Admin'
+	);
+	if (command.modOnly && !isMod) {
+		// MENSAJE PARA COMANDOS SOLO DE MODERADORES
+		return channel.send(
+			`:no_pedestrians: **${author.username}**, alto ahí pantalones cuadrados.`
+		);
+	}
 
+	if (command.guildOnly && channel.type === 'DM')
+		return channel.send('No puedo ejecutar eso por mensaje directo');
 
-  if (!cooldowns.has(command.name)) {
-    cooldowns.set(command.name, new Collection());
-  }
-  
-  const now = Date.now();
-  const timestamps = cooldowns.get(command.name);
-  const cooldownAmount = (command.cooldown || 2) * 1000;
-  
-  if (timestamps.has(author.id)) {
-    const expirationTime = timestamps.get(author.id) + cooldownAmount;
+	if (command.args && !args.length) {
+		const replyMsg = new MessageEmbed()
+			.setColor('RED')
+			.setTitle(`Algo le falta al comando...`);
 
-    if (now < expirationTime) {
-      const timeLeft = (expirationTime - now) / 1000;
-      msg.reply(`por favor espera ${timeLeft.toFixed(1)} segundo(s) mas para reusar el comando \`${command.name}\``)
-      .then(msg => {
-        setTimeout(() => msg.delete(), 5000);
-      })
-      return;
-    }
-  }
-  timestamps.set(author.id, now);
-  setTimeout(() => timestamps.delete(author.id), cooldownAmount);
+		if (command.usage) {
+			replyMsg.setDescription(
+				`El uso correcto sería: \`${prefix}${command.name} ${command.usage}\``
+			);
+		}
+		return channel.send({ embeds: [replyMsg] });
+	}
 
-  try { //ejecutar
-    command.execute(msg, args, isMod);
-  } catch (error) {
-    console.error(error);
-    const MsgError = new MessageEmbed().setColor("RED").setAuthor('Ha ocurrido un error al ejecutar el comando!');
-    msg.reply(MsgError);
-  }
+	if (!cooldowns.has(command.name)) {
+		cooldowns.set(command.name, new Collection());
+	}
+
+	const now = Date.now();
+	const timestamps = cooldowns.get(command.name);
+	const cooldownAmount = (command.cooldown || 2) * 1000;
+
+	if (timestamps.has(author.id)) {
+		const expirationTime = timestamps.get(author.id) + cooldownAmount;
+
+		if (now < expirationTime) {
+			const timeLeft = (expirationTime - now) / 1000;
+			msg
+				.reply(
+					`por favor espera ${timeLeft.toFixed(
+						1
+					)} segundo(s) mas para reusar el comando \`${command.name}\``
+				)
+				.then((msg) => {
+					setTimeout(() => msg.delete(), 5000);
+				});
+			return;
+		}
+	}
+	timestamps.set(author.id, now);
+	setTimeout(() => timestamps.delete(author.id), cooldownAmount);
+
+	try {
+		//ejecutar
+		command.execute(msg, args, isMod);
+	} catch (error) {
+		console.error(error);
+		const MsgError = new MessageEmbed()
+			.setColor('RED')
+			.setAuthor('Ha ocurrido un error al ejecutar el comando!');
+		msg.reply(MsgError);
+	}
 });
-/** */ 
+/** */
 /** CUANDO EL MENSAJE ES PARA REINCIAR EL BOT */
-client.on('messageCreate', async (msg) => { 
-  let {channel, member, content} = msg;
+client.on('messageCreate', async (msg) => {
+	let { channel, member, content } = msg;
 
-  if(content !== '¡reset' && content !== '¡restart') return;
-  const isMod = member.roles.cache.find(role => role.name === 'Moderador');
-  if(!isMod) return;
+	if (content !== '¡reset' && content !== '¡restart') return;
+	const isMod = member.roles.cache.find((role) => role.name === 'Moderador');
+	if (!isMod) return;
 
-  channel.send('*Reiniciando...*')
-  .then(m => client.destroy())
-  .then(() => client.login(token));
-  console.log("bot reiniciado en: " + channel.guild.name)
-  
-  startUp(client);
-  const testChannel = await client.channels.fetch(channel.id);
-  testChannel.send('**Buenos dias!**')
-  .then(msg => 
-    setTimeout(() => {
-      msg.delete()
-    }, 5000))
+	channel
+		.send('*Reiniciando...*')
+		.then((msg) =>
+			setTimeout(() => {
+				msg.delete();
+			}, 5000)
+		)
+		.then((m) => client.destroy())
+		.then(() => client.login(token));
+	console.log('bot reiniciado en: ' + channel.guild.name);
 
+	startUp(client);
+	const testChannel = await client.channels.fetch(channel.id);
+	testChannel.send('**Buenos dias!**');
 });
 /** */
 
 /** COMPROBAR AL INICIAR EL BOT */
 client.once('ready', async () => {
-  
-  // setRoles.silenciado(client); //CREAR ROL SILENCIADO
-  // setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
+	// setRoles.silenciado(client); //CREAR ROL SILENCIADO
+	// setRoles.cumpleañero(client); //CREAR ROL CUMPLEAÑERO
 
-  console.log('Bot Connected');
-  startUp(client);
+	console.log('Bot Connected');
+	startUp(client);
 });
-
 
 client.login(token); //LOGEAR Y ARRANCAR EL BOT
