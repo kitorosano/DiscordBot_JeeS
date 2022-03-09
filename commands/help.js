@@ -36,14 +36,14 @@ module.exports = { //ESTA PRONTO
           const commandMsg = new MessageEmbed()
                 .setColor('WHITE')
                 .setDescription(`${msg.author}, te he enviado un mensaje con todos mis comandos!`)
-          msg.reply(commandMsg);
+          msg.reply({embeds: [commandMsg]});
         })
         .catch(error => {
           console.error(`Could not send help DM to ${msg.author.tag}.\n`, error);
           const commandMsg = new MessageEmbed()
                 .setColor('WHITE')
                 .setDescription(`${msg.author}, no puedo mensajearte! Tendrás desactivado DM? (mensaje directo)`)
-          msg.reply(commandMsg);
+          msg.reply({embeds: [commandMsg]});
         });
     }
 
