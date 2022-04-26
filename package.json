@@ -4,8 +4,8 @@
   "description": "Bot para el discord JeeS",
   "main": "index.js",
   "engines": {
-    "node": "16.13",
-    "npm": "8.1.3"
+    "node": "16.13.0",
+    "npm": "8.5.5"
   },
   "scripts": {
     "update": "npm update jkanime",
