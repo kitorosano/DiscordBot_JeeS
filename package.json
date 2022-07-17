@@ -3,10 +3,6 @@
   "version": "2.0.0",
   "description": "Bot para el discord JeeS",
   "main": "index.js",
-  "engines": {
-    "node": "16.14.2",
-    "npm": "8.5.5"
-  },
   "scripts": {
     "update": "npm update jkanime",
     "start": "node .",
