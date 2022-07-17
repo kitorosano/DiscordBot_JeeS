@@ -36,7 +36,9 @@ module.exports = {
 				.addFields(
 					filteredCommands.map((comando) => ({
 						name: comando.name,
-						value: `${
+						value: `
+            ${comando.description}\n\nUsos: \n
+            ${
 							comando.usages && comando.usages.length
 								? comando.usages
 										.map((usage) => `\`${prefix}${comando.name} ${usage}\``)
@@ -44,8 +46,7 @@ module.exports = {
 								: `\`${prefix}${comando.name}\``
 						}${
 							comando.modUsages && comando.modUsages.length
-								? '\n' +
-								  comando.modUsages
+								? comando.modUsages
 										.map(
 											(modUsage) =>
 												`*(mod)*\`${prefix}${comando.name} ${modUsage}\``
