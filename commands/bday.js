@@ -3,82 +3,125 @@ const mongoose = require('mongoose');
 const birthdays = require('../models/birthdays.model');
 let { mongo } = require('../config');
 
+//TODO: MOSTRAR DIFERENCIAS ENTRE MODERACION Y NORMAL
+
 mongoose.connect(mongo, {
 	useFindAndModify: false,
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
 
-const months = {'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6, 'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12};
+const months = {
+	Jan: 1,
+	Feb: 2,
+	Mar: 3,
+	Apr: 4,
+	May: 5,
+	Jun: 6,
+	Jul: 7,
+	Aug: 8,
+	Sep: 9,
+	Oct: 10,
+	Nov: 11,
+	Dec: 12,
+};
 
 // Semi-modOnly
 module.exports = {
 	name: 'bday',
 	description: 'Manejar cumpleaños, ver cumpleaños previos o siguientes',
 	aliases: ['birthday'],
-	usage: '[@usuario] o sino [next/prev]',
-	modUsage: '<usuario> [add/remove/update] [dia/mes]',
+	usages: ['[@usuario]', '[next/prev]'],
+	modUsages: [
+		'<usuario> add [dia/mes]',
+		'<usuario> remove [dia/mes]',
+		'<usuario> update [dia/mes]',
+	],
 	guildOnly: true,
 	async execute(msg, args, isMod) {
 		const { member, author, guild, mentions, channel } = msg;
 		let [who, action, fecha] = args;
-    
-		if (who === 'next') { // Ver proximo cumpleaños
-      let today = new Date(), bDay, bMonth;
-      let todayCopy = new Date(today);
-      let nextBdays;
-      let founded = false;
-      while(!founded){
-        today.setDate(today.getDate() +1)        
-        if(today.getDate() == todayCopy.getDate() && today.getMonth == todayCopy.getMonth) return channel.send('No tenemos proximos cumpleaños');
-        
-        bDay = parseInt(today.toDateString().split(' ')[2]);
-        bMonth = months[today.toDateString().split(' ')[1]];
 
-        nextBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(nextBdays.length) founded = true;
-      }
-      
-      return channel.send({
-        embeds: nextBdays.map(nBday =>
-          new MessageEmbed()
-            .setColor('#ffe47a')
-            .setDescription(`El proximo cumpleaños será de **<@${nBday.userID}>** el \`${nBday.day}\``)
-        )
-      })
-    }
+		if (who === 'next') {
+			// Ver proximo cumpleaños
+			let today = new Date(),
+				bDay,
+				bMonth;
+			let todayCopy = new Date(today);
+			let nextBdays;
+			let founded = false;
+			while (!founded) {
+				today.setDate(today.getDate() + 1);
+				if (
+					today.getDate() == todayCopy.getDate() &&
+					today.getMonth == todayCopy.getMonth
+				)
+					return channel.send('No tenemos proximos cumpleaños');
 
-		if (who === 'prev') { // Ver cumpleaños anterior
-      let today = new Date(), bDay, bMonth;
-      let todayCopy = new Date(today);
-      let prevBdays;
-      let founded = false;
-      while(!founded){
-        today.setDate(today.getDate() -1);
-        if(today.getDate() == todayCopy.getDate() && today.getMonth == todayCopy.getMonth) return channel.send('No tenemos proximos cumpleaños');
-        
-        bDay = parseInt(today.toDateString().split(' ')[2]);
-        bMonth = months[today.toDateString().split(' ')[1]];
+				bDay = parseInt(today.toDateString().split(' ')[2]);
+				bMonth = months[today.toDateString().split(' ')[1]];
 
-        prevBdays = await birthdays.find({day: `${bDay}/${bMonth}`});
-        if(prevBdays.length) founded = true;
-      }
+				nextBdays = await birthdays.find({ day: `${bDay}/${bMonth}` });
+				if (nextBdays.length) founded = true;
+			}
 
-      return channel.send({
-        embeds: prevBdays.map(nBday =>
-          new MessageEmbed()
-            .setColor('#ffe47a')
-            .setDescription(`El cumpleaños anterior fue de **<@${nBday.userID}>** el dia \`${nBday.day}\``)
-        )
-      })
+			return channel.send({
+				embeds: nextBdays.map((nBday) =>
+					new MessageEmbed()
+						.setColor('#ffe47a')
+						.setDescription(
+							`El proximo cumpleaños será de **<@${nBday.userID}>** el \`${nBday.day}\``
+						)
+				),
+			});
+		}
+
+		if (who === 'prev') {
+			// Ver cumpleaños anterior
+			let today = new Date(),
+				bDay,
+				bMonth;
+			let todayCopy = new Date(today);
+			let prevBdays;
+			let founded = false;
+			while (!founded) {
+				today.setDate(today.getDate() - 1);
+				if (
+					today.getDate() == todayCopy.getDate() &&
+					today.getMonth == todayCopy.getMonth
+				)
+					return channel.send('No tenemos proximos cumpleaños');
+
+				bDay = parseInt(today.toDateString().split(' ')[2]);
+				bMonth = months[today.toDateString().split(' ')[1]];
+
+				prevBdays = await birthdays.find({ day: `${bDay}/${bMonth}` });
+				if (prevBdays.length) founded = true;
+			}
+
+			return channel.send({
+				embeds: prevBdays.map((nBday) =>
+					new MessageEmbed()
+						.setColor('#ffe47a')
+						.setDescription(
+							`El cumpleaños anterior fue de **<@${nBday.userID}>** el dia \`${nBday.day}\``
+						)
+				),
+			});
 		}
 
 		let target = mentions.users.first();
 		if (!target) target = author;
 
 		// SI SE ESPECIFICA UNA ACCION PERO NO ES UN MODERADOR, SIMPLEMENTE LE MOSRTAMOS LA INFO DEL CUMPLEAÑERO
-		if ( (action === 'add' || action === 'remove' || action === 'update') && !isMod ) // action = undefined;
-		  return channel.send(`:no_pedestrians: Alto ahí **${member.user.username}** pantalones cuadrados.`)
+		if (
+			(action === 'add' || action === 'remove' || action === 'update') &&
+			!isMod
+		)
+			// action = undefined;
+			return channel.send(
+				`:no_pedestrians: Alto ahí **${member.user.username}** pantalones cuadrados.`
+			);
 
 		if (action === 'add') {
 			// msg.delete()
@@ -87,13 +130,15 @@ module.exports = {
 				guildID: guild.id,
 			});
 			if (bday)
-				return channel.send({embeds:[
-          new MessageEmbed()
-						.setColor('RED')
-						.setDescription(
-							`El cumpleaños de **${target.username}** ya está programado para el: ${bday.day}`
-						)
-        ]});
+				return channel.send({
+					embeds: [
+						new MessageEmbed()
+							.setColor('RED')
+							.setDescription(
+								`El cumpleaños de **${target.username}** ya está programado para el: ${bday.day}`
+							),
+					],
+				});
 
 			const newBday = new birthdays({
 				userID: target.id,
@@ -104,13 +149,15 @@ module.exports = {
 				.save()
 				.catch((e) => console.log(`Failed to save birthday: ${e}`));
 
-			return channel.send({embeds: [
-				new MessageEmbed()
-					.setColor('#f0ff7a')
-					.setDescription(
-						`El cumpleaños de **${target.username}** fue programado para el \`${fecha}\``
-					)
-			]});
+			return channel.send({
+				embeds: [
+					new MessageEmbed()
+						.setColor('#f0ff7a')
+						.setDescription(
+							`El cumpleaños de **${target.username}** fue programado para el \`${fecha}\``
+						),
+				],
+			});
 		}
 		if (action === 'remove') {
 			// msg.delete()
@@ -129,7 +176,7 @@ module.exports = {
 				.setDescription(
 					`El cumpleaños de **${target.username}** fue eliminado`
 				);
-			return channel.send({embeds: [MsgRemoved]});
+			return channel.send({ embeds: [MsgRemoved] });
 		}
 		if (action === 'update') {
 			// msg.delete();
@@ -151,11 +198,11 @@ module.exports = {
 				.setDescription(
 					`El cumpleaños de **${target.username}** ahora es el \`${fecha}\``
 				);
-			return channel.send({embeds: [MsgUpdated]});
+			return channel.send({ embeds: [MsgUpdated] });
 		}
 		if (who === 'list') {
-      // OBTENER TODOS LOS CUMPLEAÑOS DEL SERVIDOR
-			const bdays = await birthdays.find({guildID: guild.id});
+			// OBTENER TODOS LOS CUMPLEAÑOS DEL SERVIDOR
+			const bdays = await birthdays.find({ guildID: guild.id });
 			if (!bdays) return false;
 
 			const MsgBdays = new MessageEmbed()
@@ -163,14 +210,15 @@ module.exports = {
 				.setTitle(':birthday: Cumpleaños establecidos:')
 				.setDescription(
 					bdays
-            .sort((a, b) => 
-              parseInt(a.day.split('/')[1]) - parseInt(b.day.split('/')[1])
-            )
+						.sort(
+							(a, b) =>
+								parseInt(a.day.split('/')[1]) - parseInt(b.day.split('/')[1])
+						)
 						.map((bday) => `**<@${bday.userID}>** para el \`${bday.day}\``)
 						.join('\n')
 				);
 
-			return channel.send({embeds: [MsgBdays]});
+			return channel.send({ embeds: [MsgBdays] });
 		}
 		if (action === undefined) {
 			const bday = await birthdays.findOne({
@@ -178,13 +226,15 @@ module.exports = {
 				guildID: guild.id,
 			});
 			if (!bday)
-				return channel.send({embeds: [
-					new MessageEmbed()
-						.setColor('RED')
-						.setDescription(
-							`Aún no tenemos el cumpleaños de **${target.username}**`
-						)
-				]});
+				return channel.send({
+					embeds: [
+						new MessageEmbed()
+							.setColor('RED')
+							.setDescription(
+								`Aún no tenemos el cumpleaños de **${target.username}**`
+							),
+					],
+				});
 
 			const MsgBday = new MessageEmbed()
 				.setColor('#ffe47a')
@@ -192,7 +242,7 @@ module.exports = {
 					`El cumpleaños de **${target.username}** es el \`${bday.day}\``
 				);
 
-			return channel.send({embeds: [MsgBday]});
+			return channel.send({ embeds: [MsgBday] });
 		}
 	},
 };

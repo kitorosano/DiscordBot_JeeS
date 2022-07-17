@@ -99,10 +99,14 @@ client.on('messageCreate', async (msg) => {
 		const { level } = await Levels.fetch(author.id, guild.id);
 		const MsgLvlUp = new MessageEmbed()
 			.setColor('#ADC00')
-			.setAuthor(
-				`¡Felicidades! ${author.username}`,
-				author.displayAvatarURL({ format: 'png', dynamic: true, size: 4096 })
-			)
+			.setAuthor({
+				name: `¡Felicidades! ${author.username}`,
+				iconURL: author.displayAvatarURL({
+					format: 'png',
+					dynamic: true,
+					size: 4096,
+				}),
+			})
 			.setDescription(
 				`:tada: Has ascendido a **nivel ${level}**!. :confetti_ball: Cada vez mas cerca del admin.`
 			);
@@ -137,14 +141,16 @@ client.on('messageCreate', async (msg) => {
 	if (command.guildOnly && channel.type === 'DM')
 		return channel.send('No puedo ejecutar eso por mensaje directo');
 
-	if (command.args && !args.length) {
+	if (command.args && command.args != args.length) {
 		const replyMsg = new MessageEmbed()
 			.setColor('RED')
-			.setTitle(`Algo le falta al comando...`);
+			.setTitle(`Comando incompleto...`);
 
-		if (command.usage) {
+		if (command.usages) {
 			replyMsg.setDescription(
-				`El uso correcto sería: \`${prefix}${command.name} ${command.usage}\``
+				`El uso correcto sería: \n${command.usages
+					.map((usage) => `\`${prefix}${command.name} ${usage}\``)
+					.join('\n')}`
 			);
 		}
 		return channel.send({ embeds: [replyMsg] });
@@ -185,7 +191,7 @@ client.on('messageCreate', async (msg) => {
 		console.error(error);
 		const MsgError = new MessageEmbed()
 			.setColor('RED')
-			.setAuthor('Ha ocurrido un error al ejecutar el comando!');
+			.setAuthor({ name: 'Ha ocurrido un error al ejecutar el comando!' });
 		msg.reply(MsgError);
 	}
 });

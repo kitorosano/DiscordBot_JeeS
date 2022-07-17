@@ -4,10 +4,10 @@
 const { MessageEmbed, MessageAttachment } = require('discord.js');
 
 module.exports = {
-	name: 'user-info',
+	name: 'userinfo',
 	description: 'Muestra informacion del usuario en el servidor.',
 	aliases: ['profile'],
-	usage: '[usuario]',
+	usages: ['[usuario]'],
 	// disable: true,
 	guildOnly: true,
 	async execute(msg, args) {
@@ -24,19 +24,28 @@ module.exports = {
 				.addFields(
 					{
 						name: 'Roles: ',
-						value: roles.cache.map((role) =>
-							role.name === '@everyone' ? `@everyone\t` : `<@&${role.id}>\t`
-						).join('\n'),
+						value: roles.cache
+							.map((role) =>
+								role.name === '@everyone' ? `@everyone\t` : `<@&${role.id}>\t`
+							)
+							.join('\n'),
+					},
+					{
+						name: 'Alias: ',
+						value: nickname ? nickname : 'No tiene',
 						inline: true,
 					},
-          { name: 'Alias: ', value: nickname, inline: true },
-					{ name: 'Es un Bot?', value: bot ? ':eyes:' : 'Y no.', inline: true },
-					{ name: 'Se unió: ', value: joinedAt.toUTCString().slice(0, -4) }
+					{
+						name: 'Se unió: ',
+						value: joinedAt.toUTCString().slice(0, -4),
+						inline: true,
+					},
+					{ name: 'Es un Bot?', value: bot ? ':eyes:' : 'Y no.', inline: true }
 				)
-				.setFooter(
-					`Pedido por ${username}#${discriminator}`,
-					author.displayAvatarURL({ format: 'png', dynamic: true })
-				);
+				.setFooter({
+					text: `Pedido por ${username}#${discriminator}`,
+					iconURL: author.displayAvatarURL({ format: 'png', dynamic: true }),
+				});
 			return channel.send({ embeds: [exampleEmbed] });
 		}
 
@@ -50,21 +59,30 @@ module.exports = {
 				.setDescription('UserID: ' + id)
 				.setThumbnail(user.displayAvatarURL({ format: 'png', dynamic: true }))
 				.addFields(
-					{ name: 'Alias: ', value: nickname || 'Ninguno', inline: true },
 					{
 						name: 'Roles: ',
-						value: roles.cache.map((role) =>
-							role.name === '@everyone' ? `@everyone\t` : `<@&${role.id}>\t`
-						),
+						value: roles.cache
+							.map((role) =>
+								role.name === '@everyone' ? `@everyone\t` : `<@&${role.id}>\t`
+							)
+							.join('\n'),
+					},
+					{
+						name: 'Alias: ',
+						value: nickname ? nickname : 'No tiene',
 						inline: true,
 					},
-					{ name: 'Es un Bot?', value: bot ? ':eyes:' : 'Y no.', inline: true },
-					{ name: 'Se unió: ', value: joinedAt.toUTCString().slice(0, -4) }
+					{
+						name: 'Se unió: ',
+						value: joinedAt.toUTCString().slice(0, -4),
+						inline: true,
+					},
+					{ name: 'Es un Bot?', value: bot ? ':eyes:' : 'Y no.', inline: true }
 				)
-				.setFooter(
-					`Pedido por ${author.username}#${author.discriminator}`,
-					author.displayAvatarURL({ format: 'png', dynamic: true })
-				);
+				.setFooter({
+					text: `Pedido por ${author.username}#${author.discriminator}`,
+					iconURL: author.displayAvatarURL({ format: 'png', dynamic: true }),
+				});
 			return channel.send({ embeds: [exampleEmbed] });
 		});
 	},

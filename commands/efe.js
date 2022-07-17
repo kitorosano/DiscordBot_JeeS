@@ -2,14 +2,14 @@
 
 module.exports = {
 	name: 'efe',
-  description: 'El bot te dice efe.',
-  aliases: ['f'],
-  usage: '[usuario]',
-  guildOnly: true,
-  execute(msg, args, isMod) {
-		if (!msg.mentions.users.size) { 
-      msg.delete()
-      return msg.channel.send("***F***")
-    }
+	description: 'El bot te dice efe.',
+	aliases: ['f'],
+	usages: ['[usuario]'],
+	guildOnly: true,
+	execute(msg, args, isMod) {
+		if (!msg.mentions.users.size) {
+			msg.delete();
+			return msg.channel.send('***F***');
+		}
 	},
 };
