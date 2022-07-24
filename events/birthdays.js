@@ -4,6 +4,7 @@ const birthdayEvent = require('../models/birthdays.model');
 // const config = require("../models/config.model");
 let { mongo } = require('../config');
 const { scheduleJob, cancelJob } = require('node-schedule');
+const config = require('../config');
 
 mongoose.connect(mongo, {
 	useNewUrlParser: true,
@@ -35,35 +36,53 @@ module.exports = {
 	},
 	async execute(event, client) {
 		const guild = await client.guilds.fetch(event.guildID);
-		const member = await guild.members.fetch(event.userID);
-		const channel = guild.channels.resolve('775953256228716556'); //HERE MAIN CHANNEL FROM GUILD/SERVER
-		// const channel = guild.channels.resolve('837826705678532608'); //HERE TEST CHANNEL FROM GUILD/SERVER
-		if (!channel.id || !member.user) return console.log('HAY ALGO QUE NO HAY');
+		let member;
+		try {
+			member = await guild.members.fetch(event.userID);
+		} catch (e) {
+			console.log(
+				`Este cumpleañero de id '${event.userID}' no está en el servidor`
+			);
+		}
+		const channel = guild.channels.resolve(config.MAIN_CHANNEL); //HERE MAIN CHANNEL FROM GUILD/SERVER
+		// const channel = guild.channels.resolve(config.TEST_CHANNEL); //HERE TEST CHANNEL FROM GUILD/SERVER
+		// if (!channel.id || !member) return console.log('HAY ALGO QUE NO HAY');
 
 		// const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
 		const roles = await guild.roles.fetch();
 		const BdayRole = roles.find((role) => role.name === 'Cumpleañer@');
 
+		//SI NO ESTA MENCIONADO, LO MENCIONO
 		if (!event.mention) {
-			//SI NO ESTA MENCIONADO, LO MENCIONO
+			let MsgBday;
+			// MENSAJE DEPÉNDIENDO DE SI ESTA EN EL SERVIDOR O NO
+			if (member) {
+				member.roles.add(BdayRole);
 
-			member.roles.add(BdayRole);
-			// console.log(member.roles)
-
-			const MsgBday = new MessageEmbed()
-				.setColor('YELLOW')
-				.setAuthor({
-					name: `¡Hay un Cumpleañer@ entre nosotros!`,
-					iconURL: member.user.displayAvatarURL(),
-				})
-				.setDescription(
-					`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`
-				);
-
+				MsgBday = new MessageEmbed()
+					.setColor('YELLOW')
+					.setAuthor({
+						name: `¡Hay un Cumpleañer@ entre nosotros!`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(
+						`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`
+					);
+			} else {
+				MsgBday = new MessageEmbed()
+					.setColor('YELLOW')
+					.setAuthor({
+						name: `¡Hay un Cumpleañer@ pero no está entre nosotros!`,
+						iconURL: member.user.displayAvatarURL(),
+					})
+					.setDescription(
+						`:confetti_ball: Hoy alguien esta cumpliendo años... pero no se encuentra en el servidor:disappointed: Aun asi, le deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`
+					);
+			}
 			channel.send('@everyone');
 			channel.send({ embeds: [MsgBday] }).then(async (msg) => {
-        await msg.react(`:partying_face:`);
-      });
+				await msg.react(`:partying_face:`);
+			});
 
 			// Me aseguro que mencione al usuario en su cumpleaños, por si surge un reinicio imprevisto y salta otra mencion
 			const bday = await birthdayEvent.findOne({
@@ -78,6 +97,7 @@ module.exports = {
 				)
 				.catch((e) => console.log(`Failed to update bday_ ${e}`));
 		}
+
 		// QUITAR EL ROL NI BIEN TERMINE EL DIA
 		const endID = 'endBday-' + event._id.toString();
 		scheduleJob(
@@ -86,22 +106,24 @@ module.exports = {
 			async () => {
 				member.roles.remove(BdayRole);
 				// console.log('rol removido')
-
-				// Ahora que termino el cumpleaños, vuelvo a poner la mencion en false, para su proximo cumpleaños
-				const bday = await birthdayEvent.findOne({
-					userID: event.userID,
-					guildID: event.guildID,
-				});
-				if (!bday) return false;
-				await birthdayEvent
-					.findOneAndUpdate(
-						{ userID: event.userID, guildID: event.guildID },
-						{ mention: false }
-					)
-					.catch((e) => console.log(`Failed to update bday_ ${e}`));
-
+				await resetBdayState(event);
 				cancelJob(endID);
 			}
 		);
+
+		const resetBdayState = async (event) => {
+			// Ahora que termino el cumpleaños, vuelvo a poner la mencion en false, para su proximo cumpleaños
+			const bday = await birthdayEvent.findOne({
+				userID: event.userID,
+				guildID: event.guildID,
+			});
+			if (!bday) return false;
+			await birthdayEvent
+				.findOneAndUpdate(
+					{ userID: event.userID, guildID: event.guildID },
+					{ mention: false }
+				)
+				.catch((e) => console.log(`Failed to update bday_ ${e}`));
+		};
 	},
 };

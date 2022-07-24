@@ -1,11 +1,10 @@
 const { Client, Collection, MessageEmbed, Intents } = require('discord.js');
 const {
 	prefix,
-	allowedUsers,
-	modUsers,
 	token,
 	mongo,
 	xp,
+  TEST_CHANNEL
 } = require('./config');
 const { modMe, setRoles } = require('./utils');
 const fs = require('fs');
@@ -13,6 +12,7 @@ const rnd = require('random');
 const { scheduleJob, cancelJob } = require('node-schedule');
 const Levels = require('discord-xp');
 const { type } = require('os');
+const config = require('./config');
 Levels.setURL(mongo);
 
 const client = new Client({
@@ -216,7 +216,7 @@ client.on('messageCreate', async (msg) => {
 	console.log('bot reiniciado en: ' + channel.guild.name);
 
 	startUp(client);
-	const testChannel = await client.channels.fetch(channel.id);
+	const testChannel = await client.channels.fetch(config.TEST_CHANNEL);
 	testChannel.send('**Buenos dias!**');
 });
 /** */
