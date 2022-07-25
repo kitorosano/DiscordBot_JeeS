@@ -104,7 +104,7 @@ module.exports = {
 			endID,
 			{ second: 50, minute: 59, hour: 23, tz: 'America/Montevideo' },
 			async () => {
-				member.roles.remove(BdayRole);
+        if(member) member.roles.remove(BdayRole);
 				// console.log('rol removido')
 				await resetBdayState(event);
 				cancelJob(endID);
