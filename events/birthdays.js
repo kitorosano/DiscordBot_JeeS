@@ -81,7 +81,7 @@ module.exports = {
 			}
 			channel.send('@everyone');
 			channel.send({ embeds: [MsgBday] }).then(async (msg) => {
-				await msg.react(`:partying_face:`);
+				await msg.react(`🥳`);
 			});
 
 			// Me aseguro que mencione al usuario en su cumpleaños, por si surge un reinicio imprevisto y salta otra mencion
