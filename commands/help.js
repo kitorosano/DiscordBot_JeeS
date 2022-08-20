@@ -46,7 +46,8 @@ module.exports = {
 								: `\`${prefix}${comando.name}\``
 						}${
 							comando.modUsages && comando.modUsages.length
-								? comando.modUsages
+								? '\n' +
+								  comando.modUsages
 										.map(
 											(modUsage) =>
 												`*(mod)*\`${prefix}${comando.name} ${modUsage}\``
