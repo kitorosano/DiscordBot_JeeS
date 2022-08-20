@@ -96,11 +96,19 @@ module.exports = {
 		if (command.description) helpMsg.setDescription(command.description);
 		if (command.aliases)
 			helpMsg.setFooter({ text: `Aliases: \n${command.aliases.join(', ')}` });
-		if (command.usage)
+		if (command.usages)
 			helpMsg.addField(
 				'Usos',
-				`\`${prefix}${command.name} ${command.usage}\``,
-				true
+				`\`${prefix}${command.name} ${command.usages}\``,
+				false
+			);
+		if (isMod && command.modUsages)
+			helpMsg.addField(
+				'Usos (mod)',
+				command.modUsages
+					.map((usage) => `\`${prefix}${command.name} ${usage}\``)
+					.join('\n'),
+				false
 			);
 
 		helpMsg.addField('Enfriamiento', `${command.cooldown || 3} segundo(s)`);

@@ -149,7 +149,6 @@ module.exports = {
 						return 0;
 					})
 					.map(({ roleID, goal }) => `**<@&${roleID}>**: \`${goal}\``)
-
 					.join('\n')
 			)
 			.setFooter({
