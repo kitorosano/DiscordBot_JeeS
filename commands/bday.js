@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const mongoose = require('mongoose');
-const birthdays = require('../models/birthdays.model');
+const birthdaysModel = require('../models/birthdays.model');
 let { mongo } = require('../config');
 
 //TODO: MOSTRAR DIFERENCIAS ENTRE MODERACION Y NORMAL
@@ -61,7 +61,7 @@ module.exports = {
 				bDay = parseInt(today.toDateString().split(' ')[2]);
 				bMonth = months[today.toDateString().split(' ')[1]];
 
-				nextBdays = await birthdays.find({ day: `${bDay}/${bMonth}` });
+				nextBdays = await birthdaysModel.find({ day: `${bDay}/${bMonth}` });
 				if (nextBdays.length) founded = true;
 			}
 
@@ -95,7 +95,7 @@ module.exports = {
 				bDay = parseInt(today.toDateString().split(' ')[2]);
 				bMonth = months[today.toDateString().split(' ')[1]];
 
-				prevBdays = await birthdays.find({ day: `${bDay}/${bMonth}` });
+				prevBdays = await birthdaysModel.find({ day: `${bDay}/${bMonth}` });
 				if (prevBdays.length) founded = true;
 			}
 
@@ -125,7 +125,7 @@ module.exports = {
 
 		if (action === 'add') {
 			// msg.delete()
-			const bday = await birthdays.findOne({
+			const bday = await birthdaysModel.findOne({
 				userID: target.id,
 				guildID: guild.id,
 			});
@@ -140,7 +140,7 @@ module.exports = {
 					],
 				});
 
-			const newBday = new birthdays({
+			const newBday = new birthdaysModel({
 				userID: target.id,
 				guildID: guild.id,
 				day: fecha,
@@ -161,13 +161,13 @@ module.exports = {
 		}
 		if (action === 'remove') {
 			// msg.delete()
-			const bday = await birthdays.findOne({
+			const bday = await birthdaysModel.findOne({
 				userID: target.id,
 				guildID: guild.id,
 			});
 			if (!bday) return false;
 
-			await birthdays
+			await birthdaysModel
 				.findOneAndDelete({ userID: target.id, guildID: guild.id })
 				.catch((e) => console.log(`Failed to delete bday: ${e}`));
 
@@ -180,13 +180,13 @@ module.exports = {
 		}
 		if (action === 'update') {
 			// msg.delete();
-			const bday = await birthdays.findOne({
+			const bday = await birthdaysModel.findOne({
 				userID: target.id,
 				guildID: guild.id,
 			});
 			if (!bday) return false;
 
-			await birthdays
+			await birthdaysModel
 				.findOneAndUpdate(
 					{ userID: target.id, guildID: guild.id },
 					{ day: fecha }
@@ -202,7 +202,7 @@ module.exports = {
 		}
 		if (who === 'list') {
 			// OBTENER TODOS LOS CUMPLEAÑOS DEL SERVIDOR
-			const bdays = await birthdays.find({ guildID: guild.id });
+			const bdays = await birthdaysModel.find({ guildID: guild.id });
 			if (!bdays) return false;
 
 			const MsgBdays = new MessageEmbed()
@@ -221,7 +221,7 @@ module.exports = {
 			return channel.send({ embeds: [MsgBdays] });
 		}
 		if (action === undefined) {
-			const bday = await birthdays.findOne({
+			const bday = await birthdaysModel.findOne({
 				userID: target.id,
 				guildID: guild.id,
 			});
