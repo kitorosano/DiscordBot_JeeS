@@ -20,7 +20,7 @@ module.exports = {
 	guildOnly: true,
 	async execute(msg, args, isMod) {
 		const { member, guild, channel, client } = msg;
-		let [action, _role, howto] = args;
+		let [action, _role, ...howto] = args;
 
 		// Comprobar que no se trata de una accion moderacion por parte de un usuario normal
 		if (
