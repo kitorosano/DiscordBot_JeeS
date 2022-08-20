@@ -20,7 +20,7 @@ module.exports = {
 	guildOnly: true,
 	async execute(msg, args, isMod) {
 		const { member, guild, channel, client } = msg;
-		let [action, _role, ...howto] = args;
+		let [action, _role, ..._howto] = args;
 
 		// Comprobar que no se trata de una accion moderacion por parte de un usuario normal
 		if (
@@ -50,6 +50,7 @@ module.exports = {
 		if (action === 'add') {
 			// msg.delete()
 			const role = guild.roles.cache.find((r) => r.id === parseRole2ID(_role));
+			const howto = _howto.join(' ');
 			const findedRole = await rolesModel.findOne({
 				guildID: guild.id,
 				roleID: role.id,
@@ -87,6 +88,7 @@ module.exports = {
 		if (action === 'remove') {
 			// msg.delete()
 			const role = guild.roles.cache.find((r) => r.id === parseRole2ID(_role));
+			const howto = _howto.join(' ');
 			const findedRole = await rolesModel.findOne({
 				roleID: role.id,
 				guildID: guild.id,
@@ -107,6 +109,7 @@ module.exports = {
 		if (action === 'update') {
 			// msg.delete();
 			const role = guild.roles.cache.find((r) => r.id === parseRole2ID(_role));
+			const howto = _howto.join(' ');
 			const findedRole = await rolesModel.findOne({
 				roleID: role.id,
 				guildID: guild.id,
@@ -128,7 +131,7 @@ module.exports = {
 			return channel.send({ embeds: [MsgUpdated] });
 		}
 
-		// obtener todos los roles configurados 
+		// obtener todos los roles configurados
 		const findedRoles = await rolesModel.find({ guildID: guild.id });
 		if (!findedRoles) return false;
 
