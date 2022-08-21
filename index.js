@@ -1,17 +1,14 @@
-const { Client, Collection, MessageEmbed, Intents } = require('discord.js');
+const { Client, Collection, MessageEmbed } = require('discord.js');
 const {
 	prefix,
 	token,
 	mongo,
 	xp,
-  TEST_CHANNEL
 } = require('./config');
-const { modMe, setRoles } = require('./utils');
 const fs = require('fs');
 const rnd = require('random');
-const { scheduleJob, cancelJob } = require('node-schedule');
+const { scheduleJob } = require('node-schedule');
 const Levels = require('discord-xp');
-const { type } = require('os');
 const config = require('./config');
 Levels.setURL(mongo);
 
