@@ -49,10 +49,10 @@ const initializeEvents = async () => {
 	for (const file of eventFiles) {
 		//para cada tipo de evento como archivo .js, obtengo los eventos del dia.
 		const typeEvent = require(`./events/${file}`); //ESTO PASARSELO AL COMANDO ¡events, PARA EVENTOS DEL DIA
-		if (typeEvent.disable) return; //filtrar eventos desactivados
+		if (typeEvent.disable) continue; //filtrar eventos desactivados
 
 		const typeEvents = await typeEvent.getEvents(today, client); //Obtener entradas del dia para este tipo de evento
-		if (!typeEvents.length) return; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
+		if (!typeEvents.length) continue; //Si no hay nada de este evento para hoy, a.k.a si el array esta vacio
 
 		typeEvents.forEach((singleEventData) => {
 			//para cada evento de grupo, configurar una "alarma" del dia para cada uno
