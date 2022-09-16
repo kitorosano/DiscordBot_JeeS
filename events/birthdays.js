@@ -50,7 +50,7 @@ module.exports = {
 
 		// const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
 		const roles = await guild.roles.fetch();
-		const BdayRole = roles.find((role) => role.name === 'Cumpleañer@');
+		const BdayRole = roles.find((role) => role.name.includes('Cumpleañer@')); //new includes because ====== Cumpleañer@ ======
 
 		//SI NO ESTA MENCIONADO, LO MENCIONO
 		if (!event.mention) {
