@@ -210,9 +210,10 @@ module.exports = {
 				.setTitle(':birthday: Cumpleaños establecidos:')
 				.setDescription(
 					bdays
+            .sort((a, b) => a.day.split('/')[0] - b.day.split('/')[0]) // ORDENAR POR DIA
 						.sort(
 							(a, b) =>
-								parseInt(a.day.split('/')[1]) - parseInt(b.day.split('/')[1])
+								parseInt(a.day.split('/')[1]) - parseInt(b.day.split('/')[1]) // ORDENAR POR MES
 						)
 						.map((bday) => `**<@${bday.userID}>** para el \`${bday.day}\``)
 						.join('\n')
