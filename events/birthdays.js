@@ -69,7 +69,7 @@ module.exports = {
 						`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`
 					);
 			} else {
-				MsgBday = new MessageEmbed()
+				MsgBday = new MessageEmbed() 
 					.setColor('YELLOW')
 					.setAuthor({
 						name: `¡Hay un Cumpleañer@ pero no está entre nosotros!`,
