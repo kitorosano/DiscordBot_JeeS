@@ -52,33 +52,38 @@ module.exports = {
 		const roles = await guild.roles.fetch();
 		const BdayRole = roles.find((role) => role.name.includes('Cumpleañer@')); //new includes because ====== Cumpleañer@ ======
 
-		//SI NO ESTA MENCIONADO, LO MENCIONO
+		//Si el evento no ha sido mencionado, entonces ejecutarlo.
 		if (!event.mention) {
 			let MsgBday;
 			// MENSAJE DEPÉNDIENDO DE SI ESTA EN EL SERVIDOR O NO
-			if (member) {
-				member.roles.add(BdayRole);
+      if(!member){
+        MsgBday = new MessageEmbed() 
+        .setColor('YELLOW')
+        .setAuthor({
+          name: `¡Hay un Cumpleañer@ pero no está entre nosotros!`,
+          iconURL: member.user.displayAvatarURL(),
+        })
+        .setDescription(
+          `:confetti_ball: Hoy alguien esta cumpliendo años... pero no se encuentra en el servidor:disappointed: Aun asi, le deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`
+        );
+        
+        channel.send('@everyone');
+        return channel.send({ embeds: [MsgBday] }).then(async (msg) => {
+          await msg.react(`🥳`);
+        });
+      }
+      member.roles.add(BdayRole);
 
-				MsgBday = new MessageEmbed()
-					.setColor('YELLOW')
-					.setAuthor({
-						name: `¡Hay un Cumpleañer@ entre nosotros!`,
-						iconURL: member.user.displayAvatarURL(),
-					})
-					.setDescription(
-						`:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`
-					);
-			} else {
-				MsgBday = new MessageEmbed() 
-					.setColor('YELLOW')
-					.setAuthor({
-						name: `¡Hay un Cumpleañer@ pero no está entre nosotros!`,
-						iconURL: member.user.displayAvatarURL(),
-					})
-					.setDescription(
-						`:confetti_ball: Hoy alguien esta cumpliendo años... pero no se encuentra en el servidor:disappointed: Aun asi, le deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`
-					);
-			}
+      MsgBday = new MessageEmbed()
+        .setColor('YELLOW')
+        .setAuthor({
+          name: `¡Hay un Cumpleañer@ entre nosotros!`,
+          iconURL: member.user.displayAvatarURL(),
+        })
+        .setDescription(
+          `:confetti_ball: Que los cumplas muy feliz ${member.user}! Todos te deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`
+        );
+          
 			channel.send('@everyone');
 			channel.send({ embeds: [MsgBday] }).then(async (msg) => {
 				await msg.react(`🥳`);
