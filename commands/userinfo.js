@@ -6,7 +6,7 @@ const { MessageEmbed, MessageAttachment } = require('discord.js');
 module.exports = {
 	name: 'userinfo',
 	description: 'Muestra informacion del usuario en el servidor.',
-	aliases: ['profile'],
+	aliases: ['profile' ,'me', 'user'],
 	usages: ['[usuario]'],
 	// disable: true,
 	guildOnly: true,
@@ -16,7 +16,7 @@ module.exports = {
 			const { id, username, discriminator, bot } = author;
 			const { nickname, joinedAt, roles } = member;
 			// console.log(roles.cache)
-			const exampleEmbed = new MessageEmbed()
+			const MsgEmbed = new MessageEmbed()
 				.setColor('LIGHT_GREY')
 				.setTitle(username)
 				.setDescription('UserID: ' + id)
@@ -25,6 +25,7 @@ module.exports = {
 					{
 						name: 'Roles: ',
 						value: roles.cache
+              .sort((a, b) => b.position - a.position)
 							.map((role) =>
 								role.name === '@everyone' ? `@everyone\t` : `<@&${role.id}>\t`
 							)
@@ -46,14 +47,14 @@ module.exports = {
 					text: `Pedido por ${username}#${discriminator}`,
 					iconURL: author.displayAvatarURL({ format: 'png', dynamic: true }),
 				});
-			return channel.send({ embeds: [exampleEmbed] });
+			return channel.send({ embeds: [MsgEmbed] });
 		}
 
 		mentions.members.forEach((member) => {
 			const { nickname, roles, joinedAt, user } = member;
 			const { id, username, bot } = user;
 
-			const exampleEmbed = new MessageEmbed()
+			const MsgEmbed = new MessageEmbed()
 				.setColor('LIGHT_GREY')
 				.setTitle(username)
 				.setDescription('UserID: ' + id)
@@ -83,7 +84,7 @@ module.exports = {
 					text: `Pedido por ${author.username}#${author.discriminator}`,
 					iconURL: author.displayAvatarURL({ format: 'png', dynamic: true }),
 				});
-			return channel.send({ embeds: [exampleEmbed] });
+			return channel.send({ embeds: [MsgEmbed] });
 		});
 	},
 };
