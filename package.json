@@ -4,7 +4,6 @@
   "description": "Bot para el discord JeeS",
   "main": "index.js",
   "scripts": {
-    "update": "npm update jkanime",
     "start": "node .",
     "dev": "nodemon ."
   },

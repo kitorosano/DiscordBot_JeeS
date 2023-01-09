@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const _anime = require('jkanime');
 const { fetchAnimes } = require('../utils');
 
 
