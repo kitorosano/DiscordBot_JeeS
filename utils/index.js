@@ -1,4 +1,5 @@
 const modMe = require('./modMe');
 const setRoles = require('./setRoles');
+const fetchAnimes = require('./fetchAnimes');
 
-module.exports = {setRoles,modMe}
+module.exports = {setRoles,modMe, fetchAnimes}

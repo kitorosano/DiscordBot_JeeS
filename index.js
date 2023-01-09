@@ -64,11 +64,10 @@ const initializeEvents = async () => {
 
 /** MENSAJE DE BIENVENIDA **/
 client.on('guildMemberAdd', (member) => {
-	const channel = member.guild.channels.cache.find(
-		(ch) => ch.name === 'chat-general'
-	);
+	const channel = member.guild.systemChannel;
 	if (!channel) return;
-	channel.send(`Bienvenido al servidor, ${member}!`);
+	channel.send(`Te damos la bienvenida ${member} al servidor Jees!`)
+    .then(msg => msg.react('🤲'))
 });
 /** */
 
@@ -213,8 +212,8 @@ client.on('messageCreate', async (msg) => {
 	console.log('bot reiniciado en: ' + channel.guild.name);
 
 	startUp(client);
-	const testChannel = await client.channels.fetch(config.TEST_CHANNEL);
-	testChannel.send('**Buenos dias!**');
+	// const testChannel = await client.channels.fetch(config.TEST_CHANNEL);
+	// testChannel.send('**Buenos dias!**');
 });
 /** */
 

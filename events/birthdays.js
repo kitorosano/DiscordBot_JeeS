@@ -44,12 +44,9 @@ module.exports = {
 				`Este cumpleañero de id '${event.userID}' no está en el servidor`
 			);
 		}
-		const channel = guild.channels.resolve(config.MAIN_CHANNEL); //HERE MAIN CHANNEL FROM GUILD/SERVER
-		// const channel = guild.channels.resolve(config.TEST_CHANNEL); //HERE TEST CHANNEL FROM GUILD/SERVER
-		// if (!channel.id || !member) return console.log('HAY ALGO QUE NO HAY');
+    const channel = guild.systemChannel;
 
-		// const BdayRole = guild.roles.cache.find(role => role.name === 'Cumpleañer@');
-		const roles = await guild.roles.fetch();
+    const roles = await guild.roles.fetch();
 		const BdayRole = roles.find((role) => role.name.includes('Cumpleañer@')); //new includes because ====== Cumpleañer@ ======
 
 		//Si el evento no ha sido mencionado, entonces ejecutarlo.

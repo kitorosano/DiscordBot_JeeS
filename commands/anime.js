@@ -1,5 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const _anime = require('jkanime');
+const { fetchAnimes } = require('../utils');
+
 
 const dias = [
 	'DOMINGO',
@@ -51,24 +53,34 @@ module.exports = {
 			field_month = _otherDay.getMonth() + 1;
 		}
 
-		const schedule = await _anime.schedule(diasEN[date]);
-		const animeSchedules = schedule
-			.map((anime) => {
-				const { time, title, episode } = anime;
-				if (time && title && episode)
-					return `**${anime.time}**\t| ${anime.title} ***${anime.episode}***`;
-			})
-			.join('\n');
-    
-		const MsgToSend = new MessageEmbed()
-			.setColor('#ffff55')
-			.setFooter({
-				text: 'Provisto por animeschedule.net',
-				iconURL: client.user.displayAvatarURL(),
-			})
-			.setTitle(`:alarm_clock: Animes en Emision`)
-			.addField(`${field_date} ${field_day}/${field_month}`, animeSchedules);
-    
-		return channel.send({ embeds: [MsgToSend] });
+		// _anime.schedule(diasEN[date])
+    //fetch animes
+    fetchAnimes(date)
+    .then((schedule) => {
+      const animeSchedules = schedule
+        .map((anime) => {
+          const { time, title, episode } = anime;
+          if (time && title && episode)
+            return `**${anime.time}**\t| ${anime.title} ***Ep${anime.episode}***`;
+        })
+        .join('\n');
+      
+      const MsgToSend = new MessageEmbed()
+        .setColor('#ffff55')
+        .setFooter({
+          text: 'Provisto por animeschedule.net',
+          iconURL: client.user.displayAvatarURL(),
+        })
+        .setTitle(`:alarm_clock: Animes en Emision`)
+        .addField(`${field_date} ${field_day}/${field_month}`, animeSchedules);
+      channel.send({ embeds: [MsgToSend] });
+    })    
+    .catch((err) => {
+      console.error(err);
+      const MsgError = new MessageEmbed()
+        .setColor('RED')
+        .setAuthor({ name: 'Ha ocurrido un error al ejecutar el comando!' });
+      channel.send(MsgError)
+    });
 	},
 };
