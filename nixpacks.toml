@@ -2,7 +2,7 @@ providers = ["...", "python"]
 buildImage = 'ghcr.io/railwayapp/nixpacks:latest'
 
 [phases.build]
-cmds = ['npm run build']
+cmds = ["echo building!"]
 
 [start]
 cmd = 'npm run start'
