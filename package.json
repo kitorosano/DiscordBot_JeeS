@@ -1,11 +1,12 @@
 {
   "name": "jees",
-  "version": "2.1.2",
+  "version": "3.0.0alpha",
   "description": "Bot para el discord JeeS",
-  "main": "index.js",
+  "main": "src/bot.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "update": "node deploy-commands.js"
   },
   "author": "Kitorosano",
   "license": "ISC",
@@ -14,7 +15,7 @@
     "@keyv/postgres": "^1.0.17",
     "axios": "^1.2.2",
     "discord-xp": "git+https://github.com/Kitorosano/discord-xp.git",
-    "discord.js": "^13.6.0",
+    "discord.js": "^14.7.1",
     "dotenv": "^8.6.0",
     "ffmpeg-static": "^4.4.0",
     "fs": "0.0.1-security",
