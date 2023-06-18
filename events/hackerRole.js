@@ -11,10 +11,7 @@ module.exports = {
 			const guild = await _guild.fetch();
 			const hackerRole = await guild.roles.fetch('839999346459672609'); // OBTENER EL ROL HACKER //TODO: OBTENERLO DE LA BASE DE DATOS
 
-			if (!hackerRole)
-				return console.log(
-					'No se encontro el rol hacker en el servidor ' + guild.name
-				);
+			if (!hackerRole) return
 			// SETS RANDOM HEX COLOR
 			const randomHex = Math.floor(Math.random() * 16777215).toString(16);
 			const randomColor = '#' + randomHex;
