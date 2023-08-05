@@ -4,8 +4,8 @@
   "description": "Bot para el discord JeeS",
   "main": "index.js",
   "engines": {
-    "node": "16.20.0",
-    "npm": "9.2.0"
+    "node": "18.15.0",
+    "npm": "9.5.0"
   },
   "scripts": {
     "start": "node .",
