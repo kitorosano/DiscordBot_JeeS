@@ -1,5 +1,6 @@
 require('dotenv').config();
 module.exports = {
+  port: process.env.PORT || 3000,
 	prefix: '¡',
 	token: process.env.TOKEN,
 	mongo: process.env.MONGODB,
