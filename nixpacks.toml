@@ -1,5 +1,0 @@
-providers = ["...", "python"]
-buildImage = 'ghcr.io/railwayapp/nixpacks:latest'
-
-[start]
-cmd = 'npm run start'
