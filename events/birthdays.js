@@ -36,39 +36,23 @@ module.exports = {
 	},
 	async execute(event, client) {
 		const guild = await client.guilds.fetch(event.guildID);
-		let member;
+    const channel = guild.systemChannel;
+    const roles = await guild.roles.fetch();
+		const BdayRole = roles.find((role) => role.name.includes('Cumpleañer@'));
+
+    let member;
 		try {
 			member = await guild.members.fetch(event.userID);
 		} catch (e) {
 			console.log(
 				`Este cumpleañero de id '${event.userID}' no está en el servidor`
 			);
+      return;
 		}
-    const channel = guild.systemChannel;
-
-    const roles = await guild.roles.fetch();
-		const BdayRole = roles.find((role) => role.name.includes('Cumpleañer@')); //new includes because ====== Cumpleañer@ ======
 
 		//Si el evento no ha sido mencionado, entonces ejecutarlo.
 		if (!event.mention) {
 			let MsgBday;
-			// MENSAJE DEPÉNDIENDO DE SI ESTA EN EL SERVIDOR O NO
-      if(!member){
-        MsgBday = new MessageEmbed() 
-        .setColor('YELLOW')
-        .setAuthor({
-          name: `¡Hay un Cumpleañer@ pero no está entre nosotros!`,
-          iconURL: member.user.displayAvatarURL(),
-        })
-        .setDescription(
-          `:confetti_ball: Hoy alguien esta cumpliendo años... pero no se encuentra en el servidor:disappointed: Aun asi, le deseamos un grandioso dia y muchas bendiciones en el servidor ${guild.name} :partying_face:`
-        );
-        
-        channel.send('@everyone');
-        return channel.send({ embeds: [MsgBday] }).then(async (msg) => {
-          await msg.react(`🥳`);
-        });
-      }
       member.roles.add(BdayRole);
 
       MsgBday = new MessageEmbed()
