@@ -4,7 +4,7 @@ const { port: PORT } = require("./config.js");
 const app = express();
 
 app.get("/", (req, res) => {
-	res.send("Hello world from Replit");
+	res.send("Ping endpoint");
 });
 
 app.listen(PORT, () => console.log(`App listening at port: ${PORT}`));

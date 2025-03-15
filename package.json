@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon ."
+    "start:watch": "node . --watch",
+    "start:dev": "nodemon ."
   },
   "author": "Kitorosano",
   "license": "ISC",
