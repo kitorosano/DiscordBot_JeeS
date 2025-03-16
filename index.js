@@ -10,7 +10,7 @@ app.get("/ping", (req, res) => {
 		hour12: false,
 	});
 	console.log(`Health check ping received at ${datetime}`);
-	res.status(200).send("Bot is running!");
+	res.status(200).send("JeeS Discord Bot is running! 🚀");
 });
 
 app.listen(PORT, "0.0.0.0", () =>
