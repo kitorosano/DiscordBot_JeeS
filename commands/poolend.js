@@ -62,28 +62,32 @@ module.exports = {
     if (votes.length === 0) {
       msg.reply('No hay votos en esta encuesta.');
     } else if (votes[0].count !== votes[1].count) {
-      const {
-        emoji: winnerEmoji,
-        content: winnerContent,
-        count: winnerCount,
-      } = votes[0];
-
-      const textVotes = winnerCount === 1 ? 'voto' : 'votos';
+      const results = votes.map(
+        (vote) => `${vote.emoji} ${vote.content} - **${vote.count}**`,
+      );
 
       const winnerEmbed = new MessageEmbed()
         .setColor('#f0ad4e')
-        .setTitle(`¡La encuesta ha finalizado!`)
-        .setDescription(
-          `La opción ganadora, con ${winnerCount} ${textVotes}, es: ${winnerEmoji} ${winnerContent}.`,
-        );
+        .setTitle(`¡Encuesta Finalizada!`)
+        .addFields(
+          { name: 'Pregunta', value: pool.question },
+          {
+            name: 'Resultados',
+            value: results.join('\n'),
+          },
+        )
+        .setFooter({
+          text: `ID de encuesta: ${pool.poolID}`,
+        });
 
       await channel.send({ embeds: [winnerEmbed] });
+      msg.delete();
 
       await poolMessage.edit({
         embeds: [
           poolMessage.embeds[0].addField(
             'Ganador',
-            `${winnerEmoji} ${winnerContent}`,
+            `${votes[0].emoji} ${votes[0].content}`,
           ),
         ],
       });

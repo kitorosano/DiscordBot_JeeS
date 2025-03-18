@@ -56,6 +56,8 @@ module.exports = {
       return msg.reply('Solo puedes proporcionar hasta 6 opciones para votar.');
     }
 
+    msg.delete();
+
     const emojisAnswers = answers.slice(0, alphabetEmojis.length);
     const answersWithEmojis = emojisAnswers.map((answer, index) => {
       return `${alphabetEmojis[index]} ${answer}`;
@@ -71,7 +73,7 @@ module.exports = {
         { name: 'Opciones', value: answersWithEmojis.join('\n') },
       )
       .setFooter({
-        text: 'Identificador de encuesta: ' + newPoolID,
+        text: `ID de encuesta: ${newPoolID}`,
       });
 
     const pollMessage = await channel.send({ embeds: [pollEmbed] });
@@ -81,7 +83,7 @@ module.exports = {
       messageID: pollMessage.id,
       poolID: newPoolID,
       question,
-      options: emojisAnswers
+      options: emojisAnswers,
     });
     await newPool
       .save()
