@@ -13,7 +13,7 @@ mongoose.connect(mongo, {
 module.exports = {
   name: 'poolend',
   description: 'Cierra una encuesta y recuenta los resultados de los votos.',
-  usages: ['<ID de la encuesta>'],
+  usages: ['<ID>'],
   aliases: ['encuestafin'],
   guildOnly: true,
   args: 1,
@@ -24,14 +24,11 @@ module.exports = {
     const pool = await poolsModel.findOne({
       guildID: guild.id,
       poolID: poolId,
+      isOpen: true,
     });
 
     if (!pool) {
-      return msg.reply('No se ha encontrado una encuesta con ese ID.');
-    }
-
-    if (pool.isOpen === false) {
-      return msg.reply('La encuesta ya ha sido cerrada.');
+      return msg.reply('No se ha encontrado una encuesta abierta con ese identificador.');
     }
 
     const poolChannel = await client.channels.fetch(pool.channelID);

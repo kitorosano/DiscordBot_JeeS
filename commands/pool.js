@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const mongoose = require('mongoose');
 const poolsModel = require('../models/pools.model');
 let { mongo } = require('../config');
-const config = require('../config');
 
 mongoose.connect(mongo, {
   useFindAndModify: true,
@@ -16,20 +15,34 @@ module.exports = {
   name: 'pool',
   description:
     'Abre una encuesta con posibles reacciones para que los miembros puedan votar.',
-  usages: ['<-p Pregunta> [-o Opcion 1] [-o Opcion 2] ... [-o Opcion n]'],
+  usages: ['<-p Pregunta> [-id ID] [-o Opcion] [-o Opcion] ... [-o Opcion]'],
   aliases: ['encuesta'],
   guildOnly: true,
   async execute(msg, args) {
-    const { guild, channel, client, author } = msg;
+    const { guild, channel } = msg;
 
     const questionIndex = args.findIndex((arg) => arg === '-p');
+    const poolIDIndex = args.findIndex((arg) => arg === '-id');
     const firstAnswerIndex = args.findIndex((arg) => arg === '-o');
+    
+    // check if the poolID is already in use
+    const poolIdExists = await poolsModel.findOne({
+      guildID: guild.id,
+      poolID: args[poolIDIndex + 1],
+      isOpen: true,
+    });
 
-    if (questionIndex === -1) {
+    if (poolIDIndex !== -1 && poolIdExists) {
+      return msg.reply(
+        'Ya existe una encuesta abierta con ese identificador. Por favor, elige otro.',
+      );
+    } else if (questionIndex === -1) {
       return msg.reply('Debes proporcionar una pregunta para la encuesta.');
     } else if (firstAnswerIndex === -1) {
       return msg.reply('Debes proporcionar al menos una opción para votar.');
     }
+
+    
 
     const question = args.slice(questionIndex + 1, firstAnswerIndex).join(' ');
 
@@ -37,13 +50,14 @@ module.exports = {
     let answerIndex = firstAnswerIndex;
     while (answerIndex !== -1) {
       const nextAnswerIndex = args.findIndex(
-        (arg, i) => i > answerIndex && arg === '-o',
+        (arg, index) => arg === '-o' && index > answerIndex,
       );
+
       answers.push(
         args
           .slice(
             answerIndex + 1,
-            nextAnswerIndex > -1 ? nextAnswerIndex : undefined,
+            nextAnswerIndex !== -1 ? nextAnswerIndex : args.length,
           )
           .join(' '),
       );
@@ -64,6 +78,8 @@ module.exports = {
     });
 
     const newPoolID = Math.random().toString(36).substring(2, 8);
+    const poolID =
+      poolIDIndex !== -1 ? args.slice(poolIDIndex + 1)[0] : newPoolID;
 
     const pollEmbed = new MessageEmbed()
       .setColor('BLACK')
@@ -73,7 +89,7 @@ module.exports = {
         { name: 'Opciones', value: answersWithEmojis.join('\n') },
       )
       .setFooter({
-        text: `ID de encuesta: ${newPoolID}`,
+        text: `ID de encuesta: ${poolID}`,
       });
 
     const pollMessage = await channel.send({ embeds: [pollEmbed] });
@@ -81,7 +97,7 @@ module.exports = {
       guildID: guild.id,
       channelID: channel.id,
       messageID: pollMessage.id,
-      poolID: newPoolID,
+      poolID,
       question,
       options: emojisAnswers,
     });
