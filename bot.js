@@ -1,9 +1,10 @@
-const { Client, Collection, MessageEmbed } = require('discord.js');
+const { Client, Collection, MessageEmbed, Intents } = require('discord.js');
 const { prefix, token, mongo, xp } = require('./config');
 const fs = require('fs');
 const rnd = require('random');
 const { scheduleJob } = require('node-schedule');
 const Levels = require('discord-xp');
+const { dayjs } = require('./utils');
 Levels.setURL(mongo);
 
 const client = new Client({
@@ -12,13 +13,15 @@ const client = new Client({
     repliedUser: true,
   },
   intents: [
-    'GUILDS',
-    'GUILD_MEMBERS',
-    'GUILD_PRESENCES',
-    'GUILD_MESSAGES',
-    'GUILD_MESSAGE_REACTIONS',
-    'DIRECT_MESSAGES',
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_PRESENCES,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Intents.FLAGS.MESSAGE_CONTENT,
+    Intents.FLAGS.DIRECT_MESSAGES,
   ],
+  partials: ['CHANNEL', 'MESSAGE', 'REACTION', 'USER', 'GUILD_MEMBER'],
 });
 client.commands = new Collection();
 const cooldowns = new Collection();
@@ -35,8 +38,8 @@ for (const file of commandFiles) {
 
 /** INICIALIZAR EVENTOS DEL DIA */
 const initializeEvents = async () => {
-  const today = new Date().toDateString().split(' '); // Obtener fecha de hoy
-  // console.log(today);
+  const today = dayjs().format('ddd MMM D YYYY').split(' ');
+
   const eventFiles = fs
     .readdirSync('./events')
     .filter((file) => file.endsWith('.js'));
@@ -67,7 +70,6 @@ client.on('guildMemberAdd', (member) => {
 /** */
 
 const startUp = async (client) => {
-  //Al iniciar el bot
   initializeEvents(); //REINICIO LOS EVENTOS POR SI ESTOY A MITAD DEL DIA
   scheduleJob({ minute: 0, hour: 0, tz: 'America/Montevideo' }, () =>
     initializeEvents(),
@@ -207,8 +209,6 @@ client.on('messageCreate', async (msg) => {
   console.log('bot reiniciado en: ' + channel.guild.name);
 
   startUp(client);
-  // const testChannel = await client.channels.fetch(config.TEST_CHANNEL);
-  // testChannel.send('**Buenos dias!**');
 });
 /** */
 
