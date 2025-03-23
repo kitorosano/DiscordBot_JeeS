@@ -83,29 +83,33 @@ client.on('messageCreate', async (msg) => {
   let { content, author, member, channel, guild } = msg;
   if (author.bot) return; // TERMINAR SI ES UN BOT
 
-  const hasLeveledUp = await Levels.appendXp(
-    author.id,
-    guild.id,
-    rnd.int(xp.from, xp.to),
-  ); //Agrego a la BD la nueva xp entre <from> a <to>
-  if (hasLeveledUp) {
-    const { level } = await Levels.fetch(author.id, guild.id);
-    const MsgLvlUp = new MessageEmbed()
-      .setColor('#ADC00')
-      .setAuthor({
-        name: `¡Felicidades! ${author.username}`,
-        iconURL: author.displayAvatarURL({
-          format: 'png',
-          dynamic: true,
-          size: 4096,
-        }),
-      })
-      .setDescription(
-        `:tada: Has ascendido a **nivel ${level}**!. :confetti_ball: Cada vez mas cerca del admin.`,
-      );
-    // const rankChannel = await client.channels.fetch('772141688444682272'); //enviar mensaje al canal de spam
-    const rankChannel = guild.channels.resolve('772141688444682272') || channel;
-    rankChannel.send({ embeds: [MsgLvlUp] });
+  // VERIFICAR SI ESTÁ EN UN SERVIDOR PARA GESTIONAR NIVELES
+  if (guild) {
+    const hasLeveledUp = await Levels.appendXp(
+      author.id,
+      guild.id,
+      rnd.int(xp.from, xp.to),
+    ); //Agrego a la BD la nueva xp entre <from> a <to>
+    if (hasLeveledUp) {
+      const { level } = await Levels.fetch(author.id, guild.id);
+      const MsgLvlUp = new MessageEmbed()
+        .setColor('#ADC00')
+        .setAuthor({
+          name: `¡Felicidades! ${author.username}`,
+          iconURL: author.displayAvatarURL({
+            format: 'png',
+            dynamic: true,
+            size: 4096,
+          }),
+        })
+        .setDescription(
+          `:tada: Has ascendido a **nivel ${level}**!. :confetti_ball: Cada vez mas cerca del admin.`,
+        );
+      // const rankChannel = await client.channels.fetch('772141688444682272'); //enviar mensaje al canal de spam
+      const rankChannel =
+        guild.channels.resolve('772141688444682272') || channel;
+      rankChannel.send({ embeds: [MsgLvlUp] });
+    }
   }
 
   if (!content.startsWith(prefix)) return; //TERMINAR SI NO ES UN COMANDO
